@@ -1,0 +1,28 @@
+Captured 2026-10-15 using tools/midi_identity.c over macOS CoreMIDI.
+User entered bootloader mode with Sample Rec + Samples + Note at power-on.
+The sole transmitted message was the standard universal identity inquiry.
+
+Source: Circuit Rhythm Boot MIDI
+Destination: Circuit Rhythm Boot MIDI
+Request: F0 7E 7F 06 01 F7
+Identity: F0 7E 00 06 02 00 20 29 11 63 00 00 00 03 25 3F F7
+Manufacturer: 00 20 29 (Novation)
+Family bytes: 11 63
+Model bytes: 00 00
+Version bytes: 00 03 25 3F
+Advertised build: 0x25 * 128 + 0x3F = 4799.
+
+Comparison with normal operation:
+- Endpoint display name changes from Circuit Rhythm MIDI to Circuit Rhythm Boot MIDI.
+- First family byte changes from 0x01 to 0x11 (bit 0x10).
+- Second family byte remains 0x63 (Rhythm).
+- Version bytes differ from application response 01 01 2C 4A (build 5706).
+
+This establishes the observed identity distinction for this unit. It does
+not extract the bootloader, verify update acceptance, prove rollback, or
+establish the loader's memory-write boundaries. No update commands sent.
+
+The official firmware catalog lists Rhythm application 1.0 as build 4799.
+That numerical match does not make the bootloader that application image:
+the bootloader and application are separate binaries with distinct version
+fields, and the catalog snapshot contains no separate Rhythm bootloader entry.

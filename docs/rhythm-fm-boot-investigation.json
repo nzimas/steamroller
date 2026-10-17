@@ -1,0 +1,95 @@
+{
+  "image_sha256": "9bba793bda28baa0194097448608f0b43f42ec00de64561b67d7f2367c6f90e9",
+  "source_archive": "/Users/nzimas/development/circuit-rhythm/dist/withdrawn/rhythm-fm-0.1.2.zip",
+  "hardware_access": false,
+  "stock_recovery": "User confirmed official firmware restored and boots normally.",
+  "configuration": {
+    "loader_address": "0x80662cc",
+    "loader_words": [
+      64,
+      0,
+      521233,
+      169,
+      719463,
+      719477,
+      719478
+    ],
+    "omr_set_bits": [
+      7,
+      21,
+      22
+    ],
+    "MS": 1,
+    "MSW0": 1,
+    "MSW1": 1,
+    "limits_exclusive": {
+      "P": 4096,
+      "X": 12288,
+      "Y": 8192
+    },
+    "source": "https://www.nxp.com/docs/en/product-brief/DSP56724PB.pdf"
+  },
+  "stock_segments_fit": true,
+  "failed_dsp_segment": {
+    "space": "P",
+    "address": 4096,
+    "words": 383
+  },
+  "physical_layout_rejection": "DSP segment: P:0x1000..0x117E is outside sampler core RAM (internal P ends at 0x0FFF; shared RAM is 0x30000..0x37FFF)",
+  "audio_loop_hook": {
+    "address": "P:0x011D",
+    "target": "P:0x1000",
+    "unconditional": true
+  },
+  "possible_in_bounds_relocation": {
+    "start": "P:0x0D40",
+    "end": "P:0x0EBE",
+    "overlap": false,
+    "tested_on_hardware": false
+  },
+  "old_test_model": {
+    "words_per_space": 524288,
+    "validator": "DefaultMemoryValidator accepts all addresses",
+    "boot_trampoline_was_stubbed": true,
+    "dsp_transfer_was_stubbed": true
+  },
+  "stock_arm_boot": {
+    "path": [
+      "0x8025688"
+    ],
+    "setup_calls": [
+      {
+        "sp": "0x2004fff0",
+        "lr": "0x802568f"
+      }
+    ],
+    "continuation": {
+      "sp": "0x2004fff0",
+      "saved_stack": "00000000398e0608"
+    },
+    "fm_magic": "0x0",
+    "scope": "Actual reset and ARM boot trampoline; board initialization call stubbed. No full boot claim."
+  },
+  "custom_arm_boot": {
+    "path": [
+      "0x8025688",
+      "0x806b000",
+      "0x806cce8"
+    ],
+    "setup_calls": [
+      {
+        "sp": "0x2004fff0",
+        "lr": "0x806ccef"
+      }
+    ],
+    "continuation": {
+      "sp": "0x2004fff0",
+      "saved_stack": "00000000398e0608"
+    },
+    "fm_magic": "0x464d31",
+    "scope": "Actual reset and ARM boot trampoline; board initialization call stubbed. No full boot claim."
+  },
+  "builder_rejects_withdrawn_layout": true,
+  "reset_cause": "No hardware reset register or instruction trace captured. Loss of DSP execution/handshake is a plausible reset path, not directly measured.",
+  "reference": "https://www.nxp.com/docs/en/product-brief/DSP56724PB.pdf"
+}

@@ -1,0 +1,17 @@
+Captured 2026-10-15 using tools/midi_identity.c over macOS CoreMIDI.
+User reported normal operation mode. No update commands sent.
+
+Source: Circuit Rhythm MIDI
+Destination: Circuit Rhythm MIDI
+Request: F0 7E 7F 06 01 F7
+Identity: F0 7E 00 06 02 00 20 29 01 63 00 00 01 01 2C 4A F7
+Manufacturer: 00 20 29 (Novation)
+Family bytes: 01 63
+Model bytes: 00 00
+Version bytes: 01 01 2C 4A
+Build using upstream Novation decoding: 0x2C * 128 + 0x4A = 5706.
+This matches official catalog Rhythm 2.0.1 build 5706.
+
+Do not interpret byte index 9 (0x63) as operating mode: it belongs to the
+two-byte family field. The upstream uploader's d[9] === 1/17 test cannot
+classify this response. Bootloader identity must be measured separately.

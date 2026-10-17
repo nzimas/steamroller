@@ -1,0 +1,174 @@
+{
+  "scope": "Adversarial reference-protocol checks and DSP copy-kernel checks, offline.\n\nProtocol decisions execute in Python. Only the payload copy executes DSP code.\nThe new DSP kernel and its addresses are research fixtures, not a firmware patch.",
+  "protocol_checks": [
+    {
+      "case": "all_publication_word_boundaries",
+      "boundaries": 262
+    },
+    {
+      "case": "one_block_lookahead_retained"
+    },
+    {
+      "case": "producer_reuse_blocked_through_copy",
+      "attempts": 256
+    },
+    {
+      "case": "invalid_metadata",
+      "field": 1,
+      "value": 2
+    },
+    {
+      "case": "invalid_metadata",
+      "field": 2,
+      "value": 2
+    },
+    {
+      "case": "invalid_metadata",
+      "field": 2,
+      "value": 1
+    },
+    {
+      "case": "invalid_metadata",
+      "field": 3,
+      "value": 3
+    },
+    {
+      "case": "invalid_metadata",
+      "field": 3,
+      "value": 257
+    },
+    {
+      "case": "invalid_metadata",
+      "field": 4,
+      "value": 31
+    },
+    {
+      "case": "invalid_metadata",
+      "field": 0,
+      "value": 2
+    },
+    {
+      "case": "configuration_change_during_publication"
+    },
+    {
+      "case": "24_bit_sequence_wrap_with_lookahead"
+    },
+    {
+      "case": "epoch_reuse_requires_quiescent_reset"
+    },
+    {
+      "case": "all_sampler_passthrough"
+    },
+    {
+      "case": "unsupported_length_returns_without_copy"
+    },
+    {
+      "case": "producer_reservation_prevents_second_writer"
+    }
+  ],
+  "publication_boundaries_tested": 262,
+  "dsp_copy_cases": [
+    {
+      "bank": 0,
+      "track_mask": "0x1",
+      "copy_calls": 1,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 0,
+      "track_mask": "0x80",
+      "copy_calls": 1,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 0,
+      "track_mask": "0x55",
+      "copy_calls": 4,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 0,
+      "track_mask": "0xaa",
+      "copy_calls": 4,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 0,
+      "track_mask": "0xff",
+      "copy_calls": 8,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 0,
+      "track_mask": "0x0",
+      "copy_calls": 0,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 1,
+      "track_mask": "0x1",
+      "copy_calls": 1,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 1,
+      "track_mask": "0x80",
+      "copy_calls": 1,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 1,
+      "track_mask": "0x55",
+      "copy_calls": 4,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 1,
+      "track_mask": "0xaa",
+      "copy_calls": 4,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 1,
+      "track_mask": "0xff",
+      "copy_calls": 8,
+      "matches_reference": true,
+      "source_unchanged": true
+    },
+    {
+      "bank": 1,
+      "track_mask": "0x0",
+      "copy_calls": 0,
+      "matches_reference": true,
+      "source_unchanged": true
+    }
+  ],
+  "firmware_sha256": "d5b9ff5dadf2e284f80d69ecb7087486cf0df315a697bed8272af9de0e90df15",
+  "fm_reference_sha256": "54a9210fad927f032aab37e99b2deff20b3b44ee36c9048a9cd86595c9acc6e2",
+  "slot_words": 261,
+  "two_slot_bytes_packed": 1566,
+  "kernel_program_words": 65,
+  "kernel_source_sha256": "a5071aeb05b693c9e7ecdf99f0308e5a09e3db2faaacad01752b2e5e37bd170d",
+  "kernel_clobbers": [
+    "r1",
+    "r5",
+    "y0"
+  ],
+  "fixture_slot_addresses": [
+    "0x34010",
+    "0x34120"
+  ],
+  "dsp_protocol_state_machine_implemented": false,
+  "addresses_verified_free": false,
+  "hardware_writes": false
+}

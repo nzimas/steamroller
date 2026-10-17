@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Circuit Rhythm firmware transfer</title><link rel="stylesheet" href="style.css"></head>
+<body><main>
+<header><p class="eyebrow">RHYTHM FM 0.3.1 · LOCAL TRANSFER TOOL</p><h1>Circuit Rhythm firmware transfer</h1>
+<p>Tracks 1–3: six-operator FM (one voice each). Tracks 4–6: poundhard FM drums. Tracks 7–8: sample player.</p></header>
+<aside class="notice"><strong>Experimental firmware · hardware untested</strong><p>Offline validation passes. Runtime timing and memory use have not been verified on the unit. Back up your work and keep the official recovery firmware available.</p></aside>
+<section><h2>1. Choose the firmware</h2><p id="configuration">Loading the packaged file checks…</p>
+<div class="row"><select id="preset" aria-label="Packaged firmware"></select><button id="load" disabled>Load packaged file</button></div>
+<label class="file">Or choose one of the verified files: <input id="file" type="file" accept=".syx"></label>
+<p id="fileState" role="status">No file loaded. No device connection has been requested.</p><code id="hash"></code></section>
+<section><h2>2. Put the Rhythm in bootloader mode</h2>
+<p>Save your work. Power off, then hold <strong>Sample Rec + Samples + Note</strong> while powering on. Connect directly by USB and close other MIDI applications.</p>
+<p><a href="https://support.novationmusic.com/hc/en-gb/articles/360002211360-Updating-firmware-using-Novation-Components" target="_blank" rel="noreferrer">Novation’s update and recovery instructions</a></p>
+<button id="connect">Allow MIDI and check device</button>
+<div class="ports"><label>MIDI input<select id="input" aria-label="MIDI input" disabled></select></label>
+<label>MIDI output<select id="output" aria-label="MIDI output" disabled></select></label></div>
+<button id="identify" disabled>Check selected device again</button><p id="identity" role="status">No device checked.</p></section>
+<section><h2>3. Transfer when you are ready</h2>
+<label class="ack"><input id="ack" type="checkbox"> I have saved and backed up my work, and understand this is an experimental firmware test.</label>
+<div class="row"><button id="send" class="primary" disabled>Transfer firmware…</button><button id="stop" disabled>Stop sending</button></div>
+<progress id="progress" max="100" value="0" aria-label="Transfer progress"></progress><p id="transfer" role="status">Nothing has been transferred.</p>
+<p class="small">Transfer re-checks the selected device identity before sending. The device requests every block. Keep power and USB connected through verification and restart. Stopping sends no undo command.</p></section>
+<section><h2>Offline check and recovery</h2><p>Run the transfer state machine against a simulated device without opening MIDI ports. This does not prove that hardware will accept the image.</p>
+<button id="simulate" disabled>Run offline transfer simulation</button><p id="simulation" role="status"></p>
+<p>To restore stock firmware, enter bootloader mode again and load <strong>Official Rhythm 5706 — recovery</strong> above, or use Components’ Reinstall Firmware option. Recovery after this custom image has not been tested.</p></section>
+<section><h2>Session log</h2><button id="export">Save log</button><pre id="log" aria-live="off">Local tool loaded. No MIDI access requested.
+</pre></section>
+<footer>Runs locally in Chrome or Edge. No software installation or automatic firmware transfer. <a href="../TRANSFER.md">Transfer checklist</a></footer>
+</main><script type="module" src="app.mjs"></script></body></html>

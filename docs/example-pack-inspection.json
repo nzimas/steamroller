@@ -1,0 +1,46 @@
+{
+  "tracks": {
+    "archive_sha256": "2b58c7c4e4b1190a2c30ad9205143390ed671bae8fadd1ad0f6907b6d545e898",
+    "file_types": {
+      ".cpb": 32,
+      ".ncm": 3,
+      ".ncs": 31,
+      ".wav": 192
+    },
+    "project_sizes": {
+      "160780": 31
+    },
+    "project_magic_counts": {
+      "USER": 31
+    },
+    "patchbank_sizes": {
+      "3924": 30,
+      "340": 1,
+      "1876": 1
+    },
+    "packs": [
+      "Tracks/00_Circuit Tracks Factory Pack",
+      "Tracks/01_DLR  Sofa Sound",
+      "Tracks/02_Shadow Child"
+    ]
+  },
+  "rhythm": {
+    "archive_sha256": "a46c9a995d7cfa00d6589975f5169cbcc45c1d46d91417082c0c55ce879f0a99",
+    "file_types": {
+      ".ncg": 1,
+      ".ncm": 1,
+      ".ncs": 16,
+      ".wav": 128
+    },
+    "project_sizes": {
+      "169092": 16
+    },
+    "project_magic_counts": {
+      "RUSE": 16
+    },
+    "patchbank_sizes": {},
+    "packs": [
+      "Rhythm/00_Circuit Rhythm Factory Pack v1.0"
+    ]
+  }
+}

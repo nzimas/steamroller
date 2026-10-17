@@ -1,0 +1,926 @@
+{
+  "scope": "Offline native DSP bank handshake, block-size propagation and track mixer.\n\nICC values are supplied manually; no concurrent cores, clock, deadline or audio\nhardware is modeled. All firmware routines under test remain unchanged.",
+  "firmware_sha256": "d5b9ff5dadf2e284f80d69ecb7087486cf0df315a697bed8272af9de0e90df15",
+  "reference_sha256": "54a9210fad927f032aab37e99b2deff20b3b44ee36c9048a9cd86595c9acc6e2",
+  "publish_and_accept_cases": [
+    {
+      "previous_bank": 0,
+      "new_request": 1,
+      "core0_length_fixture": 16,
+      "shared_length": 16,
+      "core1_full_length": 16,
+      "core1_half_length": 8,
+      "core0_mix_bank": 1,
+      "core1_render_bank": 0
+    },
+    {
+      "previous_bank": 0,
+      "new_request": 1,
+      "core0_length_fixture": 32,
+      "shared_length": 32,
+      "core1_full_length": 32,
+      "core1_half_length": 16,
+      "core0_mix_bank": 1,
+      "core1_render_bank": 0
+    },
+    {
+      "previous_bank": 1,
+      "new_request": 0,
+      "core0_length_fixture": 16,
+      "shared_length": 16,
+      "core1_full_length": 16,
+      "core1_half_length": 8,
+      "core0_mix_bank": 0,
+      "core1_render_bank": 1
+    },
+    {
+      "previous_bank": 1,
+      "new_request": 0,
+      "core0_length_fixture": 32,
+      "shared_length": 32,
+      "core1_full_length": 32,
+      "core1_half_length": 16,
+      "core0_mix_bank": 0,
+      "core1_render_bank": 1
+    }
+  ],
+  "idle_cases": [
+    {
+      "equal_poll_value": 0,
+      "idle_branch_taken": true
+    },
+    {
+      "equal_poll_value": 1,
+      "idle_branch_taken": true
+    }
+  ],
+  "ack_cases": [
+    {
+      "previous": 0,
+      "request": 1,
+      "ack": 1
+    },
+    {
+      "previous": 1,
+      "request": 0,
+      "ack": 0
+    }
+  ],
+  "wait_cases": [
+    {
+      "request": 0,
+      "ack": 0,
+      "passes_gate": true
+    },
+    {
+      "request": 0,
+      "ack": 1,
+      "passes_gate": false
+    },
+    {
+      "request": 1,
+      "ack": 0,
+      "passes_gate": false
+    },
+    {
+      "request": 1,
+      "ack": 1,
+      "passes_gate": true
+    }
+  ],
+  "core0_mixer_cases": [
+    {
+      "track": 0,
+      "bank": 0,
+      "gain_profile": 0,
+      "fm_algorithm": 0,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 0,
+      "bank": 0,
+      "gain_profile": 1,
+      "fm_algorithm": 1,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 0,
+      "bank": 0,
+      "gain_profile": 2,
+      "fm_algorithm": 0,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 0,
+      "bank": 1,
+      "gain_profile": 0,
+      "fm_algorithm": 2,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 0,
+      "bank": 1,
+      "gain_profile": 1,
+      "fm_algorithm": 3,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 0,
+      "bank": 1,
+      "gain_profile": 2,
+      "fm_algorithm": 2,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 1,
+      "bank": 0,
+      "gain_profile": 0,
+      "fm_algorithm": 4,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 1,
+      "bank": 0,
+      "gain_profile": 1,
+      "fm_algorithm": 5,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 1,
+      "bank": 0,
+      "gain_profile": 2,
+      "fm_algorithm": 4,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 1,
+      "bank": 1,
+      "gain_profile": 0,
+      "fm_algorithm": 6,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 1,
+      "bank": 1,
+      "gain_profile": 1,
+      "fm_algorithm": 7,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 1,
+      "bank": 1,
+      "gain_profile": 2,
+      "fm_algorithm": 6,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 2,
+      "bank": 0,
+      "gain_profile": 0,
+      "fm_algorithm": 8,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 2,
+      "bank": 0,
+      "gain_profile": 1,
+      "fm_algorithm": 9,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 2,
+      "bank": 0,
+      "gain_profile": 2,
+      "fm_algorithm": 8,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 2,
+      "bank": 1,
+      "gain_profile": 0,
+      "fm_algorithm": 10,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 2,
+      "bank": 1,
+      "gain_profile": 1,
+      "fm_algorithm": 11,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 2,
+      "bank": 1,
+      "gain_profile": 2,
+      "fm_algorithm": 10,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 3,
+      "bank": 0,
+      "gain_profile": 0,
+      "fm_algorithm": 12,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 3,
+      "bank": 0,
+      "gain_profile": 1,
+      "fm_algorithm": 13,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 3,
+      "bank": 0,
+      "gain_profile": 2,
+      "fm_algorithm": 12,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 3,
+      "bank": 1,
+      "gain_profile": 0,
+      "fm_algorithm": 14,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 3,
+      "bank": 1,
+      "gain_profile": 1,
+      "fm_algorithm": 15,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 3,
+      "bank": 1,
+      "gain_profile": 2,
+      "fm_algorithm": 14,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 4,
+      "bank": 0,
+      "gain_profile": 0,
+      "fm_algorithm": 16,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 4,
+      "bank": 0,
+      "gain_profile": 1,
+      "fm_algorithm": 17,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 4,
+      "bank": 0,
+      "gain_profile": 2,
+      "fm_algorithm": 16,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 4,
+      "bank": 1,
+      "gain_profile": 0,
+      "fm_algorithm": 18,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 4,
+      "bank": 1,
+      "gain_profile": 1,
+      "fm_algorithm": 19,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 4,
+      "bank": 1,
+      "gain_profile": 2,
+      "fm_algorithm": 18,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 5,
+      "bank": 0,
+      "gain_profile": 0,
+      "fm_algorithm": 20,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 5,
+      "bank": 0,
+      "gain_profile": 1,
+      "fm_algorithm": 21,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 5,
+      "bank": 0,
+      "gain_profile": 2,
+      "fm_algorithm": 20,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 5,
+      "bank": 1,
+      "gain_profile": 0,
+      "fm_algorithm": 22,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 5,
+      "bank": 1,
+      "gain_profile": 1,
+      "fm_algorithm": 23,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 5,
+      "bank": 1,
+      "gain_profile": 2,
+      "fm_algorithm": 22,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 6,
+      "bank": 0,
+      "gain_profile": 0,
+      "fm_algorithm": 24,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 6,
+      "bank": 0,
+      "gain_profile": 1,
+      "fm_algorithm": 25,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 6,
+      "bank": 0,
+      "gain_profile": 2,
+      "fm_algorithm": 24,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 6,
+      "bank": 1,
+      "gain_profile": 0,
+      "fm_algorithm": 26,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 6,
+      "bank": 1,
+      "gain_profile": 1,
+      "fm_algorithm": 27,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 6,
+      "bank": 1,
+      "gain_profile": 2,
+      "fm_algorithm": 26,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 7,
+      "bank": 0,
+      "gain_profile": 0,
+      "fm_algorithm": 28,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 7,
+      "bank": 0,
+      "gain_profile": 1,
+      "fm_algorithm": 29,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 7,
+      "bank": 0,
+      "gain_profile": 2,
+      "fm_algorithm": 28,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 7,
+      "bank": 1,
+      "gain_profile": 0,
+      "fm_algorithm": 30,
+      "gains_q23": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 7,
+      "bank": 1,
+      "gain_profile": 1,
+      "fm_algorithm": 31,
+      "gains_q23": [
+        4194304,
+        2097152,
+        1048576,
+        0,
+        0,
+        2097152
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    },
+    {
+      "track": 7,
+      "bank": 1,
+      "gain_profile": 2,
+      "fm_algorithm": 30,
+      "gains_q23": [
+        2097152,
+        4194304,
+        0,
+        2097152,
+        1048576,
+        0
+      ],
+      "max_lsb_error": 0,
+      "source_unchanged": true,
+      "preceding_output_guard_unchanged": true
+    }
+  ],
+  "all_tracks_sum_cases": [
+    {
+      "bank": 0,
+      "active_tracks": 8,
+      "output_matches_exactly": true
+    },
+    {
+      "bank": 1,
+      "active_tracks": 8,
+      "output_matches_exactly": true
+    }
+  ],
+  "max_mixer_lsb_error": 0,
+  "hardware_timing_validated": false,
+  "block_configuration_origin_validated": false,
+  "icc_register_values_are_fixtures": true,
+  "hardware_writes": false
+}

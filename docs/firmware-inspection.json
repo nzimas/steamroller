@@ -1,0 +1,30 @@
+{
+  "circuitrhythm-firmware-5706.syx": {
+    "product": 99,
+    "proto": 1841,
+    "header_version": 1841,
+    "size": 370032,
+    "crc": 2666430508,
+    "tail_all_ff": true,
+    "syx_sha256": "11d604a6b6bef0d41378da03718658c7fe9c959ac24e7fef6563796b9932afaf",
+    "image_sha256": "d5b9ff5dadf2e284f80d69ecb7087486cf0df315a697bed8272af9de0e90df15",
+    "initial_sp": "0x20050000",
+    "reset_vector": "0x8069589",
+    "version_block_hex": "01014a1601634452312e312e353134332e353730360000000000000000000000000000000000",
+    "round_trip_identical": true
+  },
+  "circuittracks-firmware-4486.syx": {
+    "product": 100,
+    "proto": 1394,
+    "header_version": 1394,
+    "size": 314844,
+    "crc": 1316280990,
+    "tail_all_ff": true,
+    "syx_sha256": "bd2d294bafa88fdec7ae1f5fcaaa13158323969c5a40f83405a72e4ad329a0bd",
+    "image_sha256": "b897e0f01c403974eafae32074876234f2da7ef834796a485993acf01423f8da",
+    "initial_sp": "0x20050000",
+    "reset_vector": "0x805c00d",
+    "version_block_hex": "0101861101644742312e312e353134332e343438360000000000000000000000000000000000",
+    "round_trip_identical": true
+  }
+}

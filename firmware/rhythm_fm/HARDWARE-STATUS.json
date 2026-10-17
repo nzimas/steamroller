@@ -1,0 +1,199 @@
+{
+  "custom_transfer_enabled": true,
+  "allowed_release": "Rhythm FM 0.3.1",
+  "status": "experimental: 0.3.0 with stronger bit crusher presets and stock Grid FX colours; hardware untested",
+  "reason": "Crusher bit param is 0-127 (index value/2 into X:$4400); presets were 3-10. FX row colours from palette 0x08062AB0 [0x39/0x40 + type].",
+  "affected_image_sha256": "58b80030461eaa2c3650ce117dcb70e728ba051948fa2eede5a8ce0c18c896d8",
+  "boot_failure_cause": "D2 fails and D3 boots with the single heap-limit store disabled. The heap-limit reduction is the failing executable change in that reported hardware pair; the precise faulting allocation was not captured.",
+  "recovery_result": "User confirmed official firmware restored successfully; blank project saved; instrument is in bootloader mode.",
+  "d1_hardware_result": {
+    "user_report": "The startup completed without incident.",
+    "image_sha256": "21ee3ad3cf9cff32b520a4d2d319e64cb8f1ef69077020d285296e43c8a6c407",
+    "expected_identity_build": 15709,
+    "identity_confirmed": false,
+    "enabled_fm_audio_tested": false
+  },
+  "next_diagnostic": {
+    "name": "Rhythm FM 0.3.1 \u2014 sampler + poundhard generator",
+    "expected_identity_build": 15745,
+    "memory_failure_identity_build": 15713,
+    "hardware_tested": false
+  },
+  "d2_hardware_result": {
+    "user_report": "The boot fails now.",
+    "image_sha256": "73b7a4ee163111529a7a7b4ccb4c01637a1df5938d6e8faeadc9c4da34cc1b0f",
+    "producer_enabled": false,
+    "fm_note_hooks_enabled": false,
+    "cause_confirmed": false
+  },
+  "d3_hardware_result": {
+    "user_report": "It booted successfully.",
+    "image_sha256": "c220c561c79770b997144f39c5780d0b4c898c7156c4b0de40202da0e7d305f6",
+    "single_instruction_change_from_d2": "Heap-limit store at 0x0806B024 replaced with NOP",
+    "expected_identity_build": 15711,
+    "identity_confirmed": false
+  },
+  "v014_hardware_result": {
+    "application_build": 15712,
+    "identity_confirmed": true,
+    "boot_successful": true,
+    "fm_audio": "User reports no sound from tracks 1 and 2 in Note mode.",
+    "image_sha256": "ed2f2371a910f23ffbc21c2acfca22de849a18c3ee943035220fdcb68e60804b"
+  },
+  "v015_hardware_result": {
+    "application_build": 15714,
+    "identity_confirmed": true,
+    "boot_successful": true,
+    "image_sha256": "66134ec4928d40d37d25c68b7ebafee10e14d62ce71155e24aff3d56328bd864",
+    "fm_audio": "User reports silence, with occasional clicks when pressing note pads.",
+    "runtime_status": {
+      "notes1": 59,
+      "notes2": 0,
+      "services": 37201,
+      "ticks": 37201,
+      "blocks": 30396,
+      "nonzeroBlocks": 16959,
+      "peak1": 1600827,
+      "peak2": 0,
+      "dspMagic": 4607281,
+      "dspSequence": 91262,
+      "dspStatus": 1,
+      "dspFrames": 32,
+      "dspHeartbeats": 92161,
+      "dspUnderruns": 90460,
+      "dspDrops": 29616,
+      "resyncs": 56096,
+      "pending1": 0,
+      "pending2": 0,
+      "nextSequence": 91263,
+      "busy": 0
+    }
+  },
+  "v016_hardware_result": {
+    "release_inferred_from_current_transfer_test": true,
+    "identity_confirmed": false,
+    "boot_successful": true,
+    "image_sha256": "4a0e54c172e041ca635a3d6196adae9bebf494c8b47954d3c1caa82254b0cc5d",
+    "fm_audio": "User reports an initial sharp/plucky attack followed by sustain, heavily degraded with background crackling.",
+    "runtime_status_not_yet_supplied": true
+  },
+  "v017_hardware_result": {
+    "application_build": 15716,
+    "packaged": true,
+    "hardware_result_reported": false,
+    "note": "Transfer page opened for the user; no boot, audio or runtime status reported before 0.1.8 was built."
+  },
+  "v018_hardware_result": {
+    "application_build": 15717,
+    "user_report": "It is working.",
+    "boot_successful": true,
+    "identity_confirmed": false,
+    "runtime_status_supplied": false,
+    "requested_changes": [
+      "no pitch-gliding/siren/laser patches",
+      "focus on dark ambient and rhythmic noise",
+      "distortion and sample-track filter knobs on FM tracks",
+      "next note must not cut the current note"
+    ]
+  },
+  "v019_hardware_result": {
+    "application_build": 15718,
+    "identity_confirmed": false,
+    "runtime_status_supplied": false,
+    "user_report": "Distortion and filter sections work as they should. A second note played while the previous one is still sustained or releasing degrades the audio: crackle, stutter, decimation/bitcrusher-like sound."
+  },
+  "v0110_hardware_result": {
+    "application_build": 15719,
+    "identity_confirmed": true,
+    "user_report": "Behaving a lot better; occasional cutoffs (a note sustains then ends abruptly when the next is played) and occasional clicks.",
+    "runtime_status": {
+      "notes1": 222,
+      "services": 246332,
+      "blocks": 359570,
+      "dspHeartbeats": 360018,
+      "dspUnderruns": 531,
+      "dspDrops": 0,
+      "randomPatches": 5,
+      "voiceSteals": 0,
+      "maxVoices": 4,
+      "voiceSheds": 23,
+      "blockCycles": 0,
+      "maxBlockCycles": 0,
+      "family1": "DRONE (dark ambient)"
+    },
+    "interpretation": "Cutoffs = overload guard retiring long ambient release tails; clicks = underruns; DWT counter not running."
+  },
+  "v0111_hardware_result": {
+    "application_build": 15720,
+    "hardware_result_reported": false,
+    "note": "User moved on to the drum request without a 0.1.11 report."
+  },
+  "v0112_hardware_result": {
+    "application_build": 15721,
+    "user_report": "It works, but there is significant crackling.",
+    "runtime_status_supplied": false
+  },
+  "d0113_hardware_result": {
+    "user_report": "The issue is still there (crackling). Tempo far too slow at 137 BPM, 1:1 clock division.",
+    "services": 159176,
+    "blocks": 355019,
+    "dsp_underruns": 9357,
+    "block_cycles_last": 5361,
+    "max_block_cycles": 69139,
+    "max_call_cycles": 544448,
+    "max_service_gap": 35985535,
+    "min_queued": 0,
+    "drum6": "noise / rust",
+    "notes6": 160,
+    "drum_randoms": 0,
+    "last_pad": "pad 14"
+  },
+  "d0114_hardware_result": {
+    "user_report": "The FM drum tracks now sound fantastic (no log; crackle/tempo not reported)."
+  },
+  "d0116_hardware_result": {
+    "user_report": "Per-step locks work as expected with Record engaged. Macros 1-4 control nothing on the FM tracks. Hold step + Shift + knob changes no mixer parameter and registers nothing; pressing Shift while holding a step turns the Record LED from red to green (stock Shift layer)."
+  },
+  "d0117_hardware_result": {
+    "user_report": "Locks on macros 1 (delay send) and 2 (reverb send) work well. Locks on macros 3 and 4 (level, pan) do nothing. Mixer-view level/pan and live macro 3/4 turns do work on tracks 1-6."
+  },
+  "d0118_hardware_result": {
+    "user_report": "Level and pan locks still do not work. Knob 1 = reverb, knob 2 = delay, knob 3 = level, knob 4 = pan."
+  },
+  "d0120_hardware_result": {
+    "user_report": "Level/pan locks work on the poundhard drum tracks, not on the FM tracks. CPU struggles with three or four voices on different tracks."
+  },
+  "d0021_hardware_result": {
+    "user_report": "Shift + track auditioning works. Holding a track button and pressing a slot does nothing. The gestures are brittle; user asked for a two-pad mode UI (pad 22 generate, pad 23 commit)."
+  },
+  "d0022_hardware_result": {
+    "user_report": "It works exactly as intended. Asked: pads 22/23 dim when idle; pad 21 = kit generator (tap: 32 diverse sounds; hold: clear)."
+  },
+  "d0023_hardware_result": {
+    "user_report": "Kits come out perfect. A single sound stored in commit mode has crackling/stutter baked into the sample; not with kits."
+  },
+  "d0025_hardware_result": {
+    "user_report": "Expansions look the same scheme every page (first 3-4 pads always kicks); not visibly built on previous pages."
+  },
+  "d0026_hardware_result": {
+    "user_report": "Expansions much better (focus-based)."
+  },
+  "d0028_hardware_result": {
+    "user_report": "Step sliders pretty good; but a lock reverted on the next empty step, so a panned kick tail went back to centre."
+  },
+  "d0029_hardware_result": {
+    "user_report": "Pan locks hold over the tail, but a hard-right lock leaks a transient on the left (Mixer pan does not). Removing a step should remove its locks."
+  },
+  "d0210_hardware_result": {
+    "user_report": "Transient on the wrong side persists with 0.2.10 (locks a sixth of a step early)."
+  },
+  "d0211_hardware_result": {
+    "user_report": "Not fixed: kick locked to level 0 + hard right still audible faintly on the left at its very beginning."
+  },
+  "d0212_hardware_result": {
+    "user_report": "Locks work perfectly (gain glide fix)."
+  },
+  "d0300_hardware_result": {
+    "user_report": "Grid FX locks work well except bit crusher (barely audible); row colours must match stock Grid FX."
+  }
+}

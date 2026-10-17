@@ -1,0 +1,388 @@
+{
+  "scope": "Isolated core-1 consumer in local DSP interpreter; synthetic ring inputs, no audio or device execution",
+  "image_sha256": "d5b9ff5dadf2e284f80d69ecb7087486cf0df315a697bed8272af9de0e90df15",
+  "download_payload_words": 14187,
+  "segments": [
+    {
+      "space": "P",
+      "address": 0,
+      "words": 1
+    },
+    {
+      "space": "P",
+      "address": 68,
+      "words": 1
+    },
+    {
+      "space": "X",
+      "address": 0,
+      "words": 6
+    },
+    {
+      "space": "Y",
+      "address": 256,
+      "words": 1
+    },
+    {
+      "space": "P",
+      "address": 256,
+      "words": 60
+    },
+    {
+      "space": "X",
+      "address": 13,
+      "words": 3
+    },
+    {
+      "space": "P",
+      "address": 316,
+      "words": 21
+    },
+    {
+      "space": "X",
+      "address": 512,
+      "words": 10240
+    },
+    {
+      "space": "X",
+      "address": 10824,
+      "words": 6
+    },
+    {
+      "space": "X",
+      "address": 64,
+      "words": 128
+    },
+    {
+      "space": "Y",
+      "address": 64,
+      "words": 128
+    },
+    {
+      "space": "P",
+      "address": 337,
+      "words": 312
+    },
+    {
+      "space": "Y",
+      "address": 289,
+      "words": 1
+    },
+    {
+      "space": "P",
+      "address": 649,
+      "words": 648
+    },
+    {
+      "space": "X",
+      "address": 10830,
+      "words": 129
+    },
+    {
+      "space": "P",
+      "address": 1297,
+      "words": 189
+    },
+    {
+      "space": "Y",
+      "address": 290,
+      "words": 354
+    },
+    {
+      "space": "P",
+      "address": 1486,
+      "words": 221
+    },
+    {
+      "space": "Y",
+      "address": 5125,
+      "words": 1
+    },
+    {
+      "space": "P",
+      "address": 1707,
+      "words": 1671
+    }
+  ],
+  "populated_words": {
+    "P": 3124,
+    "X": 10512,
+    "Y": 485
+  },
+  "last_populated_address": {
+    "P": "0xd31",
+    "X": "0x2ace",
+    "Y": "0x1405"
+  },
+  "end_marker": "0x100",
+  "trailing_words": [
+    "0x100",
+    "0x100",
+    "0x100",
+    "0x100",
+    "0x100"
+  ],
+  "consumer_program_address": "0x4cd",
+  "cases": {
+    "empty": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 6,
+          "interpreter_cycles_including_call_stub": 18
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          0,
+          0
+        ]
+      }
+    },
+    "trigger_0": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          1,
+          1
+        ],
+        "Y:307b7": [
+          9462784,
+          786432
+        ],
+        "X:4a": [
+          4
+        ]
+      }
+    },
+    "trigger_1": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          1,
+          1
+        ],
+        "Y:307b9": [
+          9528321,
+          786432
+        ],
+        "X:5a": [
+          4
+        ]
+      }
+    },
+    "trigger_2": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          1,
+          1
+        ],
+        "Y:307bb": [
+          9593858,
+          786432
+        ],
+        "X:6a": [
+          4
+        ]
+      }
+    },
+    "trigger_3": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          1,
+          1
+        ],
+        "Y:307bd": [
+          9659395,
+          786432
+        ],
+        "X:7a": [
+          4
+        ]
+      }
+    },
+    "trigger_4": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          1,
+          1
+        ],
+        "Y:307bf": [
+          9724932,
+          786432
+        ],
+        "X:8a": [
+          4
+        ]
+      }
+    },
+    "trigger_5": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          1,
+          1
+        ],
+        "Y:307c1": [
+          9790469,
+          786432
+        ],
+        "X:9a": [
+          4
+        ]
+      }
+    },
+    "trigger_6": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          1,
+          1
+        ],
+        "Y:307c3": [
+          9856006,
+          786432
+        ],
+        "X:aa": [
+          4
+        ]
+      }
+    },
+    "trigger_7": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          1,
+          1
+        ],
+        "Y:307c5": [
+          9921543,
+          786432
+        ],
+        "X:ba": [
+          4
+        ]
+      }
+    },
+    "slot_2_release": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 28,
+          "interpreter_cycles_including_call_stub": 50
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          1,
+          1
+        ],
+        "X:6a": [
+          2
+        ]
+      }
+    },
+    "slot_2_parameter_1": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 32,
+          "interpreter_cycles_including_call_stub": 60
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          1,
+          1
+        ],
+        "Y:30809": [
+          3
+        ]
+      }
+    },
+    "two_events_one_call": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          2,
+          1
+        ],
+        "Y:307b7": [
+          9462784,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "two_events_two_calls": {
+      "runs": [
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        },
+        {
+          "instructions_including_call_stub": 35,
+          "interpreter_cycles_including_call_stub": 62
+        }
+      ],
+      "memory": {
+        "Y:307b5": [
+          2,
+          2
+        ],
+        "Y:307b7": [
+          9462784,
+          0,
+          9528321,
+          0
+        ]
+      }
+    }
+  }
+}

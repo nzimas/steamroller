@@ -1,0 +1,3397 @@
+{
+  "firmware_sha256": "d5b9ff5dadf2e284f80d69ecb7087486cf0df315a697bed8272af9de0e90df15",
+  "read_cases": [
+    {
+      "core": 0,
+      "address": "0x123400",
+      "count_argument": 0,
+      "returned": 0,
+      "received_bytes_per_call": [],
+      "copied_samples": 0,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x123400",
+      "count_argument": 1,
+      "returned": 1,
+      "received_bytes_per_call": [
+        2
+      ],
+      "copied_samples": 1,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 2,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x123400",
+      "count_argument": 32,
+      "returned": 32,
+      "received_bytes_per_call": [
+        64
+      ],
+      "copied_samples": 32,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 64,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x123400",
+      "count_argument": 511,
+      "returned": 511,
+      "received_bytes_per_call": [
+        1022
+      ],
+      "copied_samples": 511,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 1022,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x123400",
+      "count_argument": 512,
+      "returned": 512,
+      "received_bytes_per_call": [
+        1024
+      ],
+      "copied_samples": 512,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 1024,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x123400",
+      "count_argument": 513,
+      "returned": 513,
+      "received_bytes_per_call": [
+        1024,
+        2
+      ],
+      "copied_samples": 513,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 1024,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 2,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x123400",
+      "count_argument": 1025,
+      "returned": 1025,
+      "received_bytes_per_call": [
+        1024,
+        1024,
+        2
+      ],
+      "copied_samples": 1025,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 1024,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 1024,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 2,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x123407",
+      "count_argument": 32,
+      "returned": 32,
+      "received_bytes_per_call": [
+        14,
+        64
+      ],
+      "copied_samples": 32,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "receive",
+          "bytes": 14,
+          "fill": 64
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 64,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x1234ff",
+      "count_argument": 1,
+      "returned": 1,
+      "received_bytes_per_call": [
+        510,
+        2
+      ],
+      "copied_samples": 1,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "receive",
+          "bytes": 510,
+          "fill": 64
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 2,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x123400",
+      "count_argument": 65536,
+      "returned": 65536,
+      "received_bytes_per_call": [],
+      "copied_samples": 0,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x123400",
+      "count_argument": 0,
+      "returned": 0,
+      "received_bytes_per_call": [],
+      "copied_samples": 0,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x123400",
+      "count_argument": 1,
+      "returned": 1,
+      "received_bytes_per_call": [
+        2
+      ],
+      "copied_samples": 1,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 2,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x123400",
+      "count_argument": 32,
+      "returned": 32,
+      "received_bytes_per_call": [
+        64
+      ],
+      "copied_samples": 32,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 64,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x123400",
+      "count_argument": 511,
+      "returned": 511,
+      "received_bytes_per_call": [
+        1022
+      ],
+      "copied_samples": 511,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 1022,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x123400",
+      "count_argument": 512,
+      "returned": 512,
+      "received_bytes_per_call": [
+        1024
+      ],
+      "copied_samples": 512,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 1024,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x123400",
+      "count_argument": 513,
+      "returned": 513,
+      "received_bytes_per_call": [
+        1024,
+        2
+      ],
+      "copied_samples": 513,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 1024,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 2,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x123400",
+      "count_argument": 1025,
+      "returned": 1025,
+      "received_bytes_per_call": [
+        1024,
+        1024,
+        2
+      ],
+      "copied_samples": 1025,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 1024,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 1024,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 2,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x123407",
+      "count_argument": 32,
+      "returned": 32,
+      "received_bytes_per_call": [
+        14,
+        64
+      ],
+      "copied_samples": 32,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "receive",
+          "bytes": 14,
+          "fill": 64
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 64,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x1234ff",
+      "count_argument": 1,
+      "returned": 1,
+      "received_bytes_per_call": [
+        510,
+        2
+      ],
+      "copied_samples": 1,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "receive",
+          "bytes": 510,
+          "fill": 64
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "receive",
+          "bytes": 2,
+          "fill": 64
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x123400",
+      "count_argument": 65536,
+      "returned": 65536,
+      "received_bytes_per_call": [],
+      "copied_samples": 0,
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "101234"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "duplex",
+          "tx": "200100"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "duplex",
+          "tx": "40004000"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "2000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    }
+  ],
+  "write_cases": [
+    {
+      "core": 0,
+      "address": "0x304f0",
+      "word": "0x123456",
+      "tx": [
+        "0b04f0",
+        "123456"
+      ],
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "0b04f0"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "123456"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x30510",
+      "word": "0x800000",
+      "tx": [
+        "0b0510",
+        "800000"
+      ],
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "0b0510"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "800000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x307b5",
+      "word": "0xffffff",
+      "tx": [
+        "0b07b5",
+        "ffffff"
+      ],
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "0b07b5"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "ffffff"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "address": "0x30410",
+      "word": "0x0",
+      "tx": [
+        "0b0410",
+        "000000"
+      ],
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "0b0410"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 0
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "duplex",
+          "tx": "000000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x304f0",
+      "word": "0x123456",
+      "tx": [
+        "0b04f0",
+        "123456"
+      ],
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "0b04f0"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "123456"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x30510",
+      "word": "0x800000",
+      "tx": [
+        "0b0510",
+        "800000"
+      ],
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "0b0510"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "800000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x307b5",
+      "word": "0xffffff",
+      "tx": [
+        "0b07b5",
+        "ffffff"
+      ],
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "0b07b5"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "ffffff"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "address": "0x30410",
+      "word": "0x0",
+      "tx": [
+        "0b0410",
+        "000000"
+      ],
+      "events": [
+        {
+          "kind": "lock"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046534"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031020",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "0b0410"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031032",
+          "core": 1
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "duplex",
+          "tx": "000000"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        },
+        {
+          "kind": "unlock"
+        }
+      ]
+    }
+  ],
+  "raw_transmit_cases": [
+    {
+      "core": 0,
+      "byte_count": 0,
+      "verbatim": true,
+      "events": [
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": ""
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "byte_count": 3,
+      "verbatim": true,
+      "events": [
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "0b3055"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "byte_count": 96,
+      "verbatim": true,
+      "events": [
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "0b30557a9fc4e90e33587da2c7ec11365b80a5caef14395e83a8cdf2173c6186abd0f51a3f6489aed3f81d42678cb1d6fb20456a8fb4d9fe23486d92b7dc01264b7095badf04294e7398bde2072c51769bc0e50a2f54799ec3e80d32577ca1c6"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        }
+      ]
+    },
+    {
+      "core": 0,
+      "byte_count": 510,
+      "verbatim": true,
+      "events": [
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 0
+        },
+        {
+          "kind": "transmit",
+          "tx": "0b30557a9fc4e90e33587da2c7ec11365b80a5caef14395e83a8cdf2173c6186abd0f51a3f6489aed3f81d42678cb1d6fb20456a8fb4d9fe23486d92b7dc01264b7095badf04294e7398bde2072c51769bc0e50a2f54799ec3e80d32577ca1c6eb10355a7fa4c9ee13385d82a7ccf1163b6085aacff4193e6388add2f71c41668bb0d5fa1f44698eb3d8fd22476c91b6db00254a6f94b9de03284d7297bce1062b50759abfe4092e53789dc2e70c31567ba0c5ea0f34597ea3c8ed12375c81a6cbf0153a5f84a9cef3183d6287acd1f61b40658aafd4f91e43688db2d7fc21466b90b5daff24496e93b8dd02274c7196bbe0052a4f7499bee3082d52779cc1e60b30557a9fc4e90e33587da2c7ec11365b80a5caef14395e83a8cdf2173c6186abd0f51a3f6489aed3f81d42678cb1d6fb20456a8fb4d9fe23486d92b7dc01264b7095badf04294e7398bde2072c51769bc0e50a2f54799ec3e80d32577ca1c6eb10355a7fa4c9ee13385d82a7ccf1163b6085aacff4193e6388add2f71c41668bb0d5fa1f44698eb3d8fd22476c91b6db00254a6f94b9de03284d7297bce1062b50759abfe4092e53789dc2e70c31567ba0c5ea0f34597ea3c8ed12375c81a6cbf0153a5f84a9cef3183d6287acd1f61b40658aafd4f91e43688db2d7fc21466b90b5daff24496e93b8dd02274c7196bbe0052a4f7499bee3082d52779c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 0
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "byte_count": 0,
+      "verbatim": true,
+      "events": [
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": ""
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "byte_count": 3,
+      "verbatim": true,
+      "events": [
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "0b3055"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "byte_count": 96,
+      "verbatim": true,
+      "events": [
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "0b30557a9fc4e90e33587da2c7ec11365b80a5caef14395e83a8cdf2173c6186abd0f51a3f6489aed3f81d42678cb1d6fb20456a8fb4d9fe23486d92b7dc01264b7095badf04294e7398bde2072c51769bc0e50a2f54799ec3e80d32577ca1c6"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        }
+      ]
+    },
+    {
+      "core": 1,
+      "byte_count": 510,
+      "verbatim": true,
+      "events": [
+        {
+          "kind": "wait_fixture",
+          "function": "0x8046414"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x8031048",
+          "core": 1
+        },
+        {
+          "kind": "transmit",
+          "tx": "0b30557a9fc4e90e33587da2c7ec11365b80a5caef14395e83a8cdf2173c6186abd0f51a3f6489aed3f81d42678cb1d6fb20456a8fb4d9fe23486d92b7dc01264b7095badf04294e7398bde2072c51769bc0e50a2f54799ec3e80d32577ca1c6eb10355a7fa4c9ee13385d82a7ccf1163b6085aacff4193e6388add2f71c41668bb0d5fa1f44698eb3d8fd22476c91b6db00254a6f94b9de03284d7297bce1062b50759abfe4092e53789dc2e70c31567ba0c5ea0f34597ea3c8ed12375c81a6cbf0153a5f84a9cef3183d6287acd1f61b40658aafd4f91e43688db2d7fc21466b90b5daff24496e93b8dd02274c7196bbe0052a4f7499bee3082d52779cc1e60b30557a9fc4e90e33587da2c7ec11365b80a5caef14395e83a8cdf2173c6186abd0f51a3f6489aed3f81d42678cb1d6fb20456a8fb4d9fe23486d92b7dc01264b7095badf04294e7398bde2072c51769bc0e50a2f54799ec3e80d32577ca1c6eb10355a7fa4c9ee13385d82a7ccf1163b6085aacff4193e6388add2f71c41668bb0d5fa1f44698eb3d8fd22476c91b6db00254a6f94b9de03284d7297bce1062b50759abfe4092e53789dc2e70c31567ba0c5ea0f34597ea3c8ed12375c81a6cbf0153a5f84a9cef3183d6287acd1f61b40658aafd4f91e43688db2d7fc21466b90b5daff24496e93b8dd02274c7196bbe0052a4f7499bee3082d52779c"
+        },
+        {
+          "kind": "ready_fixture"
+        },
+        {
+          "kind": "wait_fixture",
+          "function": "0x802b66c"
+        },
+        {
+          "kind": "select_fixture",
+          "function": "0x803107a",
+          "core": 1
+        }
+      ]
+    }
+  ],
+  "sequential_write": {
+    "words": 32,
+    "transactions": 1,
+    "wire_bytes": 510
+  },
+  "limitations": [
+    "Hardware dependencies stubbed; no timing or physical device access.",
+    "No DSP endpoint semantics or permission to use candidate destination verified.",
+    "Count 65536 is diagnostic only; low 16 bits become zero while return stays 65536."
+  ]
+}

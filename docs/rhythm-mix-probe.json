@@ -1,0 +1,405 @@
+{
+  "scope": "Offline per-track DSP accumulation checks, including Tonitor FM samples.\n\nThe real P:$06AB..$06C5 instructions execute in the local DSP interpreter;\nstate and the buffer-bank register are fixtures. No audio transport, full\nprocessing loop, physical clock, or device access is exercised.",
+  "image_sha256": "d5b9ff5dadf2e284f80d69ecb7087486cf0df315a697bed8272af9de0e90df15",
+  "reference_q24_sha256": "54a9210fad927f032aab37e99b2deff20b3b44ee36c9048a9cd86595c9acc6e2",
+  "controlled_cases": [
+    {
+      "track": 0,
+      "bank": 0,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 0,
+      "bank": 0,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 0,
+      "bank": 0,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 0,
+      "bank": 1,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 0,
+      "bank": 1,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 0,
+      "bank": 1,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 1,
+      "bank": 0,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 1,
+      "bank": 0,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 1,
+      "bank": 0,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 1,
+      "bank": 1,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 1,
+      "bank": 1,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 1,
+      "bank": 1,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 2,
+      "bank": 0,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 2,
+      "bank": 0,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 2,
+      "bank": 0,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 2,
+      "bank": 1,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 2,
+      "bank": 1,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 2,
+      "bank": 1,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 3,
+      "bank": 0,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 3,
+      "bank": 0,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 3,
+      "bank": 0,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 3,
+      "bank": 1,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 3,
+      "bank": 1,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 3,
+      "bank": 1,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 4,
+      "bank": 0,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 4,
+      "bank": 0,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 4,
+      "bank": 0,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 4,
+      "bank": 1,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 4,
+      "bank": 1,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 4,
+      "bank": 1,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 5,
+      "bank": 0,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 5,
+      "bank": 0,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 5,
+      "bank": 0,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 5,
+      "bank": 1,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 5,
+      "bank": 1,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 5,
+      "bank": 1,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 6,
+      "bank": 0,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 6,
+      "bank": 0,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 6,
+      "bank": 0,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 6,
+      "bank": 1,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 6,
+      "bank": 1,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 6,
+      "bank": 1,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 7,
+      "bank": 0,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 7,
+      "bank": 0,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 7,
+      "bank": 0,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 7,
+      "bank": 1,
+      "gain_q23": 0,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 7,
+      "bank": 1,
+      "gain_q23": 4194304,
+      "max_lsb_error": 0,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    },
+    {
+      "track": 7,
+      "bank": 1,
+      "gain_q23": 8388607,
+      "max_lsb_error": 1,
+      "neighbors_unchanged": true,
+      "interpreter_instructions": 83
+    }
+  ],
+  "controlled_max_lsb_error": 1,
+  "fm_algorithms": 32,
+  "fm_blocks": 16384,
+  "fm_samples": 524288,
+  "fm_max_lsb_error": 1,
+  "fm_input_conversion": "signed Q24 >> 4, yielding Q23 with 18 dB pre-attenuation",
+  "fm_stage_gain_q23": 4194304,
+  "fm_output_pcm24_sha256": "f8d8f5a376e8a1f4451a3d2540082794c175d8f944ed318bd2f053008f2ed3d0",
+  "fm_output_peak_q23": 1454152,
+  "diagnostic_wav": "/Users/nzimas/development/circuit-rhythm/research/analysis/dsp/mix/tonitor-fm-through-rhythm-accumulator.wav",
+  "sample_rate_for_file_only": 44100,
+  "physical_audio_clock_validated": false,
+  "whole_dsp_pipeline_validated": false,
+  "hardware_writes": false
+}

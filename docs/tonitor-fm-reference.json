@@ -1,0 +1,257 @@
+{
+  "source_directory": "/Users/nzimas/development/mvave-fm1",
+  "source_commit": "d3e4e36ec37e4cab151a4ee7fa6aacd419a08f00",
+  "source_sha256": {
+    "firmware/src/fm6_core.c": "9ebbd96eed5b72d79957a3855d68e2a5aac7bf91a22240db7a4b58cde04b45bd",
+    "tools/gen_tables.py": "949b6f6c82b8563a69bcd5dbe3a2082a9238e4029328e94ee7496633351f4d49",
+    "firmware/src/fm.c": "e648c10d7f381598bbbdea3b65fc74b70dad0696fbb073660481b44ac602d9f3",
+    "LICENSING.md": "c862baef6b4cc1b881f025d295392e011e3bdabb25a9389887e10e2b27ff0389"
+  },
+  "scope": "Unmodified FM6 core with synthetic patches; excludes Tonitor wrapper/macros/generator sound design and hardware integration",
+  "compiler_integer_assumption": "-fwrapv for signed addition/subtraction/multiplication; signed-shift behavior still requires attention in a different implementation",
+  "host_reference": {
+    "sample_rate": 44100,
+    "block_samples": 32,
+    "note_state_bytes": 296,
+    "lfo_state_bytes": 24,
+    "reference_voice_bytes": 480,
+    "algorithms": [
+      {
+        "algorithm": 1,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 19035459,
+        "fnv1a64_q24_le": "b2fbd7e36f974c62"
+      },
+      {
+        "algorithm": 2,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 19488219,
+        "fnv1a64_q24_le": "049deb0cff901d2e"
+      },
+      {
+        "algorithm": 3,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 18699264,
+        "fnv1a64_q24_le": "22c925cb231ef56b"
+      },
+      {
+        "algorithm": 4,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 18699264,
+        "fnv1a64_q24_le": "22c925cb231ef56b"
+      },
+      {
+        "algorithm": 5,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 25087965,
+        "fnv1a64_q24_le": "fa4c98bb8e5e2cc1"
+      },
+      {
+        "algorithm": 6,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 25087965,
+        "fnv1a64_q24_le": "fa4c98bb8e5e2cc1"
+      },
+      {
+        "algorithm": 7,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 18158826,
+        "fnv1a64_q24_le": "0492f7516befcf66"
+      },
+      {
+        "algorithm": 8,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 17901799,
+        "fnv1a64_q24_le": "7fb7e1c31e052acf"
+      },
+      {
+        "algorithm": 9,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 17862892,
+        "fnv1a64_q24_le": "2b9df6520af17e7b"
+      },
+      {
+        "algorithm": 10,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 16973843,
+        "fnv1a64_q24_le": "59b0ac4d8891550f"
+      },
+      {
+        "algorithm": 11,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 17335062,
+        "fnv1a64_q24_le": "2f01f27c38c0cce3"
+      },
+      {
+        "algorithm": 12,
+        "samples": 16384,
+        "nonzero": 16374,
+        "peak_q24": 19233610,
+        "fnv1a64_q24_le": "8566422730ae33d3"
+      },
+      {
+        "algorithm": 13,
+        "samples": 16384,
+        "nonzero": 16372,
+        "peak_q24": 19623310,
+        "fnv1a64_q24_le": "98dc3b704fd14452"
+      },
+      {
+        "algorithm": 14,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 18564384,
+        "fnv1a64_q24_le": "34570dc0b37cedac"
+      },
+      {
+        "algorithm": 15,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 19109783,
+        "fnv1a64_q24_le": "6afac6d15992f46b"
+      },
+      {
+        "algorithm": 16,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 9762533,
+        "fnv1a64_q24_le": "25c9daf813749ba0"
+      },
+      {
+        "algorithm": 17,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 9970632,
+        "fnv1a64_q24_le": "278a5ede8b9e7bc4"
+      },
+      {
+        "algorithm": 18,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 9926135,
+        "fnv1a64_q24_le": "638c4f362aeedea7"
+      },
+      {
+        "algorithm": 19,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 21662012,
+        "fnv1a64_q24_le": "7dd6c8ddef302c61"
+      },
+      {
+        "algorithm": 20,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 23271983,
+        "fnv1a64_q24_le": "0305b6e7f29f1c78"
+      },
+      {
+        "algorithm": 21,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 36070599,
+        "fnv1a64_q24_le": "607600641a4f6e88"
+      },
+      {
+        "algorithm": 22,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 33737947,
+        "fnv1a64_q24_le": "e0e4a04fdab0ff4a"
+      },
+      {
+        "algorithm": 23,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 33522924,
+        "fnv1a64_q24_le": "81cd63ecf6fb6432"
+      },
+      {
+        "algorithm": 24,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 38294079,
+        "fnv1a64_q24_le": "ab45192217c347e2"
+      },
+      {
+        "algorithm": 25,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 32111678,
+        "fnv1a64_q24_le": "f6ee875d3cd50f45"
+      },
+      {
+        "algorithm": 26,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 21076653,
+        "fnv1a64_q24_le": "0caf71adad988233"
+      },
+      {
+        "algorithm": 27,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 20575588,
+        "fnv1a64_q24_le": "7260b7498ce7d209"
+      },
+      {
+        "algorithm": 28,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 19262002,
+        "fnv1a64_q24_le": "d75c85aa35ad886c"
+      },
+      {
+        "algorithm": 29,
+        "samples": 16384,
+        "nonzero": 16380,
+        "peak_q24": 24964333,
+        "fnv1a64_q24_le": "428541156f8b4dc6"
+      },
+      {
+        "algorithm": 30,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 22668401,
+        "fnv1a64_q24_le": "b6c93e0e07db29bf"
+      },
+      {
+        "algorithm": 31,
+        "samples": 16384,
+        "nonzero": 16383,
+        "peak_q24": 34084831,
+        "fnv1a64_q24_le": "842da31305fb8e78"
+      },
+      {
+        "algorithm": 32,
+        "samples": 16384,
+        "nonzero": 16382,
+        "peak_q24": 46532873,
+        "fnv1a64_q24_le": "e9258ef5db5280c6"
+      }
+    ]
+  },
+  "q24_reference_sha256": "54a9210fad927f032aab37e99b2deff20b3b44ee36c9048a9cd86595c9acc6e2",
+  "host_o0_o2_bit_identical": true,
+  "generated_fm_tables_sha256": "69c0ad19bb0a3491d83452812876bbab7caa97963e49d0b2d9a3971b410702e1",
+  "cortex_m7_allocated_object_sections": {
+    ".text": 5546,
+    ".ARM.exidx": 48,
+    ".rodata": 8090,
+    ".rodata.cst8": 8,
+    ".rodata.cst16": 16
+  },
+  "cortex_m7_aeabi_helper_symbols": [],
+  "timing_measured_on_rhythm": false
+}

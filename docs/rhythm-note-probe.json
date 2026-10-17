@@ -1,0 +1,364 @@
+{
+  "scope": "Offline capture of Rhythm 5706 ARM sampler command preparation.\n\nEmulates official ARM functions. Replaces selected dependencies with logging\nstubs; does not emulate DSP consumption, sound, the sequencer, or live hardware.",
+  "image_sha256": "d5b9ff5dadf2e284f80d69ecb7087486cf0df315a697bed8272af9de0e90df15",
+  "state_addresses": {
+    "notes": "0x20006d90",
+    "settings": "0x20006860"
+  },
+  "functions": {
+    "note_on": "0x8040874",
+    "note_off": "0x804083c",
+    "force_stop": "0x8040814",
+    "queue_pair": "0x80406a8"
+  },
+  "cases": [
+    {
+      "case": "note_on",
+      "track": 0,
+      "note": 60,
+      "velocity": 100,
+      "events": [
+        {
+          "stub": "dsp_parameter_write",
+          "arguments": [
+            0,
+            65280,
+            149
+          ]
+        },
+        {
+          "stub": "sample_prepare",
+          "track_argument": 0
+        },
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x906400",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "note_on",
+      "track": 1,
+      "note": 60,
+      "velocity": 100,
+      "events": [
+        {
+          "stub": "dsp_parameter_write",
+          "arguments": [
+            0,
+            65280,
+            150
+          ]
+        },
+        {
+          "stub": "sample_prepare",
+          "track_argument": 1
+        },
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x916401",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "note_on",
+      "track": 2,
+      "note": 60,
+      "velocity": 100,
+      "events": [
+        {
+          "stub": "dsp_parameter_write",
+          "arguments": [
+            0,
+            65280,
+            151
+          ]
+        },
+        {
+          "stub": "sample_prepare",
+          "track_argument": 2
+        },
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x926402",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "note_on",
+      "track": 3,
+      "note": 60,
+      "velocity": 100,
+      "events": [
+        {
+          "stub": "dsp_parameter_write",
+          "arguments": [
+            0,
+            65280,
+            152
+          ]
+        },
+        {
+          "stub": "sample_prepare",
+          "track_argument": 3
+        },
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x936403",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "note_on",
+      "track": 4,
+      "note": 60,
+      "velocity": 100,
+      "events": [
+        {
+          "stub": "dsp_parameter_write",
+          "arguments": [
+            0,
+            65280,
+            153
+          ]
+        },
+        {
+          "stub": "sample_prepare",
+          "track_argument": 4
+        },
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x946404",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "note_on",
+      "track": 5,
+      "note": 60,
+      "velocity": 100,
+      "events": [
+        {
+          "stub": "dsp_parameter_write",
+          "arguments": [
+            0,
+            65280,
+            154
+          ]
+        },
+        {
+          "stub": "sample_prepare",
+          "track_argument": 5
+        },
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x956405",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "note_on",
+      "track": 6,
+      "note": 60,
+      "velocity": 100,
+      "events": [
+        {
+          "stub": "dsp_parameter_write",
+          "arguments": [
+            0,
+            65280,
+            155
+          ]
+        },
+        {
+          "stub": "sample_prepare",
+          "track_argument": 6
+        },
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x966406",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "note_on",
+      "track": 7,
+      "note": 60,
+      "velocity": 100,
+      "events": [
+        {
+          "stub": "dsp_parameter_write",
+          "arguments": [
+            0,
+            65280,
+            156
+          ]
+        },
+        {
+          "stub": "sample_prepare",
+          "track_argument": 7
+        },
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x976407",
+            "0x0"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "retrigger_same_track",
+      "track": 2,
+      "note": 72,
+      "events": [
+        {
+          "stub": "dsp_parameter_write",
+          "arguments": [
+            0,
+            65280,
+            151
+          ]
+        },
+        {
+          "stub": "sample_prepare",
+          "track_argument": 2
+        },
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x820002",
+            "0x3"
+          ]
+        },
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x925002",
+            "0xc0000"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "release_old_note",
+      "events": []
+    },
+    {
+      "case": "release_current_note_flag_1",
+      "events": [
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x820002",
+            "0x2"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "release_current_note_flag_0",
+      "events": []
+    },
+    {
+      "case": "force_stop",
+      "events": [
+        {
+          "stub": "queue_pair",
+          "words": [
+            "0x820002",
+            "0x3"
+          ]
+        }
+      ]
+    }
+  ],
+  "ring_probe": {
+    "note_on_events": [
+      {
+        "stub": "dsp_parameter_write",
+        "arguments": [
+          0,
+          65280,
+          149
+        ]
+      },
+      {
+        "stub": "sample_prepare",
+        "track_argument": 0
+      },
+      {
+        "stub": "dsp_memory_write",
+        "arguments": [
+          0,
+          2422472704,
+          197648
+        ]
+      },
+      {
+        "stub": "dsp_memory_write",
+        "arguments": [
+          0,
+          0,
+          197649
+        ]
+      },
+      {
+        "stub": "dsp_memory_write",
+        "arguments": [
+          0,
+          256,
+          198581
+        ]
+      }
+    ],
+    "wrap_after_16_pairs_verified": true,
+    "last_wrap_events": [
+      {
+        "stub": "dsp_memory_write",
+        "arguments": [
+          0,
+          2415919104,
+          197678
+        ]
+      },
+      {
+        "stub": "dsp_memory_write",
+        "arguments": [
+          0,
+          0,
+          197679
+        ]
+      },
+      {
+        "stub": "dsp_memory_write",
+        "arguments": [
+          0,
+          0,
+          198581
+        ]
+      }
+    ]
+  }
+}

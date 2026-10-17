@@ -1,0 +1,59 @@
+{
+  "scope": "Local emulation of application functions only; no device messages",
+  "images": {
+    "tracks": {
+      "image_sha256": "b897e0f01c403974eafae32074876234f2da7ef834796a485993acf01423f8da",
+      "init_gate_address": "0x8038cfc",
+      "init_cases_select_update_state": {
+        "product_63": false,
+        "product_64": true,
+        "wrong_family_11": false,
+        "short_length_8": false,
+        "wrong_command_70": false
+      },
+      "header_parser_address": "0x8024f70",
+      "version_digits": [
+        0,
+        0,
+        0,
+        5,
+        7,
+        2
+      ],
+      "upstream_hex_interpretation": 1394,
+      "parsed_official_header": {
+        "type": 0,
+        "version_field": 572,
+        "image_size": 314844,
+        "image_crc": 1316280990
+      }
+    },
+    "rhythm": {
+      "image_sha256": "d5b9ff5dadf2e284f80d69ecb7087486cf0df315a697bed8272af9de0e90df15",
+      "init_gate_address": "0x8043350",
+      "init_cases_select_update_state": {
+        "product_63": true,
+        "product_64": false,
+        "wrong_family_11": false,
+        "short_length_8": false,
+        "wrong_command_70": false
+      },
+      "header_parser_address": "0x802d1d4",
+      "version_digits": [
+        0,
+        0,
+        0,
+        7,
+        3,
+        1
+      ],
+      "upstream_hex_interpretation": 1841,
+      "parsed_official_header": {
+        "type": 0,
+        "version_field": 731,
+        "image_size": 370032,
+        "image_crc": 2666430508
+      }
+    }
+  }
+}
