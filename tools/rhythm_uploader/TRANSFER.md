@@ -1,6 +1,10 @@
-# Rhythm FM 0.3.1 — transfer instructions
+# SteamRoller 0.3.2 — transfer instructions
 
-**New in 0.3.1:**
+**SteamRoller** is the new name of this firmware (formerly SteamRoller).
+0.3.2 is 0.3.1 under the new name: nothing else has changed.
+
+
+**Since 0.3.1:**
 - **Bit crusher** presets are much stronger. 0.3.0 only reached about
   10-bit resolution, so it was barely audible. The pads now go from about 6.5
   bits down to 5 bits, with sample-rate reduction down to about 1.5 kHz. They
@@ -136,7 +140,7 @@ like kits. (Samples stored with 0.2.3 keep their artefacts: store them again.)
 
 **A new direction.** The Rhythm is back to its stock sampler on all eight
 tracks. The FM engine and the live drum tracks are gone. What stays from
-Rhythm FM:
+SteamRoller:
 
 - **Sound generator** — in the **Sample Rec view**, with two pads of the third
   row (pads counted left to right, top to bottom):
@@ -202,19 +206,19 @@ Rhythm FM:
 2. Open `Start Transfer Tool.command` in this extracted bundle. Keep Terminal
    open. It starts a local server and opens the existing Chrome or Edge.
    If no browser tab appears, paste the exact local URL printed in Terminal
-   into Chrome. Make sure the page header says **RHYTHM FM 0.3.1**.
-3. Select **Rhythm FM 0.3.1 — sampler + poundhard generator**, then **Load packaged file**.
+   into Chrome. Make sure the page header says **STEAMROLLER 0.3.2**.
+3. Select **SteamRoller 0.3.2 — custom Circuit Rhythm firmware**, then **Load packaged file**.
    Wait for **Verified**.
 4. Connect the Rhythm directly by USB with reliable power. Power off, then hold
    **Sample Rec + Samples + Note** while powering it on for bootloader mode.
 5. Choose **Allow MIDI and check device**, grant SysEx permission and select
    the Rhythm bootloader ports if needed. Confirm **bootloader mode** (build 4799).
 6. Check the acknowledgment, choose **Transfer firmware…** and confirm the
-   selected 0.3.1 file.
+   selected 0.3.2 file.
 7. Keep power and USB connected until **Device reported successful receipt**
    and restart.
 8. After restart, select the normal-mode ports and check the device again.
-   This revision must report **application mode · build 15745**. Build
+   This revision must report **application mode · build 15746**. Build
    **15713** means FM memory initialization failed; save the log and report it.
 9. Test, at low volume, in a disposable project:
    - **Stock behaviour:** samples on all tracks play, record and load as on

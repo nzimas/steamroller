@@ -1,15 +1,15 @@
-"""Single source for the current Rhythm FM candidate's identity and FIFO format.
+"""Single source for the current SteamRoller (formerly Rhythm FM) candidate's identity and FIFO format.
 
 Previous releases' archives under dist/ stay immutable; probes that compare
 against them name those versions explicitly.
 """
-VERSION = '0.3.1'
-NAME = 'Rhythm FM ' + VERSION
-STEM = 'rhythm-fm-' + VERSION
-INSTALL_MARKER = b'RF0301'
-IDENTITY_BUILD = 15745
+VERSION = '0.3.2'
+NAME = 'SteamRoller ' + VERSION
+STEM = 'steamroller-' + VERSION   # archives up to 0.3.1 are rhythm-fm-<version>
+INSTALL_MARKER = b'SR0302'
+IDENTITY_BUILD = 15746
 MEMORY_FAILURE_BUILD = 15713
-PREVIOUS = '0.3.0'
+PREVIOUS = '0.3.1'
 # 0.2.x: the stock sampler on all 8 tracks; poundhard is a sound generator
 # (Shift + track button 1-8), auditioned on that track's output.
 FM_TRACKS = 0

@@ -47,7 +47,7 @@ def main():
     for name,digest in uploader['files'].items():
         if sha(BUILD/name)!=digest:raise ValueError(f'Stale uploader validation: {name}')
     DIST.mkdir(parents=True,exist_ok=True)
-    if DIST.parent.joinpath(DIST.name+'.zip').exists() and VERSION in ('0.1.4','0.1.5','0.1.6','0.1.7','0.1.8','0.1.9','0.1.10','0.1.11','0.1.12','0.1.13','0.1.14','0.1.15','0.1.16','0.1.17','0.1.18','0.1.19','0.1.20','0.2.0','0.2.1','0.2.2','0.2.3','0.2.4','0.2.5','0.2.6','0.2.7','0.2.8','0.2.9','0.2.10','0.2.11','0.2.12','0.3.0'):
+    if DIST.parent.joinpath(DIST.name+'.zip').exists() and VERSION in ('0.1.4','0.1.5','0.1.6','0.1.7','0.1.8','0.1.9','0.1.10','0.1.11','0.1.12','0.1.13','0.1.14','0.1.15','0.1.16','0.1.17','0.1.18','0.1.19','0.1.20','0.2.0','0.2.1','0.2.2','0.2.3','0.2.4','0.2.5','0.2.6','0.2.7','0.2.8','0.2.9','0.2.10','0.2.11','0.2.12','0.3.0','0.3.1'):
         raise RuntimeError('Refusing to overwrite an immutable reference archive')
     for name in (f'{STEM}.bin',f'{STEM}.syx','manifest.json','validation.json','generator-preview.wav','runtime-report-validation.json',
                  'serve.py','Start Transfer Tool.command','TRANSFER.md','request-encoder-validation.json',
@@ -133,7 +133,7 @@ diffCompare/bootloader.bin (SHA-256 recorded in update-crc-validation.json).
 This proprietary reference input is not bundled; it is not a Rhythm bootloader.
 The historical timing and FIFO comparisons also use immutable workspace archives
 dist/rhythm-fm-0.1.4.zip, dist/rhythm-fm-0.1.5.zip and
-dist/rhythm-fm-0.1.6.zip (the 0.1.7–0.3.0 archives are likewise left untouched).
+dist/rhythm-fm-0.1.6.zip (the 0.1.7–0.3.1 rhythm-fm archives are likewise left untouched).
 The patch generator (firmware/rhythm_fm/fm_generator.c) is adapted from the
 local Tonitor checkout at commit 209a1d3ed9a827dd32568312c455184c309c87a0. Their reference images are SHA-256 pinned by the probes.
 These old archives are not copied into the new transfer bundle.

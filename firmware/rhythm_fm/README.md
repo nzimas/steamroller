@@ -1,6 +1,12 @@
-# Rhythm FM 0.3.1 — stock sampler + poundhard sound generator
+# SteamRoller 0.3.2 (formerly Rhythm FM) — stock sampler, poundhard sound generator, step locks and per-track Grid FX
 
-Identity **15745**; **15713** = extension memory unavailable. Not yet tested on hardware.
+Identity **15746**; **15713** = extension memory unavailable. Not yet tested on hardware.
+
+## 0.3.2: renamed SteamRoller
+
+Firmware identical to 0.3.1. The release name, file stem (`steamroller-<version>`), installation marker (`SR0302`) and
+build marker string change. Internal paths and identifiers (`firmware/rhythm_fm`, `tools/*rhythm_fm*`, Makefile
+targets, report header) keep their names.
 
 ## 0.3.1: bit crusher range, stock FX colours
 

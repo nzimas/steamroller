@@ -1,8 +1,8 @@
 {
   "custom_transfer_enabled": true,
-  "allowed_release": "Rhythm FM 0.3.1",
-  "status": "experimental: 0.3.0 with stronger bit crusher presets and stock Grid FX colours; hardware untested",
-  "reason": "Crusher bit param is 0-127 (index value/2 into X:$4400); presets were 3-10. FX row colours from palette 0x08062AB0 [0x39/0x40 + type].",
+  "allowed_release": "SteamRoller 0.3.2",
+  "status": "SteamRoller 0.3.2: 0.3.1 renamed (formerly Rhythm FM); firmware unchanged",
+  "reason": "Rename only: release name, file stem, install marker SR0302, build marker string.",
   "affected_image_sha256": "58b80030461eaa2c3650ce117dcb70e728ba051948fa2eede5a8ce0c18c896d8",
   "boot_failure_cause": "D2 fails and D3 boots with the single heap-limit store disabled. The heap-limit reduction is the failing executable change in that reported hardware pair; the precise faulting allocation was not captured.",
   "recovery_result": "User confirmed official firmware restored successfully; blank project saved; instrument is in bootloader mode.",
@@ -14,8 +14,8 @@
     "enabled_fm_audio_tested": false
   },
   "next_diagnostic": {
-    "name": "Rhythm FM 0.3.1 \u2014 sampler + poundhard generator",
-    "expected_identity_build": 15745,
+    "name": "SteamRoller 0.3.2 \u2014 custom Circuit Rhythm firmware",
+    "expected_identity_build": 15746,
     "memory_failure_identity_build": 15713,
     "hardware_tested": false
   },
@@ -195,5 +195,8 @@
   },
   "d0300_hardware_result": {
     "user_report": "Grid FX locks work well except bit crusher (barely audible); row colours must match stock Grid FX."
+  },
+  "d0301_hardware_result": {
+    "user_report": "All perfect (crusher and colours)."
   }
 }

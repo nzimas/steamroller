@@ -40,7 +40,7 @@ def main():
     shutil.copy2(recovery,BUILD/'recovery'/recovery.name)
     entries=[]
     for path,decoded,label,role,file in [
-        (candidate,info,f'{NAME} — sampler + poundhard generator','candidate',f'../{STEM}.syx'),
+        (candidate,info,f'{NAME} — custom Circuit Rhythm firmware','candidate',f'../{STEM}.syx'),
         (recovery,original,'Official Rhythm 5706 — recovery','recovery','../recovery/'+recovery.name)]:
         entries.append({'label':label,'role':role,'file':file,'size':len(decoded['image']),
                         'sysex_sha256':sha(path),'image_sha256':ct_fw.sha256(decoded['image'])})

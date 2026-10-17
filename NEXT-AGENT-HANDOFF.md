@@ -1,3 +1,12 @@
+# UPDATE 2026-10-17 (newest): renamed SteamRoller — 0.3.2
+
+The firmware is now called **SteamRoller**:
+- **0.3.2** (build 15746, marker `SR0302`, `dist/steamroller-0.3.2`) is 0.3.1 renamed.
+- **0.3.1 hardware:** all Grid FX, including the reworked crusher and stock colours: "all perfect".
+- **Unchanged names:** internal paths and tool names keep `rhythm_fm`. Older archives stay `rhythm-fm-<version>`.
+
+---
+
 # UPDATE 2026-10-17 (newest): 0.3.1 — crusher presets, stock FX colours
 
 **0.3.1** (build 15745):

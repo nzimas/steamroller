@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-only
- * Circuit Rhythm "poundhard generator" (Rhythm FM 0.2.x): the stock Rhythm
+ * SteamRoller (formerly Rhythm FM), custom Circuit Rhythm firmware: the stock Rhythm
  * sampler and sequencer, plus Elektron-style parameter locks on the stock
  * automation lanes (plock.c), and in the Sample Rec view a sound generator
  * built on Vascular's poundhard drum voice (poundhard.c):
@@ -319,7 +319,7 @@ void fm_boot(void) {
 }
 
 #ifndef FM_IDENTITY_BUILD
-#define FM_IDENTITY_BUILD 15745
+#define FM_IDENTITY_BUILD 15746
 #endif
 #define FM_MEMORY_FAILURE_BUILD 15713
 void fm_identity_send(void *context, unsigned mask, const void *original) {

@@ -1,4 +1,4 @@
-"""Build the current Rhythm FM candidate: FM tracks 1..4, native sampler tracks 5..8.
+"""Build the current SteamRoller candidate (custom Circuit Rhythm firmware on official 5706).
 
 Patches only a hash-checked official Rhythm image. Never opens a device.
 """
@@ -336,7 +336,7 @@ def main():
     stream_address=(BASE+len(image)+15)&~15
     write(stream_address,dsp_blob,'relocated patched core-1 segmented download')
     write(0x08031660,struct.pack('<I',stream_address),'core-1 download pointer')
-    write((BASE+len(image)+3)&~3,f'RHYTHM-FM-{VERSION}\0TRACKS-1-4-FM\0'.encode(),'build marker')
+    write((BASE+len(image)+3)&~3,f'STEAMROLLER-{VERSION}\0CIRCUIT-RHYTHM-5706\0'.encode(),'build marker')
     # The reference bootloader CRC loop feeds ceil(length/4) complete words.
     # Include any final-word padding in BOTH the image size and header CRC.
     if len(image)%4:
