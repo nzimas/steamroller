@@ -5,11 +5,13 @@
 Pages come from website/*.html (a first-line comment gives the title,
 description and an optional script), wrapped in website/layout.html; the
 changelog page is generated from CHANGELOG.md. The installer page gets the
-Web MIDI protocol (tools/rhythm_uploader/protocol.mjs), the validated
-firmware as firmware/<stem>.syx and firmware/firmware.json with the hashes,
-installation marker and identity build it checks before installing.
+Web MIDI protocol (tools/rhythm_uploader/protocol.mjs) and the validated
+firmware, but only scrambled (firmware/<digest>.dat, see scramble()): no
+usable firmware file is published. firmware/firmware.json carries the
+hashes, installation marker and identity build the installer checks on the
+unscrambled bytes before installing.
 """
-import hashlib, html, json, re, shutil, sys
+import hashlib, html, json, re, shutil, struct, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'tools'))
@@ -55,12 +57,31 @@ def page(layout, source, current, stamp):
             .replace('{nav}', nav).replace('{scripts}', scripts).replace('{stamp}', stamp).replace('{content}', content.rstrip()))
 
 
+SCRAMBLE_SEED = b'SteamRoller installer'
+
+
+def scramble(data, version):
+    """XOR with a xorshift128+ stream seeded from SHA-256(seed + version); the
+    installer (website/installer.mjs) runs the same stream to restore it. This
+    keeps the published file from being a usable firmware download; it is not
+    encryption."""
+    k = hashlib.sha256(SCRAMBLE_SEED + version.encode()).digest()
+    s0, s1 = struct.unpack('<QQ', k[:16])
+    out, mask = bytearray(len(data)), (1 << 64) - 1
+    for i in range(0, len(data), 8):
+        x, y = s0, s1
+        s0 = y; x ^= (x << 23) & mask; s1 = x ^ y ^ (x >> 17) ^ (y >> 26)
+        word = struct.pack('<Q', (s1 + y) & mask)
+        for j, b in enumerate(data[i:i + 8]): out[i + j] = b ^ word[j]
+    return bytes(out)
+
+
 def firmware():
     approved = json.loads((BUILD / 'uploader/approved.json').read_text())
     candidate = next(e for e in approved['firmwares'] if e['role'] == 'candidate')
     syx = BUILD / f'{STEM}.syx'
     if sha(syx) != candidate['sysex_sha256']: raise ValueError('Firmware does not match the validated uploader entry')
-    release = {'name': 'SteamRoller', 'version': VERSION, 'file': f'firmware/{syx.name}', 'size': candidate['size'],
+    release = {'name': 'SteamRoller', 'version': VERSION, 'size': candidate['size'],
                'sysex_sha256': candidate['sysex_sha256'], 'image_sha256': candidate['image_sha256'],
                'installation_marker': candidate['installation_marker'], 'identity_build': candidate['identity_build']}
     return syx, release
@@ -75,7 +96,9 @@ def build(out):
     for name in ('installer.mjs', 'serve.py', 'Start SteamRoller Installer.command'): shutil.copy2(WEB / name, out / name)
     shutil.copy2(ROOT / 'tools/rhythm_uploader/protocol.mjs', out / 'protocol.mjs')
     (out / 'firmware').mkdir()
-    shutil.copy2(syx, out / 'firmware' / syx.name)
+    data = scramble(syx.read_bytes(), VERSION)
+    release['data'] = f'firmware/{hashlib.sha256(data).hexdigest()[:16]}.dat'
+    (out / release['data']).write_bytes(data)
     (out / 'firmware/firmware.json').write_text(json.dumps(release, indent=2) + '\n')
     stamp = hashlib.sha256(b''.join(p.read_bytes() for p in sorted(out.rglob('*')) if p.is_file())).hexdigest()[:10]
     layout = (WEB / 'layout.html').read_text()

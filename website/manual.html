@@ -1,4 +1,4 @@
-<!-- title: SteamRoller manual | description: Everything SteamRoller adds to the Novation Circuit Rhythm: the sound generator, kits, parameter locks, step sliders, Grid FX locks and spice. -->
+<!-- title: SteamRoller manual | description: Everything SteamRoller adds to the Novation Circuit Rhythm: the sound generator, kits, parameter locks (knobs, step sliders, Grid FX) and spice. -->
 <h1>Manual</h1>
 <p>Everything SteamRoller adds to the Circuit Rhythm. All of the Rhythm's own functions work as described in
   Novation's user guide; this manual only covers what is new or different. To install, see
@@ -11,10 +11,10 @@
 <a href="#storing-a-sound" class="sub">Storing a sound</a>
 <a href="#kits" class="sub">Kits</a>
 <a href="#parameter-locks">Parameter locks</a>
+<a href="#with-the-knobs" class="sub">With the knobs</a>
+<a href="#with-the-step-sliders" class="sub">With the step sliders</a>
+<a href="#grid-fx-locks" class="sub">Grid FX locks</a>
 <a href="#how-long-a-lock-lasts" class="sub">How long a lock lasts</a>
-<a href="#step-sliders">Step sliders</a>
-<a href="#mix-rows" class="sub">Level, pan, delay, reverb</a>
-<a href="#grid-fx-rows" class="sub">Grid FX</a>
 <a href="#spice">Spice</a>
 <a href="#differences-from-the-official-firmware">Differences from the official firmware</a>
 <a href="#going-back">Going back</a>
@@ -71,30 +71,23 @@
 </ul>
 
 <h2 id="parameter-locks">Parameter locks</h2>
-<p>With <b>Record</b> on, <b>hold a step and turn a knob</b>: the value is stored on that step. Turning a knob
-  while nothing is held changes the track's own value, as stock. A lock is sent a moment before its step and
-  written straight to the sound chip, so it is in place when the sound starts. Locks save with the project.</p>
-<p>To remove a knob's locks, hold <b>Clear</b> and turn that knob: this clears its whole lane on the track.</p>
+<p>A parameter lock stores a value on one step: the step plays with that value, the rest of the pattern with the
+  track's own. There are two ways to set one, and both work the same way: <b>Record on</b>, then <b>hold a
+  step</b>, and set the value <a href="#with-the-knobs">with a knob</a> or
+  <a href="#with-the-step-sliders">with the step sliders</a>. Locks are sent a moment before their step and written
+  straight to the sound chip, so they are in place when the sound starts. They save with the project.</p>
 
-<h3 id="how-long-a-lock-lasts">How long a lock lasts</h3>
-<ul>
-<li>A lock lasts for the <b>whole sound</b> of its step: the steps that trigger nothing keep it, so a kick panned
-  right stays right for its whole tail.</li>
-<li>The next hit <b>without</b> a lock returns the parameter to the knob's value.</li>
-<li>Locks belong to the step's content: <b>deleting a step deletes its locks</b>, and copying a step copies
-  them.</li>
-</ul>
+<h3 id="with-the-knobs">With the knobs</h3>
+<p>Turn any of the eight knobs while holding the step: the sample controls, distortion and the filters. Turning a
+  knob while nothing is held changes the track's own value, as stock. To remove a knob's locks, hold <b>Clear</b>
+  and turn that knob: this clears its whole lane on the track.</p>
 
-<h2 id="step-sliders">Step sliders</h2>
-<p>With <b>Record</b> on, <b>hold a step</b> in a track's normal view: the two bottom pad rows stop showing samples
-  and become sliders for that step. Two rows show at a time. While still holding the step, the sample-page
-  <b>arrows</b> scroll through the rows. When you let go of the step, the rows go back to the top (level and
-  pan).</p>
-<p>A <b>bright</b> pad or bar is the step's lock; a <b>dim</b> one shows the track's own value. Press a pad to set
-  the lock; press the pad that shows the lock again to remove it. With Record off, holding a step and pressing a
-  sample pad is the stock sample flip.</p>
-
-<h3 id="mix-rows">Level, pan, delay, reverb</h3>
+<h3 id="with-the-step-sliders">With the step sliders</h3>
+<p>While you hold the step, the two bottom pad rows stop showing samples and become sliders for that step, two
+  rows at a time. Still holding the step, the sample-page <b>arrows</b> scroll through them; when you let go, they
+  go back to the top. A <b>bright</b> pad or bar is the step's lock, a <b>dim</b> one the track's own value. Press
+  a pad to set the lock; press the pad that shows it again to remove it. (With Record off, holding a step and
+  pressing a sample pad is the stock sample flip.)</p>
 <table>
 <tr><th>Row</th><th>Colour</th><th>Pads, left to right</th></tr>
 <tr><td>level</td><td>green</td><td>minimum to maximum</td></tr>
@@ -102,11 +95,12 @@
 <tr><td>delay send</td><td>yellow</td><td>none to full</td></tr>
 <tr><td>reverb send</td><td>violet</td><td>none to full</td></tr>
 </table>
+<p>Below these come the <a href="#grid-fx-locks">Grid FX</a> rows.</p>
 
-<h3 id="grid-fx-rows">Grid FX</h3>
-<p>Below reverb come seven rows, one per Grid FX, in the colours of the Rhythm's own Grid FX view. Each row's eight
-  pads are eight settings, more intense (or faster) to the right. Rates follow the project's tempo. A step can lock
-  several effects at once.</p>
+<h3 id="grid-fx-locks">Grid FX locks</h3>
+<p>Seven rows, one per Grid FX, in the colours of the Rhythm's own Grid FX view. Each row's eight pads are eight
+  settings, more intense (or faster) to the right. Rates follow the project's tempo. A step can lock several
+  effects at once.</p>
 <table>
 <tr><th>Row</th><th>Colour</th><th>Pads, left to right</th></tr>
 <tr><td>bit crusher</td><td>light blue</td><td>gritty to destroyed: fewer bits and a lower sample rate, alternating grit and aliasing</td></tr>
@@ -118,11 +112,19 @@
 <tr><td>phaser</td><td>green</td><td>slow and light to fast and deep</td></tr>
 </table>
 <p><b>Only the track that holds the lock is affected.</b> While a locked hit plays, its track alone goes through
-  the Grid FX and every other track bypasses them. The effect lasts until that track's next hit without Grid FX
-  locks, or until you stop. When two tracks hold Grid FX locks at the same time, the newest lock takes over and
-  the earlier track goes back to dry.</p>
-<p>With no Grid FX locks playing, every track goes through the Grid FX as usual, so the Grid FX view works on the
-  whole mix as always.</p>
+  the Grid FX and every other track bypasses them. When two tracks hold Grid FX locks at the same time, the newest
+  lock takes over and the earlier track goes back to dry. With no Grid FX locks playing, every track goes through
+  the Grid FX as usual, so the Grid FX view works on the whole mix as always.</p>
+
+<h3 id="how-long-a-lock-lasts">How long a lock lasts</h3>
+<ul>
+<li>A lock lasts for the <b>whole sound</b> of its step: the steps that trigger nothing keep it, so a kick panned
+  right stays right for its whole tail. A Grid FX lock lasts the same way.</li>
+<li>The next hit <b>without</b> a lock returns the parameter to the track's own value (and switches the effect
+  off).</li>
+<li>Locks belong to the step's content: <b>deleting a step deletes its locks</b>, and copying a step copies
+  them.</li>
+</ul>
 
 <h2 id="spice">Spice</h2>
 <p><b>Shift + a track button</b> adds random locks to that track's current pattern. (In the Sample Rec view with

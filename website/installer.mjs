@@ -29,14 +29,29 @@ function showDevice(identity) {
     : `running normally (firmware build ${identity.build})`;
 }
 
+// The firmware is published only scrambled (tools/build_site.py, scramble()):
+// the same xorshift128+ stream, seeded from SHA-256(seed + version), restores it.
+async function unscramble(bytes, version) {
+  const key = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('SteamRoller installer' + version));
+  const view = new DataView(key), M = (1n << 64n) - 1n, out = new Uint8Array(bytes.length);
+  let s0 = view.getBigUint64(0, true), s1 = view.getBigUint64(8, true);
+  for (let i = 0; i < bytes.length; i += 8) {
+    let x = s0; const y = s1;
+    s0 = y; x ^= (x << 23n) & M; s1 = x ^ y ^ (x >> 17n) ^ (y >> 26n);
+    let word = (s1 + y) & M;
+    for (let j = 0; j < 8 && i + j < bytes.length; j++, word >>= 8n) out[i + j] = bytes[i + j] ^ Number(word & 255n);
+  }
+  return out;
+}
 // The packaged firmware, checked against its published hashes before use.
 async function loadFirmware() {
   const response = await fetch('firmware/firmware.json', {cache: 'no-store'});
   if (!response.ok) throw Error('The firmware description could not be loaded.');
   release = await response.json();
-  const file = await fetch(release.file, {cache: 'no-store'});
+  const file = await fetch(release.data, {cache: 'no-store'});
   if (!file.ok) throw Error('The firmware could not be loaded.');
-  firmware = await verifyFirmware(await file.arrayBuffer(), [{...release, role: 'candidate'}]);
+  const bytes = await unscramble(new Uint8Array(await file.arrayBuffer()), release.version);
+  firmware = await verifyFirmware(bytes, [{...release, role: 'candidate'}]);
   $('facts').hidden = false;
   $('f-fw').textContent = `SteamRoller ${release.version} (build ${release.identity_build})`;
   $('install').textContent = `Install SteamRoller ${release.version}`;
