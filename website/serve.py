@@ -39,7 +39,8 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_header('Cache-Control','no-store')
         self.send_header('X-Content-Type-Options','nosniff')
         self.send_header('Referrer-Policy','no-referrer')
-        self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
+        # as on GitHub Pages: the page's own files, plus the web font and the PayPal button
+        self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://www.paypalobjects.com; form-action https://www.paypal.com; connect-src 'self'; object-src 'none'; base-uri 'none'")
         super().end_headers()
 
     def allowed_path(self):

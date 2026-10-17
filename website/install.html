@@ -1,0 +1,52 @@
+<!-- title: Install SteamRoller | description: Install SteamRoller on a Novation Circuit Rhythm from the browser, over USB MIDI. | script: installer.mjs -->
+<h1>Install SteamRoller</h1>
+<p>This page installs SteamRoller on a Circuit Rhythm connected to this computer, over USB MIDI. It works in a
+  desktop <b>Chrome or Edge</b>. It talks to the Rhythm directly: nothing is uploaded anywhere.</p>
+
+<div class="warn">
+  <p><b>Read this first.</b> SteamRoller is an unofficial firmware, not made, endorsed or supported by Novation.
+    Installing it replaces the Circuit Rhythm's firmware and <b>may void any warranty that applies to your
+    device</b>. Back up your projects and packs with Novation Components first. The software comes with no warranty
+    of any kind; you install it entirely at your own risk.
+    <a href="https://github.com/nzimas/steamroller#disclaimer">Full disclaimer</a>.</p>
+</div>
+
+<div class="panel" aria-live="polite">
+  <p class="status" id="status">Loading the firmware…</p>
+  <p class="detail" id="detail"></p>
+  <dl class="dev" id="facts" hidden>
+    <dt>Firmware</dt><dd id="f-fw"></dd>
+    <dt>Your Rhythm</dt><dd id="f-dev">not connected</dd>
+  </dl>
+  <div class="bar" id="bar" hidden><div></div></div>
+
+  <label class="check"><input type="checkbox" id="agree">
+    <span>I have read the warning and the disclaimer. I understand that installing SteamRoller may void my Circuit
+      Rhythm's warranty and that I install it at my own risk.</span></label>
+
+  <div class="cta">
+    <button class="btn" id="connect" disabled>Find my Circuit Rhythm</button>
+    <button class="btn primary" id="install" disabled>Install SteamRoller</button>
+  </div>
+</div>
+
+<h2>Before you start</h2>
+<ol class="steps">
+  <li>Switch the Circuit Rhythm off. Hold <b>Sample Rec</b>, <b>Samples</b> and <b>Note</b> while you switch it
+    on: it starts in update mode.</li>
+  <li>Connect it straight to the computer with a USB cable that carries <b>data</b> (some carry power only).
+    Close any other program using MIDI, Novation Components included.</li>
+  <li>Press <b>Find my Circuit Rhythm</b>. When the browser asks to let this page control MIDI devices, allow it:
+    the update is sent as MIDI system-exclusive messages.</li>
+  <li>Press <b>Install SteamRoller</b> and keep the cable and power connected until the page says it is done. The
+    Rhythm then restarts by itself.</li>
+</ol>
+
+<h2>If something goes wrong</h2>
+<p>Stopped part-way? Switch the Rhythm off, start it in update mode again (step 1) and install again. To go back to
+  the official firmware, start it in update mode and use
+  <a href="https://support.novationmusic.com/hc/en-gb/articles/360002211360-Updating-firmware-using-Novation-Components">Novation
+  Components</a>. If the page shows an error you can't get past, <button class="link" id="savelog" type="button">save
+  a log</button> and open an <a href="https://github.com/nzimas/steamroller/issues">issue on GitHub</a>.</p>
+<p class="note">The installer and the firmware extension are GPL-3.0, their source
+  <a href="https://github.com/nzimas/steamroller">on GitHub</a>.</p>

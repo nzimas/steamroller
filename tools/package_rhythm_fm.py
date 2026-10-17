@@ -49,8 +49,8 @@ def main():
     DIST.mkdir(parents=True,exist_ok=True)
     if DIST.parent.joinpath(DIST.name+'.zip').exists() and VERSION in ('0.1.4','0.1.5','0.1.6','0.1.7','0.1.8','0.1.9','0.1.10','0.1.11','0.1.12','0.1.13','0.1.14','0.1.15','0.1.16','0.1.17','0.1.18','0.1.19','0.1.20','0.2.0','0.2.1','0.2.2','0.2.3','0.2.4','0.2.5','0.2.6','0.2.7','0.2.8','0.2.9','0.2.10','0.2.11','0.2.12','0.3.0','0.3.1'):
         raise RuntimeError('Refusing to overwrite an immutable reference archive')
-    # The public bundle is the installer site only (tools/build_site.py): the
-    # page, the modified firmware and its checks. No official Novation file,
+    # The public bundle is the website with its installer (tools/build_site.py):
+    # the pages, the modified firmware and its checks. No official Novation file,
     # no reports or sources (they stay in build/ and the repository). The same
     # folder runs locally (serve.py / the .command launcher) or on GitHub Pages.
     import build_site
@@ -60,7 +60,7 @@ def main():
 Custom firmware for the Novation Circuit Rhythm, installed from the browser.
 
 - **On this computer:** open `Start SteamRoller Installer.command` (or run
-  `python3 serve.py` here), then follow the page in Chrome or Edge.
+  `python3 serve.py` here), then open Install in Chrome or Edge.
 - **On the web:** publish this folder as it is (e.g. GitHub Pages). Web MIDI
   needs https or localhost.
 

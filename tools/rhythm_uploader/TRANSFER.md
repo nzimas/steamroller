@@ -1,6 +1,6 @@
 # SteamRoller 0.3.2 — transfer instructions
 
-**SteamRoller** is the new name of this firmware (formerly SteamRoller).
+**SteamRoller** is the new name of this firmware (formerly Rhythm FM).
 0.3.2 is 0.3.1 under the new name: nothing else has changed.
 
 
