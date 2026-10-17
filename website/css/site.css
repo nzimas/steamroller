@@ -62,12 +62,12 @@ p.lead { font-size: 20px; color: var(--dim); max-width: 36em; }
 .hero { padding: 20px 0 10px; }
 .hero h1 { font-size: 46px; max-width: 16em; }
 .hero h1 em { font-style: normal; color: var(--orange); }
-.features { list-style: none; padding: 0; margin: 24px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
-            background: var(--line); border: 2px solid var(--line); counter-reset: f; }
-.features li { background: var(--bg); padding: 20px 22px; counter-increment: f; }
-.features li::before { content: counter(f, decimal-leading-zero); display: block; font-family: var(--mono); font-size: 13px; color: var(--orange); }
-.features b { display: block; font-size: 19px; margin: 2px 0 4px; }
-.features span { color: var(--dim); font-size: 16px; }
+/* features: a plain two-column list, no boxes */
+.features { list-style: none; padding: 0; margin: 20px 0 0; }
+.features li { display: grid; grid-template-columns: 220px 1fr; gap: 0 28px; padding: 14px 0; border-top: 1px solid var(--line); }
+.features li:last-child { border-bottom: 1px solid var(--line); }
+.features b { font-size: 18px; }
+.features span { color: var(--dim); }
 
 /* documents */
 main table { border-collapse: collapse; width: 100%; margin: 14px 0; display: block; overflow-x: auto; }
@@ -131,7 +131,7 @@ footer { border-top: 3px solid var(--orange); padding: 22px max(20px, calc((100v
   .brand span { font-size: 20px; }
   main { padding-top: 30px; }
   main h1, .hero h1 { font-size: 32px; }
-  .features { grid-template-columns: 1fr; }
+  .features li { grid-template-columns: 1fr; gap: 2px; }
   .editions li { grid-template-columns: 1fr; }
   .ed-links { justify-content: flex-start; }
   main td:first-child { white-space: normal; }
