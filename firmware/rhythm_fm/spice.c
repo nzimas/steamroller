@@ -235,43 +235,39 @@ static unsigned spice_players(void) {
 }
 
 static const uint8_t sp_default[SP_LANES] = {0, 0, 127, 0, 0, 0, 100, 64};
+/* The parameter id of lane l on track t (the stock lane id table 0x0804ACC4). */
+static unsigned sp_lane_id(unsigned t, unsigned l) {
+    static const uint8_t mix[4] = {0x80, 0x88, 0x91, 0x99};
+    return l < 8u ? 16u * t + l : mix[l - 8u] + t;
+}
 
-/* Shift + track t: spice its current pattern. Returns the number of locked steps written. */
-__attribute__((noinline)) unsigned spice_track(unsigned t) {
-    void *player = S->players[t];
-    if (!player) { S->spice_refusals++; return 0; }
-    unsigned pattern;
-    uint8_t *pat = sp_pattern(player, &pattern), *lanes = pat + 0x128;
-    /* re-roll: the same pattern, untouched since our spice -> back to before it */
-    const unsigned reroll = S->spice_lanes == lanes && sp_sum(lanes) == S->spice_sum;
-    for (unsigned l = 0; l < SP_LANES; l++) for (unsigned s = 0; s < 32u; s++) {
-        uint8_t *b = &lanes[192u * (SP_LANE0 + l) + 6u * s];
-        if (reroll) *b = S->spice_snap[l][s]; else S->spice_snap[l][s] = *b;
-    }
-    S->spice_lanes = lanes;
+/* Lock the hits of pattern pat on track t (lanes 4-11), leaving any lock
+   already there. boost (the pattern generator): one more palette (4-6
+   parameters). Returns the number of locks written; *palette_out the lanes. */
+static __attribute__((noinline)) unsigned sp_apply(unsigned t, uint8_t *pat, uint32_t r, unsigned boost, unsigned *palette_out) {
+    uint8_t *lanes = pat + 0x128;
     SpiceMap m;
     sp_analyse(&m, pat, t);
     unsigned written = 0, palette = 0;
     if (m.hits) {
         SpiceRoll R;
-        uint32_t r = entropy() ^ S->spices * 0x9e3779b9u ^ (uint32_t)(uintptr_t)lanes ^ 0x5bd1e995u;
         if (!r) r = 1;
         R.seed = sp_rnd(&r); R.shape = (uint8_t)sp_rnd(&r);
-        for (unsigned k = 0; k < SP_LANES; k++) R.amount[k] = (uint8_t)(60u + sp_rnd(&r) % 41u);
+        for (unsigned k = 0; k < SP_LANES; k++) R.amount[k] = (uint8_t)(60u + sp_rnd(&r) % 41u);   /* (the generator too: bolder made it muffled) */
         palette = sp_palette(&m, &r);
-        const uint16_t *ids = PL_U16P(player, 0x40);
+        if (boost) palette |= sp_palette(&m, &r);          /* (two palettes: 4-6 parameters) */
         const unsigned dense = m.hits * 16u / m.len;
         for (unsigned k = 0; k < SP_LANES; k++) {
             if (!(palette >> k & 1u)) continue;
-            unsigned base = plock_live(ids[SP_LANE0 + k]);
+            unsigned base = plock_live(sp_lane_id(t, SP_LANE0 + k));
             if (base > 127u) base = sp_default[k];
             uint8_t *lane = lanes + 192u * (SP_LANE0 + k);
             const uint32_t throws = k == SP_DELAY || k == SP_REVERB
-                ? sp_throws(&m, &R, k, k == SP_DELAY ? (dense >= 8u ? 1u : dense >= 4u ? 2u : 3u) : (dense >= 8u ? 1u : 2u)) : 0;
+                ? sp_throws(&m, &R, k, (k == SP_DELAY ? (dense >= 8u ? 1u : dense >= 4u ? 2u : 3u) : (dense >= 8u ? 1u : 2u)) + boost) : 0;
             for (unsigned p = 0; p < m.len; p++) {
                 if (!(m.flag[p] & SF_HIT)) continue;
                 const unsigned s = (m.start + p) & 31u;
-                if (S->spice_snap[k][s] != 0xffu) continue;            /* the user's own lock */
+                if (lane[6u * s] != 0xffu) continue;            /* the user's own lock */
                 int d;
                 if (k == SP_DELAY || k == SP_REVERB) {
                     if (!(throws >> p & 1u)) continue;
@@ -288,8 +284,27 @@ __attribute__((noinline)) unsigned spice_track(unsigned t) {
             }
         }
     }
+    *palette_out = palette | (unsigned)m.period << 16;
+    return written;
+}
+
+/* Shift + track t: spice its current pattern. Returns the number of locked steps written. */
+__attribute__((noinline)) unsigned spice_track(unsigned t) {
+    void *player = S->players[t];
+    if (!player) { S->spice_refusals++; return 0; }
+    unsigned pattern;
+    uint8_t *pat = sp_pattern(player, &pattern), *lanes = pat + 0x128;
+    /* re-roll: the same pattern, untouched since our spice -> back to before it */
+    const unsigned reroll = S->spice_lanes == lanes && sp_sum(lanes) == S->spice_sum;
+    for (unsigned l = 0; l < SP_LANES; l++) for (unsigned s = 0; s < 32u; s++) {
+        uint8_t *b = &lanes[192u * (SP_LANE0 + l) + 6u * s];
+        if (reroll) *b = S->spice_snap[l][s]; else S->spice_snap[l][s] = *b;
+    }
+    S->spice_lanes = lanes;
+    unsigned palette;
+    const unsigned written = sp_apply(t, pat, entropy() ^ S->spices * 0x9e3779b9u ^ (uint32_t)(uintptr_t)lanes ^ 0x5bd1e995u, 0, &palette);
     S->spice_sum = sp_sum(lanes);
     S->spices++;
-    S->spice_last = t | pattern << 3 | reroll << 6 | palette << 8 | (written > 255u ? 255u : written) << 16 | (uint32_t)m.period << 24;
+    S->spice_last = t | pattern << 3 | reroll << 6 | (palette & 0xffu) << 8 | (written > 255u ? 255u : written) << 16 | (palette >> 16) << 24;
     return written;
 }

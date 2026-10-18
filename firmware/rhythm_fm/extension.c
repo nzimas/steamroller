@@ -86,8 +86,10 @@ typedef struct { uint32_t block, quiet; float peak; } Gen;
 /* A sound waiting on a track to be stored: its seed (re-rendered bit-exactly),
    its length in samples and peak once measured (0: not yet). */
 /* kit: 1 = planned kit sound (pad/archetype/flavour/kind below), 0xFF = a family sound.
-   pad/archetype/flavour/kind are also the tag written into its WAV (archetype 0xFF: drawn). */
-typedef struct { uint32_t seed, samples; float peak; uint8_t family, valid, kit, pad, archetype, flavour, kind, rsv; } Pending;
+   pad/archetype/flavour/kind are also the tag written into its WAV (archetype 0xFF: drawn).
+   engine: ENGINE_POUNDHARD or ENGINE_BAYAREA (a BAYAREA sound's pad is its kit
+   category, its flavour KF_BAYAREA, its kind the BAYAREA family BAF_*). */
+typedef struct { uint32_t seed, samples; float peak; uint8_t family, valid, kit, pad, archetype, flavour, kind, engine; } Pending;
 typedef struct { uint8_t pad, archetype, flavour, kind; } KitSound;
 typedef struct { uint32_t type, index; uint8_t pack, rsv[3]; } StoragePath;   /* stock path {4, slot, pack} */
 typedef struct {
@@ -111,16 +113,17 @@ typedef struct {
     uint32_t commit_progress;                   /* services count at the last storage step (stall guard) */
     volatile uint32_t replay[TRACKS];           /* play track t's sound again (UI task) */
     uint32_t replayed[TRACKS];
-    uint8_t gen_mode, commit_mode, rsv_mode[2];
+    uint8_t gen_mode, commit_mode, engine, rsv_mode;   /* engine: the one pads 16/17 picked */
     uint32_t flash_until, refusals;             /* pad 23 flashes orange until this service count */
     /* kit (pad 21) */
     uint32_t kit_state, kit_start, kit_next, kit_seed, kits, clears, kit_press_at;
     KitSound plan[16];                          /* the page being made */
     uint32_t kit_known;                         /* tagged sounds found in the pack when it was planned */
     uint32_t kit_focus;                         /* the page's focus categories (bytes; 0xFF none), all 0xFF for a starter page */
-    uint8_t kit_held, kit_triggered, rsv_kit[2];
+    uint8_t kit_held, kit_triggered, kit_engine, rsv_kit;   /* kit_engine: the page's, fixed when it starts */
     uint32_t mix_pos;
     Gen gen_store;
+    uint8_t voice_engine[NDRUMV], rsv_voice[2];   /* the engine each generator voice was struck with */
     float gain;
     uint8_t audition_track, last_family, last_pad, last_kind;
     uint32_t pad_events, last_pad_press;
@@ -135,6 +138,9 @@ typedef struct {
     uint16_t plock_preview_base[12];
     /* spice (spice.c) */
     uint32_t spices, spice_last, spice_refusals, spice_sum;
+    /* pattern generator (pattern.c) */
+    uint32_t patterns, pg_last, pg_refusals;
+    uint8_t pg_mode, rsv_pg[3];                 /* 0: the track's own sound; 1: samples from the pack by role */
     uint8_t spice_snap[8][32];                  /* lanes 4-11 at micro-step 0 before the spice (re-roll) */
     /* step mixer locks (steplock.c) */
     uint32_t sl_row, sl_held, sl_writes, sl_clears, sl_last;
@@ -232,9 +238,18 @@ void __aeabi_memclr4(void *p, size_t n) { memset(p,0,n); }
 void __aeabi_memclr8(void *p, size_t n) { memset(p,0,n); }
 #define OUT_TRACKS 0u                    /* plock.c: no track has its macros 1-4 remapped */
 #include "poundhard.c"
+#include "bayarea.c"
+enum { ENGINE_POUNDHARD, ENGINE_BAYAREA };
+/* A generator voice holds a poundhard voice or, in the same memory, a BAYAREA one. */
+#define BA(i) ((BaSlot *)(void *)&D[i])
+_Static_assert(sizeof(BaSlot) <= sizeof(PhVoice), "a BAYAREA voice exceeds a generator voice");
 #include "plock.c"
+/* Non-audio code (spice, Grid FX locks, UI, report, storing, kits) is built for
+   size; the audio paths (generator render, fm_tick, poundhard, plock) stay -O2. */
+#pragma clang attribute push (__attribute__((minsize)), apply_to = function)
 #include "spice.c"
 #include "gridfx.c"
+#pragma clang attribute pop
 static unsigned sl_record(void);           /* steplock.c */
 static uint32_t cycles(void) {
 #ifdef FM_HOST
@@ -319,9 +334,10 @@ void fm_boot(void) {
 }
 
 #ifndef FM_IDENTITY_BUILD
-#define FM_IDENTITY_BUILD 15746
+#define FM_IDENTITY_BUILD 15753
 #endif
 #define FM_MEMORY_FAILURE_BUILD 15713
+#pragma clang attribute push (__attribute__((minsize)), apply_to = function)
 void fm_identity_send(void *context, unsigned mask, const void *original) {
     (void)original;
     /* Static payloads survive the native asynchronous transport. Only the
@@ -386,10 +402,21 @@ static unsigned router_view(void *router) { (void)router; return host_view; }
 #endif
 #define VIEW_SAMPLE_REC 4u
 static unsigned router_held(void *router) { return *(uint32_t *)((uint8_t *)router+0xa0u); }
+/* The track pages object is on screen (the secondary Sample Rec view keeps
+   the Sample Rec view id, but shows the track pages, router[+0x3C], in their
+   mode 0xA): the current page view router[+0x7C] (or [+0x78]). */
+static unsigned track_pages_shown(void *router) {
+    void *tp=*(void **)((uint8_t *)router+0x3cu), *cur=*(void **)((uint8_t *)router+0x7cu);
+    if(!cur) cur=*(void **)((uint8_t *)router+0x78u);
+    return tp && cur==tp;
+}
+static unsigned in_sample_rec(void *router) { return router_view(router)==VIEW_SAMPLE_REC && !track_pages_shown(router); }
 static unsigned sample_rec_page(void *router) { return *(*(uint8_t **)((uint8_t *)router+0x58u)+0xcu); }
 /* stock Sample Rec state (view+0x48, byte 0): 2/3 = recording; the recorder
    then holds the scratch and writes its own file */
 static unsigned sample_rec_recording(void *router) { unsigned st=*(*(uint8_t **)((uint8_t *)router+0x58u)+0x48u); return st==2u || st==3u; }
+#define PAD_POUNDHARD 16u                 /* third row, leftmost: the poundhard engine */
+#define PAD_BAYAREA 17u                   /* third row, second from left: the BAYAREA engine */
 #define PAD_KIT 21u                       /* third row, third from right */
 #define PAD_GEN 22u                       /* third row, second from right */
 #define KIT_TRACK TRACKS                  /* pending[] entry of the kit sound being stored */
@@ -399,13 +426,27 @@ enum { KIT_IDLE, KIT_MAKING, KIT_CLEARING };
 #define FLASH_SERVICES 300u               /* ~0.3 s of main-loop services */
 static void refuse(void) { S->refusals++; S->flash_until=S->services+FLASH_SERVICES; }
 /* Shift + track button (stock discards Shift + tracks 1..8). In the Sample
-   Rec view in generate mode: play track t's sound again. Anywhere else: spice
-   track t's current pattern with parameter locks (spice.c). router 0 (host
-   and probes): generate. */
+   Rec view in generate mode: play track t's sound again. Anywhere else, with
+   Record on: a whole new pattern for track t (pattern.c); with Record off:
+   spice track t's current pattern with parameter locks (spice.c). router 0
+   (host and probes): generate. */
+unsigned pattern_generate(unsigned t, void *router);
+/* The secondary Sample Rec view (Sample Rec pressed again): the track pages
+   (router[+0x3C]) on screen in their mode 0xA (byte +0x264, set by
+   0x0804D6B6(pages, 0xA) from the router's button 0x12, 0x0803DAF2), whatever
+   the view id says. Its bottom row's first two pads choose the pattern
+   generator's path. */
+#define PAD_PG_ONE 24u
+#define PAD_PG_POOL 25u
+static unsigned pg_view(void *router) {
+    const uint8_t *tv=*(uint8_t **)((uint8_t *)router+0x3cu);
+    return track_pages_shown(router) && tv[0x264]==0xau;
+}
 void fm_randomize_request(unsigned track, void *router) {
     if(track>=TRACKS || S->magic!=MAGIC) return;
     if(!router) { S->requested[track]++; return; }
-    if(router_view(router)==VIEW_SAMPLE_REC && S->gen_mode) { if(S->pending[track].valid) S->replay[track]++; return; }
+    if(in_sample_rec(router) && S->gen_mode) { if(S->pending[track].valid) S->replay[track]++; return; }
+    if(sl_record()) { pattern_generate(track,router); return; }
     spice_track(track);
 }
 /* Track button without Shift (stock 0x0803D9A4: select the track and peek at
@@ -413,7 +454,7 @@ void fm_randomize_request(unsigned track, void *router) {
    mode draws a new sound for the track, commit mode plays its sound again
    (and a pad pressed while it is held stores it). Returns 1 to swallow. */
 unsigned fm_track_press(void *router, unsigned id) {
-    if(S->magic!=MAGIC || id>=TRACKS || router_view(router)!=VIEW_SAMPLE_REC) return 0;
+    if(S->magic!=MAGIC || id>=TRACKS || !in_sample_rec(router)) return 0;
     if(S->gen_mode) { S->requested[id]++; return 1; }
     if(S->commit_mode) { if(S->pending[id].valid) S->replay[id]++; return 1; }
     return 0;
@@ -439,7 +480,8 @@ void fm_pad(void *controller, unsigned pad, unsigned velocity) {
         S->pad_events++;
         S->last_pad_press=(pad&0xffu)|(shift ? 0x100u:0)|(S->services<<12);
         if(sl_pad(controller,pad)) return;       /* step mixer locks (steplock.c) */
-        if(router_view(controller)==VIEW_SAMPLE_REC) {
+        if((pad==PAD_PG_ONE || pad==PAD_PG_POOL) && pg_view(controller)) { S->pg_mode=(uint8_t)(pad==PAD_PG_POOL); return; }
+        if(in_sample_rec(controller)) {
             commit_guard();
             if(pad==PAD_KIT) {
                 /* momentary: a tap makes a kit, a 1.5 s hold clears it (see
@@ -449,6 +491,11 @@ void fm_pad(void *controller, unsigned pad, unsigned velocity) {
                     S->kit_start=16u*(page&7u);
                     S->kit_held=1; S->kit_triggered=0; S->kit_press_at=cycles();
                 } else refuse();
+                return;
+            }
+            /* the engine pads, while a mode is on (otherwise pads 16/17 are stock's threshold recording) */
+            if((pad==PAD_POUNDHARD || pad==PAD_BAYAREA) && (S->gen_mode || S->commit_mode)) {
+                S->engine=(uint8_t)(pad==PAD_BAYAREA ? ENGINE_BAYAREA : ENGINE_POUNDHARD);
                 return;
             }
             if(pad==PAD_GEN) { S->gen_mode=(uint8_t)!S->gen_mode; S->commit_mode=0; return; }
@@ -483,7 +530,8 @@ void fm_pad_release(void *router, unsigned pad, unsigned velocity) {
 /* The Sample Rec view's frame (its vt+0x1C, stock 0x0804FE9A, vtable word
    0x08067A24): stock composes pads 16-31 every LED refresh; pads 22/23 then
    show the modes (green generate, red commit; yellow while storing, orange
-   briefly when a store was refused or failed). */
+   briefly when a store was refused or failed), and while a mode is on pads
+   16/17 the engine (bright: the one chosen). */
 #define LED_GREEN 0x22u
 #define LED_RED 0x55u
 #define LED_YELLOW 0x6du
@@ -492,6 +540,9 @@ void fm_pad_release(void *router, unsigned pad, unsigned velocity) {
 #define LED_DIM_RED 0x54u                   /* 40, 0, 0 */
 #define LED_PURPLE 0x37u                    /* 198, 58, 198 */
 #define LED_DIM_PURPLE 0x38u                /* 31, 9, 31 */
+#define LED_DIM_YELLOW 0x73u                /* stock "toggle off" */
+#define LED_CYAN 0x18u
+#define LED_DIM_CYAN 0x19u
 uint16_t *fm_samplerec_frame(void *view) {
 #ifndef FM_HOST
     uint16_t *f=((uint16_t *(*)(void *))0x0804fe9bu)(view);
@@ -506,6 +557,10 @@ uint16_t *fm_samplerec_frame(void *view) {
     unsigned blink=cycles()>>25&1u;             /* ~0.35 s */
     f[PAD_KIT]=S->kit_state ? (blink ? LED_PURPLE : LED_DIM_PURPLE) : S->kit_held ? LED_PURPLE : LED_DIM_PURPLE;
     f[PAD_GEN]=S->gen_mode ? LED_GREEN : LED_DIM_GREEN;
+    if(S->gen_mode || S->commit_mode) {           /* the engines: yellow poundhard, cyan BAYAREA */
+        f[PAD_POUNDHARD]=S->engine==ENGINE_POUNDHARD ? LED_YELLOW : LED_DIM_YELLOW;
+        f[PAD_BAYAREA]=S->engine==ENGINE_BAYAREA ? LED_CYAN : LED_DIM_CYAN;
+    }
     if((int32_t)(S->flash_until-S->services)>0) f[PAD_COMMIT]=LED_ORANGE;
     else if(S->commit_state && S->commit_track!=KIT_TRACK) f[PAD_COMMIT]=LED_YELLOW;
     else f[PAD_COMMIT]=S->commit_mode ? LED_RED : LED_DIM_RED;
@@ -542,10 +597,20 @@ static uint32_t entropy(void) {
     return *(volatile uint32_t *)0xe000e018u;   /* SysTick current value */
 #endif
 }
+#pragma clang attribute pop
 /* ------------------------------------------------------ the generator --- */
 /* A planned kit sound's patch: the planned kind, character archetype and
    flavour, the rest drawn from its seed. */
-enum { KF_NONE, KF_IMPACT, KF_CYMBAL, KF_DESTROY };
+enum { KF_NONE, KF_IMPACT, KF_CYMBAL, KF_DESTROY, KF_BAYAREA };
+/* Kit categories, shared by both engines (kits below). poundhard plays the
+   first 13; BAYAREA plays impact (clunk), metal (clang), gnarly metal (chop),
+   click (blip) and destroyed (gnarly) in its own way, never kicks, and the
+   last four, its textures, only it plays. */
+enum { C_KICK, C_KICK_G, C_SNARE, C_SNARE_G, C_CLAP, C_IMPACT, C_HAT, C_CYMBAL, C_METAL, C_METAL_G, C_NOISE, C_CLICK, C_DESTROY,
+       C_SCRAPE, C_RUMBLE, C_WHIR, C_HISS, C_COUNT };
+#define C_POUNDHARD 13u
+/* each BAYAREA family's kit category, and back */
+static const uint8_t baf_category[BAF_N]={ C_IMPACT, C_SCRAPE, C_HISS, C_RUMBLE, C_WHIR, C_METAL, C_METAL_G, C_DESTROY, C_CLICK };
 static __attribute__((noinline)) unsigned kit_patch(PhPatch *p, const Pending *q) {
     PhRng rr, *r=&rr;
     ph_seed(r,(uint64_t)q->seed ^ 0x4B17ull);
@@ -565,25 +630,47 @@ static __attribute__((noinline)) unsigned kit_patch(PhPatch *p, const Pending *q
     }
     return q->pad;
 }
-/* Strike voice v with track t's pending sound (its seed decides everything). */
-static void gen_strike(PhVoice *v, Gen *g, unsigned track) {
+/* Strike generator voice vi with track t's pending sound (its seed decides everything). */
+static void gen_strike(unsigned vi, Gen *g, unsigned track) {
+    Pending *q=&S->pending[track];
+    g->block=0; g->quiet=0; g->peak=0;
+    if(q->engine==ENGINE_BAYAREA) {
+        unsigned baf=q->kit!=0xffu ? q->kind : q->family;
+        baf=baf<BAF_N ? baf : BAF_CLUNK;
+        ba_strike(BA(vi),baf,q->seed);
+        q->pad=baf_category[baf]; q->kind=(uint8_t)baf;
+        S->last_family=q->family; S->last_pad=q->pad; S->last_kind=q->kind;
+        return;
+    }
     PhPatch patch;
-    const Pending *q=&S->pending[track];
+    PhVoice *v=&D[vi];
     unsigned pad=q->kit!=0xffu ? kit_patch(&patch,q) : ph_family(&patch,q->family,q->seed);
-    S->pending[track].pad=(uint8_t)pad; S->pending[track].kind=patch.kind;
-    S->last_family=S->pending[track].family; S->last_pad=(uint8_t)pad; S->last_kind=patch.kind;
+    q->pad=(uint8_t)pad; q->kind=patch.kind;
+    S->last_family=q->family; S->last_pad=(uint8_t)pad; S->last_kind=patch.kind;
     v->active=0;        /* starts from silence */
     /* poundhard keeps its noise generator across strikes: seed it from the
        sound, so every rendering (audition, replay, the stored copy) is the same */
-    v->noise=S->pending[track].seed*2654435761u|1u;
-    g->block=0; g->quiet=0; g->peak=0;
+    v->noise=q->seed*2654435761u|1u;
     ph_strike(v,&patch,DRUM_HZ,1.0f);
+}
+/* Whether generator voice vi still sounds (the engine of the sound it was struck with). */
+static unsigned gen_active(unsigned vi) {
+    return S->voice_engine[vi]==ENGINE_BAYAREA ? BA(vi)->v.live!=0 : D[vi].active!=0;
+}
+static void gen_stop(unsigned vi) {
+    if(S->voice_engine[vi]==ENGINE_BAYAREA) BA(vi)->v.live=0; else D[vi].active=0;
 }
 /* One 32-sample block of a generated sound into out: until it falls 60 dB
    below its peak, at most 2 s with a 50 ms fade. The voice ends with it. */
-static __attribute__((noinline)) void gen_render(PhVoice *v, Gen *g, float *out) {
-    for(unsigned i=0;i<FRAMES;i++) out[i]=0;
-    ph_render(v,out,FRAMES);
+static __attribute__((noinline)) void gen_render(unsigned vi, Gen *g, float *out) {
+    if(S->voice_engine[vi]==ENGINE_BAYAREA) {
+        int32_t x[FRAMES];
+        if(!ba_block(BA(vi),x)) for(unsigned i=0;i<FRAMES;i++) x[i]=0;
+        for(unsigned i=0;i<FRAMES;i++) out[i]=(float)x[i]*(1.0f/32768.0f);
+    } else {
+        for(unsigned i=0;i<FRAMES;i++) out[i]=0;
+        ph_render(&D[vi],out,FRAMES);
+    }
     float block_peak=0;
     for(unsigned i=0;i<FRAMES;i++) { float a=out[i]<0 ? -out[i] : out[i]; if(a>block_peak) block_peak=a; }
     if(block_peak>g->peak) g->peak=block_peak;
@@ -592,7 +679,12 @@ static __attribute__((noinline)) void gen_render(PhVoice *v, Gen *g, float *out)
         float gain=(float)(GEN_MAX_BLOCKS-g->block)/(float)GEN_FADE_BLOCKS, step=-1.0f/(float)(GEN_FADE_BLOCKS*FRAMES);
         for(unsigned i=0;i<FRAMES;i++) { out[i]*=gain; gain+=step; }
     }
-    if(++g->block>=GEN_MAX_BLOCKS || g->quiet>=GEN_QUIET_BLOCKS) v->active=0;
+    if(++g->block>=GEN_MAX_BLOCKS || g->quiet>=GEN_QUIET_BLOCKS) gen_stop(vi);
+}
+/* Strike, noting the voice's engine. */
+static void gen_start(unsigned vi, Gen *g, unsigned track) {
+    S->voice_engine[vi]=S->pending[track].engine;
+    gen_strike(vi,g,track);
 }
 /* A new sound of family f, waiting on track f, auditioned there at once. */
 static __attribute__((noinline)) void generate(unsigned family) {
@@ -601,9 +693,11 @@ static __attribute__((noinline)) void generate(unsigned family) {
     Pending *p=&S->pending[family];
     p->seed=seed; p->family=(uint8_t)family; p->samples=0; p->peak=0; p->valid=1; p->kit=0xffu;
     p->archetype=0xffu; p->flavour=family==PH_FAM_IMPACT ? KF_IMPACT : family==PH_FAM_GNARLY ? KF_DESTROY : KF_NONE;
+    p->engine=S->engine;
+    if(p->engine==ENGINE_BAYAREA) p->flavour=KF_BAYAREA;
     S->audition_track=(uint8_t)family;
     S->generated++;
-    gen_strike(&D[0],&S->audition,family);
+    gen_start(0,&S->audition,family);
 }
 /* One 32-sample audition block into S->render[2..]; 0 once the voice ended.
    An audition that runs to its end measures the sound for storing. */
@@ -614,12 +708,12 @@ static __attribute__((noinline)) unsigned render_block(void) {
             /* the same sound again (same seed: bit-exact) */
             S->replayed[track]=S->replay[track];
             S->audition_track=(uint8_t)track;
-            gen_strike(&D[0],&S->audition,track);
+            gen_start(0,&S->audition,track);
         }
     }
-    if(!D[0].active) return 0;
-    gen_render(&D[0],&S->audition,S->mix);
-    if(!D[0].active) {
+    if(!gen_active(0)) return 0;
+    gen_render(0,&S->audition,S->mix);
+    if(!gen_active(0)) {
         Pending *p=&S->pending[S->audition_track];
         if(p->valid && !p->samples) { p->samples=S->audition.block*FRAMES; p->peak=S->audition.peak; }
     }
@@ -633,6 +727,7 @@ static __attribute__((noinline)) unsigned render_block(void) {
     S->peak=peak;
     return 1;
 }
+#pragma clang attribute push (__attribute__((minsize)), apply_to = function)
 /* ------------------------------------------------- storing to a slot --- */
 /* Stock storage task (asynchronous with a callback; callbacks run in the
    main task outside the DSP mutex) and helpers, docs/RHYTHM-SAMPLE-WRITE-MAP.md. */
@@ -674,7 +769,7 @@ static int16_t commit_sample(void) {
     unsigned track=S->commit_track;
     int32_t value=0;
     if(S->commit_sample<S->pending[track].samples) {
-        if(S->mix_pos>=FRAMES) { gen_render(&D[1],&S->gen_store,S->store_mix); S->mix_pos=0; }
+        if(S->mix_pos>=FRAMES) { gen_render(1,&S->gen_store,S->store_mix); S->mix_pos=0; }
         float y=S->store_mix[S->mix_pos++]*S->gain*32767.0f;
         value=y>32767.0f ? 32767 : y< -32768.0f ? -32768 : (int32_t)(y<0 ? y-0.5f : y+0.5f);
     }
@@ -713,7 +808,7 @@ static __attribute__((noinline)) void commit_write_next(void) {
         put32(buf+16,36); put16(buf+20,1); put16(buf+22,1); put32(buf+24,48000); put32(buf+28,96000);
         put16(buf+32,2); put16(buf+34,16); put16(buf+36,18);
         memcpy(buf+38,"PHK1",4); buf[42]=q->pad; buf[43]=q->archetype; buf[44]=q->flavour; buf[45]=q->kind;
-        buf[46]=q->family; buf[47]=1; put32(buf+48,q->seed);
+        buf[46]=q->family; buf[47]=(uint8_t)(1u+q->engine); put32(buf+48,q->seed);   /* 47: 1 poundhard, 2 BAYAREA */
         memcpy(buf+56,"data",4); put32(buf+60,data);
         at=WAV_HEADER;
     }
@@ -760,14 +855,28 @@ static void commit_closed(const StoragePath *path, unsigned kind, unsigned resul
    planned against all generated sounds already in the pack, read back from
    the tags in their WAV headers: categories keep a target balance for the
    whole kit, and within a category the least used archetypes and kinds come
-   first, so each page extends the ones before it. */
+   first, so each page extends the ones before it.
+   A page is made by one engine (the one chosen when it starts) from the
+   categories that engine plays, against the census of every sound in the
+   pack, whichever engine made it: a BAYAREA page after a poundhard one goes
+   where the kit is still thin, and the next poundhard page counts both. */
 #define KIT_PAGE 16u
-enum { C_KICK, C_KICK_G, C_SNARE, C_SNARE_G, C_CLAP, C_IMPACT, C_HAT, C_CYMBAL, C_METAL, C_METAL_G, C_NOISE, C_CLICK, C_DESTROY, C_COUNT };
-/* share of each category in a whole kit, per 64 sounds (rows group by this order) */
-static const uint8_t kit_weight[C_COUNT]={ 8, 8, 6, 4, 3, 5, 6, 2, 5, 3, 5, 5, 4 };
+/* share of each category in a whole kit (rows group by this order); poundhard's
+   13 sum to 64, as before BAYAREA */
+static const uint8_t kit_weight[C_COUNT]={ 8, 8, 6, 4, 3, 5, 6, 2, 5, 3, 5, 5, 4, 5, 4, 4, 4 };
+/* the categories each engine plays (bits) */
+#define KIT_CATS_POUNDHARD ((1u<<C_POUNDHARD)-1u)
+#define KIT_CATS_BAYAREA (1u<<C_IMPACT|1u<<C_METAL|1u<<C_METAL_G|1u<<C_CLICK|1u<<C_DESTROY|1u<<C_SCRAPE|1u<<C_RUMBLE|1u<<C_WHIR|1u<<C_HISS)
+/* each BAYAREA category's family (the inverse of baf_category; b unused) */
+static unsigned category_baf(unsigned c, unsigned b) {
+    (void)b;
+    for(unsigned f=0;f<BAF_N;f++) if(baf_category[f]==c) return f;
+    return BAF_GNARLY;
+}
 typedef struct { uint8_t cat[C_COUNT], arche[C_COUNT][8], kind[PH_KINDS], role_g[8]; } KitCensus;
 static unsigned kit_category(unsigned pad, unsigned flavour) {
     unsigned role=pad&7u, g=pad>=PH_GNARLY;
+    if(flavour==KF_BAYAREA) return pad<C_COUNT ? pad : C_DESTROY;
     if(flavour==KF_DESTROY) return C_DESTROY;
     if(flavour==KF_IMPACT || role==PH_ROLE_TOM) return C_IMPACT;
     if(flavour==KF_CYMBAL) return C_CYMBAL;
@@ -784,6 +893,7 @@ static unsigned kit_category(unsigned pad, unsigned flavour) {
 static void kit_count(KitCensus *c, const KitSound *k) {
     unsigned cat=kit_category(k->pad,k->flavour);
     if(c->cat[cat]<255u) c->cat[cat]++;
+    if(k->flavour==KF_BAYAREA) return;          /* archetypes, kinds and gnarly roles are poundhard's */
     if(k->archetype<8u && c->arche[cat][k->archetype]<255u) c->arche[cat][k->archetype]++;
     if(k->kind<PH_KINDS && c->kind[k->kind]<255u) c->kind[k->kind]++;
     if(k->pad>=PH_GNARLY && c->role_g[k->pad&7u]<255u) c->role_g[k->pad&7u]++;
@@ -796,22 +906,28 @@ extern unsigned host_storage_read(const StoragePath *,void *,uint32_t);
 #endif
 /* Read the tags of every slot outside the page being made (synchronous
    reads of 64 bytes, in the main task, through the stock scratch). */
-static __attribute__((noinline)) void kit_tags(KitCensus *c) {
+/* (cat, if given: each slot's category; 0xFE a sample without a tag, 0xFF
+   none. skip: the first slot of a page left out, 128 for none.) */
+static __attribute__((noinline)) unsigned kit_tags(KitCensus *c, unsigned skip, uint8_t *cat) {
     uint8_t *buf=SCRATCH_ACQUIRE();
     S->kit_known=0;
-    if(!buf) return;
+    if(cat) memset(cat,0xff,128);
+    if(!buf) return 0;
     StoragePath path={4,0,0xfe,{0,0,0}};
     for(unsigned slot=0;slot<128u;slot++) {
-        if(slot>=S->kit_start && slot<S->kit_start+KIT_PAGE) continue;
+        if(slot>=skip && slot<skip+KIT_PAGE) continue;
         path.index=slot;
         for(unsigned i=0;i<WAV_HEADER;i++) buf[i]=0;
         if(STORAGE_READ_SYNC(&path,buf,WAV_HEADER)!=0) continue;
+        if(cat) cat[slot]=0xfe;
         if(memcmp(buf,"RIFF",4) || memcmp(buf+8,"WAVEfmt ",8) || buf[16]!=36u || memcmp(buf+38,"PHK1",4)) continue;
         KitSound k={buf[42],buf[43],buf[44],buf[45]};
         kit_count(c,&k);
+        if(cat) cat[slot]=(uint8_t)kit_category(k.pad,k.flavour);
         S->kit_known++;
     }
     SCRATCH_RELEASE();
+    return 1;
 }
 /* The least used option; ties go to the option the kit's random walk
    reaches first (so equal counts do not always pick the same one). */
@@ -834,15 +950,22 @@ static unsigned kit_least(const uint8_t *count, const uint8_t *options, unsigned
      the page starts with its lead category. */
 static __attribute__((noinline)) void kit_plan(KitCensus *c) {
     uint32_t rnd=S->kit_seed|1u;
-    unsigned total=S->kit_known+KIT_PAGE, picked[KIT_PAGE], n=0, order[C_COUNT];
+    unsigned total=KIT_PAGE, picked[KIT_PAGE], n=0, order[C_COUNT];
+    const unsigned ba=S->kit_engine==ENGINE_BAYAREA, plays=ba ? KIT_CATS_BAYAREA : KIT_CATS_POUNDHARD;
+    /* shares within the engine's categories: weight / scale of the sounds in
+       them (this page's included), whichever engine made those sounds; a
+       poundhard-only kit balances exactly as before BAYAREA */
+    int32_t scale=0;
     uint8_t cat[C_COUNT];
     int32_t want[C_COUNT];
-    for(unsigned i=0;i<C_COUNT;i++) { cat[i]=c->cat[i]; order[i]=i; }
-    #define DEFICIT(i) ((int32_t)(kit_weight[i]*total)-64*(int32_t)cat[i])
+    for(unsigned i=0;i<C_COUNT;i++) { cat[i]=c->cat[i]; order[i]=i; if(plays>>i&1u) { scale+=kit_weight[i]; total+=c->cat[i]; } }
+    #define PLAYS(i) (plays>>(i)&1u)
+    #define DEFICIT(i) ((int32_t)(kit_weight[i]*total)-scale*(int32_t)cat[i])
     if(!S->kit_known) {
         for(;n<KIT_PAGE;n++) {
             int best=-1; int32_t most=-0x7fffffff;
             for(unsigned i=0;i<C_COUNT;i++) {
+                if(!PLAYS(i)) continue;
                 int32_t w=DEFICIT(i)*16+(int32_t)((rnd>>(i&15))&15u);
                 if(w>most) { most=w; best=(int)i; }
             }
@@ -857,7 +980,7 @@ static __attribute__((noinline)) void kit_plan(KitCensus *c) {
             int32_t sum=0;
             for(unsigned i=0;i<C_COUNT;i++) {
                 unsigned used=0; for(unsigned g=0;g<f;g++) used|=focus[g]==i;
-                want[i]=used ? 0 : DEFICIT(i)>0 ? DEFICIT(i)+64 : 16;   /* even caught-up categories keep a small chance */
+                want[i]=used || !PLAYS(i) ? 0 : DEFICIT(i)>0 ? DEFICIT(i)+64 : 16;   /* even caught-up categories keep a small chance */
                 sum+=want[i];
             }
             rnd=rnd*1103515245u+12345u;
@@ -881,8 +1004,9 @@ static __attribute__((noinline)) void kit_plan(KitCensus *c) {
             do {
                 rnd=rnd*1103515245u+12345u; i=(rnd>>12)%C_COUNT;
                 unsigned in=0; for(unsigned f=0;f<nf;f++) in|=focus[f]==i;
-                if(!in && (DEFICIT(i)>=0 || tries>24u)) break;
+                if(!in && PLAYS(i) && (DEFICIT(i)>=0 || tries>24u)) break;
             } while(++tries<64u);
+            if(!PLAYS(i)) i=focus[0];                /* (64 misses: never another engine's category) */
             picked[n++]=i; cat[i]++;
         }
         /* the page's row order: its focus first (lead category first), then the spice */
@@ -892,6 +1016,7 @@ static __attribute__((noinline)) void kit_plan(KitCensus *c) {
         S->kit_focus=focus[0]|focus[1]<<8|focus[2]<<16|(nf>3u ? focus[3] : 0xffu)<<24;
     }
     #undef DEFICIT
+    #undef PLAYS
     /* rows group by category, in the page's order */
     for(unsigned i=1;i<KIT_PAGE;i++) for(unsigned j=i;j>0 && order[picked[j-1]]>order[picked[j]];j--) { unsigned t=picked[j]; picked[j]=picked[j-1]; picked[j-1]=t; }
     static const uint8_t metals[3]={PH_CLANG,PH_METAL,PH_ANVIL}, clicks[2]={PH_ZAP,PH_GLITCH};
@@ -900,6 +1025,12 @@ static __attribute__((noinline)) void kit_plan(KitCensus *c) {
     for(unsigned i=0;i<KIT_PAGE;i++) {
         unsigned k=picked[i];
         KitSound s={0,0,KF_NONE,0};
+        if(ba) {                                 /* BAYAREA: the category's family; its seed draws the rest */
+            s.pad=(uint8_t)k; s.archetype=0xffu; s.flavour=KF_BAYAREA; s.kind=(uint8_t)category_baf(k,c->cat[k]&1u);
+            S->plan[i]=s;
+            kit_count(c,&s);
+            continue;
+        }
         switch(k) {
         case C_KICK: s.pad=PH_ROLE_KICK; s.kind=PH_KICK; break;
         case C_KICK_G: s.pad=PH_ROLE_KICK|PH_GNARLY; s.kind=PH_KICK; break;
@@ -937,9 +1068,10 @@ static __attribute__((noinline)) void kit_plan(KitCensus *c) {
 static __attribute__((noinline)) void kit_make(void) {
     if(S->kit_state==KIT_IDLE) {
         S->kit_seed=(S->kit_seed*2654435761u)^entropy()^(S->ticks<<4)^S->kits^0x4b17u;
+        S->kit_engine=S->engine;
         KitCensus census;
         memset(&census,0,sizeof census);
-        kit_tags(&census);
+        kit_tags(&census,S->kit_start,0);
         kit_plan(&census);
         S->kit_next=0; S->kit_state=KIT_MAKING;
     }
@@ -947,7 +1079,7 @@ static __attribute__((noinline)) void kit_make(void) {
     Pending *p=&S->pending[KIT_TRACK];
     const KitSound *k=&S->plan[S->kit_next];
     unsigned slot=S->kit_start+S->kit_next;
-    p->seed=S->kit_seed^(slot*0x9E3779B9u); p->kit=1; p->family=0xffu; p->samples=0; p->peak=0; p->valid=1;
+    p->seed=S->kit_seed^(slot*0x9E3779B9u); p->kit=1; p->family=0xffu; p->samples=0; p->peak=0; p->valid=1; p->engine=S->kit_engine;
     p->pad=k->pad; p->archetype=k->archetype; p->flavour=k->flavour; p->kind=k->kind;
     if(!commit_start(KIT_TRACK,slot)) { S->kit_state=KIT_IDLE; refuse(); }
 }
@@ -982,8 +1114,8 @@ static __attribute__((noinline)) unsigned commit_start(unsigned track, unsigned 
     if(!p->samples) {
         /* not measured yet (its audition was cut short): render it once dry */
         Gen g; icache_on();
-        gen_strike(&D[1],&g,track);
-        while(D[1].active) gen_render(&D[1],&g,S->store_mix);
+        gen_start(1,&g,track);
+        while(gen_active(1)) gen_render(1,&g,S->store_mix);
         icache_off();
         p->samples=g.block*FRAMES; p->peak=g.peak;
     }
@@ -992,7 +1124,7 @@ static __attribute__((noinline)) unsigned commit_start(unsigned track, unsigned 
     if(S->gain>8.0f) S->gain=8.0f;
     S->commit_sample=0; S->mix_pos=FRAMES; S->commit_offset=0;
     S->commit_total=WAV_HEADER+2u*(p->samples+TAIL);
-    gen_strike(&D[1],&S->gen_store,track);
+    gen_start(1,&S->gen_store,track);
     S->path.type=4; S->path.index=slot; S->path.pack=0xfe; S->path.rsv[0]=S->path.rsv[1]=S->path.rsv[2]=0;
     S->buffer=SCRATCH_ACQUIRE();
     if(!S->buffer) { commit_fail(5); return 0; }
@@ -1000,6 +1132,10 @@ static __attribute__((noinline)) unsigned commit_start(unsigned track, unsigned 
     STORAGE_DELETE(&S->path,commit_deleted);
     return 1;
 }
+#pragma clang attribute pop
+#pragma clang attribute push (__attribute__((minsize)), apply_to = function)
+#include "pattern.c"
+#pragma clang attribute pop
 /* Rare work, kept in flash: FIFO (re)initialization and the telemetry
    refresh every 128 service calls. */
 static __attribute__((noinline)) void tick_housekeeping(void) {
@@ -1041,7 +1177,7 @@ __attribute__((noinline)) void fm_tick(void) {
 #endif
     tick_housekeeping();
     /* Idle (no audition, no request): nothing else to do, no DSP traffic. */
-    if(!D[0].active && !pending_request()) { S->busy=0; return; }
+    if(!gen_active(0) && !pending_request()) { S->busy=0; return; }
     icache_on();
     /* The DSP consumer advances only after copying a block; while no audition
        sounds it counts misses and keeps its read sequence, so the producer

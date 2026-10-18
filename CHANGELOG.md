@@ -1,5 +1,68 @@
 # Changelog
 
+## 0.6.4
+
+Changed
+
+- BAYAREA sounds no longer all carry the same metallic ring. Its resonator bank was fixed (three resonators at 508, 270 and 1153 Hz); now every sound draws resonators of its own (120 Hz to 3 kHz, inharmonic, ringing 0.1 to 1.2 s), and most families use none.
+- BAYAREA turns toward textures and strange noises. Its families are now clunk (a short, folded knock), scrape (noise-like FM held under a sweeping filter), hiss (high FM static), rumble (a low folded drone, slowly moving), whir (a held tone whose shape an LFO churns), clang (inharmonic metal), chop (a held fold whose timbre a square LFO jumps) and gnarly. None moves in pitch.
+- BAYAREA kit pages fill impacts with clunks, metal with clangs and chops, clicks with blips, and four texture categories (scrape, rumble, whir, hiss). On the pattern generator's pack path, scrapes and hisses play as noise; rumbles and whirs stay out of drum parts.
+
+## 0.6.3
+
+Changed
+
+- Generated patterns are sparser. The pack path plays kick, snare and hats with at most one or two of percussion, noise and clicks, thinned to a share of the steps per style (38 to 60 %); the one-sound path uses fewer hits too.
+- Generated patterns are more deliberate. Every decision for a step (its velocity, which follows the metre, the cell's one ratchet spot, swing, nudges, gate, ghost notes, the sample it flips to, a recurring Grid FX spot) is made per position, so the groove repeats exactly; only the last cell, the fill, adds hits, ratchets and effects. IDM patterns of 20, 28 and 32 steps now repeat in halves.
+
+## 0.6.2
+
+Fixed
+
+- Generated patterns played about an octave below the samples' own pitch. The Rhythm's step notes run from 36 to 108 around 72; generated steps now use 72.
+- The pack path flipped no samples: it relied on reading every slot's tag, which found nothing on the Rhythm. It now takes the occupied slots from the Sample Rec view's own map, and the tags (where they can be read) only refine each sample's role. Flipped steps show pink, as when you place them by hand.
+
+## 0.6.1
+
+Fixed
+
+- Generated patterns sounded like farts: 0.6.0 set every step's note to 12, four octaves below the Rhythm's reference note 60 (and kept it on later presses). Every generated step now plays at 60, the sample's own pitch, which also repairs patterns made by 0.5.0 and 0.6.0.
+- The path pads in the second Sample Rec view did nothing (the Rhythm keeps the Sample Rec view's id there), so the pack path never ran. The view is now recognized by what is on screen; the Sample Rec view's own pads stay out of it.
+- Generated hits are no longer cut to a blip: gates are at least half a step (except within ratchets), and the filter and distortion moves are as strong as spice's, not stronger.
+
+## 0.6.0
+
+Fixed
+
+- The pattern generator played every hit an octave down (it wrote the lowest note into each step), which made it unusable. It now never touches the pitch: steps keep their note and new ones play the sample untransposed.
+
+Added
+
+- Two pattern generator paths, chosen in the second view of Sample Rec (press Sample Rec again) with the first two pads of the bottom row: **one sound** (the track's own sample) or **the pack**, a whole drum part on one track built from the pack's samples by role (kick, snare, hats, percussion, noise, clicks) through sample flips. Generated samples are recognized by their recipe; your own samples by where they sit on the page.
+
+## 0.5.0
+
+Added
+
+- Pattern generator. With Record on, Shift + a track button writes a whole new pattern on that track, in one of four styles: industrial techno, power noise, IDM or broken. It sets the pattern's length (up to 32 steps, odd lengths for IDM), velocities, gates, micro-steps (ratchets, flams, nudges), probabilities, parameter locks and Grid FX locks. With Record off, Shift + a track button still spices the pattern.
+
+Changed
+
+- BAYAREA no longer makes kicks: poundhard keeps that job. Its families are now bongo, clunk (a short, folded knock), pluck, chime, clang (inharmonic metal), folded, sustain (a swell or a drone) and gnarly.
+- No BAYAREA sound moves in pitch: no vibrato from slow modulators, no LFO on the FM depth.
+- BAYAREA kit pages fill impacts, metal (including the gnarly kind), blips, plucks, folded tones, swells and drones, never kicks.
+
+## 0.4.0
+
+Added
+
+- A second sound engine, BAYAREA: a West Coast voice ported from Tonitor (a carrier morphing from sine to saw, two FM sines, a wavefolder, a low-pass gate or a sustaining envelope, a saturating output and three resonators). In the Sample Rec view, with generate or commit mode on, the leftmost pad of the third row picks poundhard and the next one BAYAREA. The track buttons then draw kick, bongo, pluck, chime, folded, swell, drone and gnarly sounds from BAYAREA.
+- Kit pages from either engine. Every page is planned against all generated sounds in the pack, whichever engine made them, and fills only the kinds of sound its engine plays.
+
+Changed
+
+- Generated sounds are tagged with the engine that made them. Sounds made by earlier versions count as poundhard.
+
 ## 0.3.2
 
 Changed

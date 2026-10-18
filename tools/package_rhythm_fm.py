@@ -47,7 +47,7 @@ def main():
     for name,digest in uploader['files'].items():
         if sha(BUILD/name)!=digest:raise ValueError(f'Stale uploader validation: {name}')
     DIST.mkdir(parents=True,exist_ok=True)
-    if DIST.parent.joinpath(DIST.name+'.zip').exists() and VERSION in ('0.1.4','0.1.5','0.1.6','0.1.7','0.1.8','0.1.9','0.1.10','0.1.11','0.1.12','0.1.13','0.1.14','0.1.15','0.1.16','0.1.17','0.1.18','0.1.19','0.1.20','0.2.0','0.2.1','0.2.2','0.2.3','0.2.4','0.2.5','0.2.6','0.2.7','0.2.8','0.2.9','0.2.10','0.2.11','0.2.12','0.3.0','0.3.1'):
+    if DIST.parent.joinpath(DIST.name+'.zip').exists() and VERSION in ('0.1.4','0.1.5','0.1.6','0.1.7','0.1.8','0.1.9','0.1.10','0.1.11','0.1.12','0.1.13','0.1.14','0.1.15','0.1.16','0.1.17','0.1.18','0.1.19','0.1.20','0.2.0','0.2.1','0.2.2','0.2.3','0.2.4','0.2.5','0.2.6','0.2.7','0.2.8','0.2.9','0.2.10','0.2.11','0.2.12','0.3.0','0.3.1','0.3.2','0.4.0','0.5.0','0.6.0','0.6.1','0.6.2','0.6.3'):
         raise RuntimeError('Refusing to overwrite an immutable reference archive')
     # The public bundle is the website with its installer (tools/build_site.py):
     # the pages, the modified firmware and its checks. No official Novation file,

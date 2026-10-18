@@ -1,4 +1,39 @@
-# UPDATE 2026-10-17 (newest): renamed SteamRoller — 0.3.2
+# UPDATE 2026-10-18 (newest): 0.6.0 — pattern generator pitch fix, one-sound and pack paths
+
+**0.6.0** (build 15749, marker `SR0600`), not yet tested on hardware:
+- **0.5.0 hardware:** the generator wrote note 0 (an octave down). It now never sets the pitch.
+- **Paths:** pads 25/26 of the secondary Sample Rec view (track view sub-mode 0xA) choose one sound or the pack (by role, sample flips).
+- **Space:** about 0.9 KB of app flash left. Further features need space freed first (for example, lowflash
+  candidates or trimming tables).
+
+---
+
+# UPDATE 2026-10-18: 0.5.0 — pattern generator, BAYAREA without kicks
+
+**0.5.0** (build 15748, marker `SR0500`), not yet tested on hardware:
+- **Pattern generator:** Record + Shift + track runs `pattern.c`. It writes the stock pattern and reloads the editor
+  (`0x08048932`).
+- **0.4.0 hardware:** "pretty good"; BAYAREA kicks too weak. Kicks removed, no pitch movement, clunk and clang added.
+- **Space:** about 2 KB of app flash left.
+- **Unknown:** the stock gate maximum. The generator stays within 1–24 (four steps).
+
+---
+
+# UPDATE 2026-10-18: 0.4.0 — second engine, BAYAREA
+
+**0.4.0** (build 15747, marker `SR0400`, `dist/steamroller-0.4.0`), not yet tested on hardware:
+- **Engine:** Tonitor's BAYAREA ported at 48 kHz (`firmware/rhythm_fm/bayarea.c`, tables from `tools/gen_bayarea_tables.py`).
+- **Selection:** pads 16/17 in Sample Rec pick poundhard/BAYAREA while generate or commit mode is on; stock threshold
+  pads otherwise (user asked for 16/17; this mode condition was our choice and is open for review).
+- **Kits:** pages by either engine are planned against the whole pack's tags (shared categories; see the firmware README).
+- **Listening:** `tools/bayarea_host.c` renders every BAYAREA family to WAVs (`build/bayarea-renders`).
+- **Space:** non-audio code is `minsize`; about 4.7 KB of app flash left.
+- **Note:** `dist/steamroller-0.3.2.zip` was rebuilt locally on 2026-10-18 from the `minsize` build before the bump. The
+  published site still carries the original 0.3.2.
+
+---
+
+# UPDATE 2026-10-17: renamed SteamRoller — 0.3.2
 
 The firmware is now called **SteamRoller**:
 - **0.3.2** (build 15746, marker `SR0302`, `dist/steamroller-0.3.2`) is 0.3.1 renamed.

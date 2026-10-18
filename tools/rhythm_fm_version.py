@@ -3,13 +3,13 @@
 Previous releases' archives under dist/ stay immutable; probes that compare
 against them name those versions explicitly.
 """
-VERSION = '0.3.2'
+VERSION = '0.6.4'
 NAME = 'SteamRoller ' + VERSION
 STEM = 'steamroller-' + VERSION   # archives up to 0.3.1 are rhythm-fm-<version>
-INSTALL_MARKER = b'SR0302'
-IDENTITY_BUILD = 15746
+INSTALL_MARKER = b'SR0604'
+IDENTITY_BUILD = 15753
 MEMORY_FAILURE_BUILD = 15713
-PREVIOUS = '0.3.1'
+PREVIOUS = '0.6.3'
 # 0.2.x: the stock sampler on all 8 tracks; poundhard is a sound generator
 # (Shift + track button 1-8), auditioned on that track's output.
 FM_TRACKS = 0

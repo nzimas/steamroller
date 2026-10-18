@@ -155,7 +155,7 @@ class PlockMachine(Machine):
     FAKE=0x20040F00
     def __init__(self,image,symbols):
         super().__init__(image,symbols)
-        self.sets=[];self.posts=[];self.frame_buf=0
+        self.sets=[];self.posts=[];self.frame_buf=0;self.reloads=[];self.pad_stock=0
     def hook(self,cpu,address,size,context):
         if self.FAKE<=address<self.FAKE+0x40:
             args=[cpu.reg_read(x) for x in (UC_ARM_REG_R0,UC_ARM_REG_R1,UC_ARM_REG_R2,UC_ARM_REG_R3)]
@@ -167,6 +167,14 @@ class PlockMachine(Machine):
             cpu.reg_write(UC_ARM_REG_R0,result)
             cpu.reg_write(UC_ARM_REG_PC,cpu.reg_read(UC_ARM_REG_LR))
             return
+        if address==(self.symbols['rhythm_pad_original']&~1):   # a pad left to stock
+            self.pad_stock+=1;cpu.reg_write(UC_ARM_REG_PC,cpu.reg_read(UC_ARM_REG_LR));return
+        if address==0x0804603A:      # synchronous tag read (pattern.c pool): no file
+            cpu.reg_write(UC_ARM_REG_R0,5);cpu.reg_write(UC_ARM_REG_PC,cpu.reg_read(UC_ARM_REG_LR));return
+        if address in (0x0802EF6A,0x0802EF98):   # the stock scratch buffer
+            cpu.reg_write(UC_ARM_REG_R0,0x20003F94);cpu.reg_write(UC_ARM_REG_PC,cpu.reg_read(UC_ARM_REG_LR));return
+        if address==0x08048932:      # the track editor's reload from pattern memory (pattern.c)
+            self.reloads.append(cpu.reg_read(UC_ARM_REG_R0));cpu.reg_write(UC_ARM_REG_PC,cpu.reg_read(UC_ARM_REG_LR));return
         if address in GFX_WRITERS:   # stock Grid FX DSP writers (read the param cache, write the DSP)
             self.sets.append(('W',address));cpu.reg_write(UC_ARM_REG_PC,cpu.reg_read(UC_ARM_REG_LR));return
         if address==0x0804DD1C:   # stock track view frame: a fixed buffer
@@ -445,6 +453,87 @@ def step_lock_cases(arm,symbols,layout,t):
     require(frame()[16:24]==[0x24]*7+[0],'Rows did not reset to level/pan after the step was released')
     cases.append({'case':'step_sliders_record_held_step','lanes':'level 10, pan 11, delay 9, reverb 8'})
     cases+=grid_fx_cases(arm,symbols,layout,t,STEP)
+    cases+=pattern_cases(arm,symbols,layout,t,X)
+    return cases
+
+
+def pattern_cases(arm,symbols,layout,t,X):
+    """Record on + Shift + track: a whole new pattern (pattern.c) in the
+    track's current pattern, written in the stock step format and reloaded
+    by the track editor (the knob router's per-track object less 0x1C)."""
+    ED=X-0x1C;BASE=arm.lanes-0x128;P=0x20041000
+    arm.u32(ED+4,BASE);arm.u32(ED+0x28,arm.word(X+0x0C));arm.u32(P+0x50,BASE)   # pattern 0 (the held-step store's index 0)
+    for s_ in range(32): arm.cpu.mem_write(BASE+8*s_,bytes([0,6,0,0,7,0xff,0,0]))
+    arm.cpu.mem_write(BASE+0x100,bytes([15,0]));arm.cpu.mem_write(arm.lanes,b'\xff'*(12*192))
+    setup_router(arm,view=0)
+    T=0x20045A00;arm.u32(T+0xC0+4,1)                               # Record on
+    PG=STATE+layout['patterns'];spices=arm.word(STATE+layout['spices'])
+    seen=[]
+    for n in range(6):
+        arm.reloads=[];arm.run(symbols['fm_randomize_request'],t,ROUTER)
+        require(arm.reloads==[ED] and arm.word(PG)==n+1,f'Pattern not generated or not reloaded by the editor: {arm.reloads}')
+        pat=bytes(arm.cpu.mem_read(BASE,0x128+12*192));length=pat[0x100]+1
+        require(pat[0x101]==0 and 1<length<=32,'Pattern length wrong')
+        hits=0
+        for s_ in range(32):
+            st=pat[8*s_:8*s_+8]
+            require(st[4]<=7 and st[5]==0xff and st[2]<=0x3f and not (s_>=length and st[2]),f'Step {s_} not in the stock format: {st.hex()}')
+            require(st[0]==72,f'Step {s_} not at the sample\'s own pitch: note {st[0]}')   # 72: the centre of the notes (36-108)
+            if st[2]:
+                hits+=1;require(1<=st[3]<=127 and 1<=st[1]<=24,f'Hit {s_} velocity/gate out of range: {st.hex()}')
+            for l in range(12):
+                b=pat[0x128+192*l+6*s_:0x128+192*l+6*s_+6]
+                require(b[0]==0xff or (b[0]<=127 and st[2]),f'Lock on lane {l} step {s_} not on a hit')
+                require(all(m==0xff or (l>=10 and m&0xf8==0x80 and st[2]) for m in b[1:]),f'Bad Grid FX byte lane {l} step {s_}')
+        require(hits>=2,'Pattern without hits')
+        seen.append((length,hits))
+    require(arm.word(STATE+layout['spices'])==spices,'Record + Shift + track also spiced')
+    arm.u32(T+0xC0+4,0);arm.reloads=[]
+    arm.run(symbols['fm_randomize_request'],t,ROUTER)
+    require(arm.word(STATE+layout['spices'])==spices+1 and not arm.reloads and arm.word(PG)==6,'Record off: Shift + track did not spice')
+    cases=[{'case':'record_shift_track_generates_a_pattern_never_the_pitch','length_hits':seen}]
+    # The path pads: pads 25/26 of the secondary Sample Rec view (track view sub-mode 0xA); stock elsewhere.
+    TV=0x20045000;MODE=STATE+layout['pg_mode']
+    def frame():
+        arm.cpu.mem_write(arm.frame_buf,struct.pack('<42H',*([5]*42)));arm.run(symbols['fm_track_frame'],TV)
+        return list(struct.unpack('<32H',arm.cpu.mem_read(arm.frame_buf,64)))
+    require(frame()[24:26]==[5,5],'Path pads lit outside the secondary Sample Rec view')
+    arm.u32(ROUTER+0x7C,TV)                       # the track pages on screen (in the Sample Rec view id: unchanged)
+    stock=arm.pad_stock;arm.run(symbols['fm_pad'],ROUTER,25,100)
+    require(arm.cpu.mem_read(MODE,1)[0]==0 and arm.pad_stock==stock+1,'Pad 26 taken outside the secondary Sample Rec view')
+    arm.cpu.mem_write(TV+0x264,b'\x0a')
+    require(frame()[24:26]==[0x6d,0x48],'Path pads not shown (one sound chosen)')
+    arm.run(symbols['fm_pad'],ROUTER,25,100)
+    require(arm.cpu.mem_read(MODE,1)[0]==1 and frame()[24:26]==[0x73,0x47],'Pad 26 did not choose the pool path')
+    # the pool path with an empty pack: every tag read misses, so the track's own sound plays (no flips)
+    arm.u32(T+0xC0+4,1);arm.reloads=[]
+    arm.run(symbols['fm_randomize_request'],t,ROUTER)
+    pat=bytes(arm.cpu.mem_read(BASE,0x100))
+    require(arm.reloads==[ED] and all(pat[8*s_+5]==0xff for s_ in range(32)),'Pool path with an empty pack flipped samples')
+    # the pool path when no tag can be read: the Sample Rec view's slot map (router[+0x58] store [+0x30]) says
+    # slots 1-4 and 9-12 hold samples, so hits flip to those slots (by place: kicks and hats)
+    MAP=0x20046000;arm.u32(ROUTER+0x400+0x30,arm.store(MAP,MAP+0x40,0x00000F0F,0,0,0))
+    arm.u32(T+0xC0+4,1);arm.reloads=[]
+    arm.run(symbols['fm_randomize_request'],t,ROUTER)
+    pat=bytes(arm.cpu.mem_read(BASE,0x100));flips=[pat[8*s_+5] for s_ in range(32) if pat[8*s_+2]]
+    require(arm.reloads==[ED] and flips and all(f in (0,1,2,3,8,9,10,11) for f in flips),f'Pool path did not flip to the mapped slots: {flips}')
+    arm.u32(ROUTER+0x400+0x30,0);arm.u32(T+0xC0+4,0)
+    arm.run(symbols['fm_pad'],ROUTER,24,100)
+    require(arm.cpu.mem_read(MODE,1)[0]==0,'Pad 25 did not choose the one-sound path')
+    # the same with the Sample Rec view id still set (as stock leaves it): the path pads work, and the
+    # Sample Rec view's own pads (kit 22, generate 23) pass to stock there
+    setup_router(arm,view=4);arm.u32(ROUTER+0x3C,TV);arm.u32(ROUTER+0x7C,TV)
+    stock=arm.pad_stock;arm.run(symbols['fm_pad'],ROUTER,21,100);arm.run(symbols['fm_pad'],ROUTER,22,100);arm.run(symbols['fm_pad'],ROUTER,25,100)
+    require(arm.cpu.mem_read(MODE,1)[0]==1 and arm.pad_stock==stock+2,'Secondary view under the Sample Rec id: pads misrouted')
+    arm.run(symbols['fm_pad'],ROUTER,24,100);setup_router(arm,view=0);arm.u32(ROUTER+0x3C,TV)
+    arm.cpu.mem_write(TV+0x264,b'\x00');arm.u32(T+0xC0+4,0);arm.u32(ROUTER+0x7C,0)
+    cases.append({'case':'path_pads_25_26_in_the_secondary_sample_rec_view'})
+    out=[]
+    for mode in ([],['pool'],['map']):
+        host=subprocess.run([str(OUT/'host-render'),'--pattern','256',*mode],capture_output=True,text=True)
+        require(host.returncode==0,f'Host pattern check failed ({mode}, {host.returncode})')
+        (OUT/f'patterns-host{"-"+mode[0] if mode else ""}.txt').write_text(host.stdout);out.append(host.stdout.splitlines()[-1])
+    cases.append({'case':'host_patterns_one_sound_pool_and_slot_map','one_sound':out[0],'pool':out[1],'slot_map':out[2]})
     return cases
 
 
@@ -683,20 +772,49 @@ def generator_cases(image,symbols,layout):
     f=frame();require(f[22]==0x24 and f[23]==0x54,'Mode LEDs not back to dim')
     require(image[0x08067A24-BASE:0x08067A28-BASE]==struct.pack('<I',symbols['fm_samplerec_frame']),'Frame vtable word not patched')
     cases.append({'case':'mode_leds_on_pads_22_23_via_frame_vtable','vtable_word':'0x08067a24'})
+    # Engine pads 16/17: taken while a mode is on (yellow poundhard, cyan BAYAREA), stock otherwise.
+    def engine(): return arm.cpu.mem_read(STATE+layout['engine'],1)[0]
+    stock=arm.pad_stock
+    f=frame();require(f[16]==0x09 and f[17]==0x09,'Engine pads lit with no mode on')
+    arm.run(symbols['fm_pad'],ROUTER,17,100)
+    require(arm.pad_stock==stock+1 and engine()==0,'Pad 17 taken with no mode on (stock threshold recording)')
+    arm.run(symbols['fm_pad'],ROUTER,22,100)
+    f=frame();require(f[16]==0x6d and f[17]==0x19,f'Engine LEDs wrong (poundhard): {f[16:18]}')
+    arm.run(symbols['fm_pad'],ROUTER,17,100)
+    f=frame();require(arm.pad_stock==stock+1 and engine()==1 and f[16]==0x73 and f[17]==0x18,f'Pad 17 did not pick BAYAREA: {f[16:18]}')
+    arm.run(symbols['fm_pad'],ROUTER,22,100);arm.run(symbols['fm_pad'],ROUTER,23,100)
+    f=frame();require(engine()==1 and f[16]==0x73 and f[17]==0x18,'Engine not shown in commit mode')
+    arm.run(symbols['fm_pad'],ROUTER,16,100)
+    f=frame();require(arm.pad_stock==stock+1 and engine()==0 and f[16]==0x6d and f[17]==0x19,'Pad 16 did not pick poundhard')
+    cases.append({'case':'engine_pads_16_17_while_a_mode_is_on','stock_otherwise':True})
     # The first audition block of family 1 (kick) equals the host build of the same source.
     arm=Machine(image,symbols);arm.run(0x08025688)
     arm.run(symbols['fm_randomize_request'],0,0);drain(arm,symbols)
     kick=[arm.memory[SLOTS[0]+3+i] for i in range(FRAMES)]
-    host=subprocess.run([str(OUT/'host-render'),str(OUT/'generator-preview.pcm'),str(OUT/'first-host-block.pcm')],
-                        capture_output=True,text=True,check=True)
+    host=subprocess.run([str(OUT/'host-render'),str(OUT/'generator-preview.pcm'),str(OUT/'first-host-block.pcm'),
+                         str(OUT/'first-host-bayarea-block.pcm')],capture_output=True,text=True,check=True)
     require((OUT/'first-host-block.pcm').read_bytes()==b''.join(v.to_bytes(3,'big') for v in kick),
             'Host and ARM generator audio differ')
     pcm=(OUT/'generator-preview.pcm').read_bytes()
     with wave.open(str(OUT/'generator-preview.wav'),'wb') as wav:
         wav.setnchannels(1);wav.setsampwidth(3);wav.setframerate(48000);wav.writeframes(pcm)
     lines=[l for l in host.stdout.splitlines() if l.startswith('family')]
-    require(len(lines)==GEN_FAMILIES and all(int(l.split()[7])>0 for l in lines),'A family generated silence')
+    require(len(lines)==2*GEN_FAMILIES and all(int(l.split()[7])>0 for l in lines),'A family generated silence')
     cases.append({'case':'host_and_arm_generator_audio_bit_identical','host_render':host.stdout.strip()})
+    # BAYAREA: family 1 (kick) on the ARM equals the host build; the audition ends within 2 s.
+    ba=Machine(image,symbols);ba.run(0x08025688)
+    ba.cpu.mem_write(STATE+layout['engine'],bytes([1]))
+    ba.run(symbols['fm_randomize_request'],0,0);drain(ba,symbols)
+    kick=[ba.memory[SLOTS[0]+3+i] for i in range(FRAMES)]
+    require(any(kick) and (OUT/'first-host-bayarea-block.pcm').read_bytes()==b''.join(v.to_bytes(3,'big') for v in kick),
+            'Host and ARM BAYAREA audio differ')
+    require(ba.cpu.mem_read(STATE+layout['voice_engine'],1)[0]==1,'Audition voice not struck by BAYAREA')
+    live=layout['drum_pool']+layout['ba_live']
+    for _ in range(1200):
+        drain(ba,symbols)
+        if not ba.cpu.mem_read(live,1)[0]:break
+    require(not ba.cpu.mem_read(live,1)[0] and 0<ba.word(STATE+12)<=3000,'BAYAREA audition never ended (2 s cap)')
+    cases.append({'case':'bayarea_audition_bit_identical_to_host_and_capped','blocks':ba.word(STATE+12)})
     arm.cpu.mem_write(0x20010000,struct.pack('<II',0x20010010,6))
     arm.cpu.mem_write(0x20010010,bytes.fromhex('f07e7f0601f7'))
     before=list(arm.bus)
@@ -821,6 +939,25 @@ def kit_cases(image,symbols,layout):
     f=frame();require(f[21] in (0x37,0x38),'Kit pad not blinking while making a kit')
     whole=[l for l in run.stdout.splitlines() if l.startswith('whole kit:')][0]
     cases.append({'case':'kit_tap_plans_16_from_the_pack_and_stores_them','host':whole})
+    # A BAYAREA page (engine picked in generate mode, kept after it): its first sound on the ARM equals the host's.
+    arm=StoreMachine(image,symbols);arm.run(0x08025688);setup_router(arm,page=0)
+    for pad in (22,17,22): arm.run(symbols['fm_pad'],ROUTER,pad,100)
+    arm.calls=[];arm.run(symbols['fm_pad'],ROUTER,21,100);arm.run(symbols['fm_pad_release'],ROUTER,21,0)
+    host_ba=OUT/'kit-host-bayarea';host_ba.mkdir(exist_ok=True)
+    subprocess.run([str(OUT/'host-render'),'--kit',str(host_ba),'BPPPPPPP'],check=True,capture_output=True,text=True)
+    delete_cb=arm.calls[-1][2]
+    arm.calls=[];arm.callback(delete_cb,path_address,2,5,0,0)
+    data=b''
+    while arm.calls[-1][0]=='write':
+        call=arm.calls[-1];data+=call[3]
+        arm.callback(call[5],path_address,1,0,call[4],len(call[3]))
+    require(data==(host_ba/'slot001.wav').read_bytes(),'BAYAREA kit sound 1 differs from the host build')
+    require(data[38:42]==b'PHK1' and data[44]==4 and data[47]==2,'BAYAREA kit sound 1 not tagged as BAYAREA')
+    # The host grows a kit alternating engines; each page plays only its engine's categories (host exit 12 otherwise).
+    mixed=OUT/'kit-host-mixed';mixed.mkdir(exist_ok=True)
+    run=subprocess.run([str(OUT/'host-render'),'--kit',str(mixed),'PBPBPPBB'],check=True,capture_output=True,text=True)
+    whole=[l for l in run.stdout.splitlines() if l.startswith('whole kit:')][0]
+    cases.append({'case':'kit_pages_by_either_engine_count_the_whole_pack','host':whole})
     arm=StoreMachine(image,symbols);arm.run(0x08025688);setup_router(arm,page=2)
     arm.cpu.mem_write(0xe0001004,struct.pack('<I',1000))
     arm.run(symbols['fm_pad'],ROUTER,21,100)

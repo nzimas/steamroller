@@ -1,4 +1,4 @@
-<!-- title: SteamRoller manual | description: Everything SteamRoller adds to the Novation Circuit Rhythm: the sound generator, kits, parameter locks (knobs, step sliders, Grid FX) and spice. -->
+<!-- title: SteamRoller manual | description: Everything SteamRoller adds to the Novation Circuit Rhythm: the sound generator, kits, parameter locks (knobs, step sliders, Grid FX), spice and the pattern generator. -->
 <h1>Manual</h1>
 <p>Everything SteamRoller adds to the Circuit Rhythm. All of the Rhythm's own functions work as described in
   Novation's user guide; this manual only covers what is new or different. To install, see
@@ -7,6 +7,7 @@
 
 <nav class="toc" aria-label="Contents">
 <a href="#the-sound-generator">The sound generator</a>
+<a href="#engines" class="sub">Two engines</a>
 <a href="#generate-mode" class="sub">Generate mode</a>
 <a href="#storing-a-sound" class="sub">Storing a sound</a>
 <a href="#kits" class="sub">Kits</a>
@@ -16,35 +17,54 @@
 <a href="#grid-fx-locks" class="sub">Grid FX locks</a>
 <a href="#how-long-a-lock-lasts" class="sub">How long a lock lasts</a>
 <a href="#spice">Spice</a>
+<a href="#pattern-generator">Pattern generator</a>
+<a href="#two-paths" class="sub">Two paths</a>
 <a href="#differences-from-the-official-firmware">Differences from the official firmware</a>
 <a href="#going-back">Going back</a>
 </nav>
 
 <h2 id="the-sound-generator">The sound generator</h2>
-<p>In the <b>Sample Rec</b> view, three pads of the third row control the generator. Each sound is synthesized on
-  the Rhythm by an FM drum voice, so every press gives a new one.</p>
+<p>In the <b>Sample Rec</b> view, pads of the third row control the generator. Each sound is synthesized on
+  the Rhythm by one of two engines, so every press gives a new one.</p>
 <table>
 <tr><th>Pad (third row)</th><th>Function</th><th>Light</th></tr>
+<tr><td>leftmost</td><td><b>poundhard</b> engine (while a mode is on)</td><td>yellow: bright when chosen</td></tr>
+<tr><td>second from the left</td><td><b>BAYAREA</b> engine (while a mode is on)</td><td>cyan: bright when chosen</td></tr>
 <tr><td>third from the right</td><td><b>Kit</b>: tap to make a page of 16 sounds; hold 1.5 s to clear the page</td><td>dim purple; blinks while it works</td></tr>
 <tr><td>second from the right</td><td><b>Generate</b> mode, on and off</td><td>dim green; bright while on</td></tr>
 <tr><td>rightmost</td><td><b>Commit</b> mode, on and off</td><td>dim red; bright while on, yellow while storing, orange when a store can't start</td></tr>
 </table>
-<p>Only one mode is on at a time. With neither on, the view behaves as stock.</p>
+<p>Only one mode is on at a time. With neither on, the view behaves as stock: the two leftmost pads are then the
+  Rhythm's own threshold-recording pads again.</p>
+
+<h3 id="engines">Two engines</h3>
+<p>Turn generate or commit mode on, then press the leftmost pad for <b>poundhard</b> or the next one for
+  <b>BAYAREA</b>. One engine is chosen at a time. The choice stays until you change it, and it also decides which engine makes the next kit page.</p>
+<ul>
+<li><b>poundhard</b>: an FM drum voice (three operators, noise, filters, drive): kicks, snares, hats, claps,
+  metal, noise and destroyed sounds.</li>
+<li><b>BAYAREA</b>: a West Coast voice: a carrier morphing from sine to saw, frequency-modulated by two sines, a
+  wavefolder, then a low-pass gate (a filter and an amplifier struck together) or, for swells and drones, a
+  sustaining envelope over two filters; a saturating output and a bank of three resonators. Textures and strange
+  noises first (scrapes, hiss, rumbles, whirs, chopped folds), with clunks and clangs; no kicks (poundhard's job),
+  no pitch moves within a sound, and every sound with resonators of its own (or none).
+  Ported from Tonitor's BAYAREA engine.</li>
+</ul>
 
 <h3 id="generate-mode">Generate mode</h3>
-<p>Press a <b>track button</b> for a new sound of that family, played on that track's output. Press again for
-  another. <b>Shift + track button</b> plays the current sound again. The track buttons don't leave the Sample Rec
-  view while this mode is on.</p>
+<p>Press a <b>track button</b> for a new sound of that family from the chosen engine, played on that track's
+  output. Press again for another. <b>Shift + track button</b> plays the current sound again, from the engine that
+  made it. The track buttons don't leave the Sample Rec view while this mode is on.</p>
 <table>
-<tr><th>Button</th><th>Family</th></tr>
-<tr><td>1</td><td>kick, the widest variety</td></tr>
-<tr><td>2</td><td>snare, sometimes built like a clap</td></tr>
-<tr><td>3</td><td>hi-hat and cymbal</td></tr>
-<tr><td>4</td><td>metal: clang, metal, anvil</td></tr>
-<tr><td>5</td><td>noise</td></tr>
-<tr><td>6</td><td>glitch and click</td></tr>
-<tr><td>7</td><td>impact: industrial hits, always driven</td></tr>
-<tr><td>8</td><td>gnarly: any family, always destroyed</td></tr>
+<tr><th>Button</th><th>poundhard</th><th>BAYAREA</th></tr>
+<tr><td>1</td><td>kick, the widest variety</td><td>clunk: a short, folded knock</td></tr>
+<tr><td>2</td><td>snare, sometimes built like a clap</td><td>scrape: noise-like FM under a sweeping filter</td></tr>
+<tr><td>3</td><td>hi-hat and cymbal</td><td>hiss: high FM static</td></tr>
+<tr><td>4</td><td>metal: clang, metal, anvil</td><td>rumble: a low folded drone, slowly moving</td></tr>
+<tr><td>5</td><td>noise</td><td>whir: a held tone whose shape an LFO churns</td></tr>
+<tr><td>6</td><td>glitch and click</td><td>clang: inharmonic metal</td></tr>
+<tr><td>7</td><td>impact: industrial hits, always driven</td><td>chop: a held fold whose timbre a square LFO jumps</td></tr>
+<tr><td>8</td><td>gnarly: any family, always destroyed</td><td>gnarly: any kind, more drive and folds</td></tr>
 </table>
 
 <h3 id="storing-a-sound">Storing a sound</h3>
@@ -57,7 +77,8 @@
   pad flashes orange and nothing is written.</p>
 
 <h3 id="kits">Kits</h3>
-<p>Tap the <b>kit</b> pad to fill the <b>page shown</b> with 16 new sounds, replacing that page's slots.</p>
+<p>Tap the <b>kit</b> pad to fill the <b>page shown</b> with 16 new sounds from the chosen engine, replacing that
+  page's slots.</p>
 <ul>
 <li>In a pack with no generated sounds, the page is a balanced starter kit: kicks, snares, a clap, an impact, hats,
   a cymbal, metal, noise, a click and a destroyed sound, grouped by rows.</li>
@@ -65,6 +86,11 @@
   already in the pack. Each page has its own focus: the three or four kinds of sound the pack has least of fill most
   of it and lead its first row, with a few others around them. Within each kind, the rarer characters come first.
   Over all eight pages the kit evens out, up to 128 sounds.</li>
+<li><b>Each page can come from either engine.</b> Pages are planned against every generated sound in the pack,
+  whichever engine made it. Each engine fills only the kinds of sound it plays: poundhard the snares, hats, claps,
+  noise and the rest of its drums; BAYAREA clunks, clangs and chops, blips, and its textures: scrapes, rumbles,
+  whirs and hiss (never kicks). So a BAYAREA page after a poundhard one goes where the kit is still thin, and
+  the next poundhard page counts both.</li>
 <li>Each generated sample carries a small tag in its file, so this works across power-offs. Samples you recorded
   yourself are not counted.</li>
 <li><b>Hold</b> the kit pad 1.5 s to clear the page shown (its 16 slots).</li>
@@ -142,6 +168,43 @@
 <p>Hits that repeat get the same move every bar, so the groove keeps its shape. Pitch, decay, attack and sample
   start and end are never touched, and your own locks are kept. <b>Press again</b> for another take: the pattern
   first goes back to how it was before. Press <b>Play</b> once after loading a project, before the first spice.</p>
+
+<h2 id="pattern-generator">Pattern generator</h2>
+<p>With <b>Record on</b>, <b>Shift + a track button</b> writes a whole new pattern on that track, replacing the
+  pattern its view shows (with Record off, the same press is <a href="#spice">spice</a>). Press again for another.
+  Each press draws one of four styles:</p>
+<ul>
+<li><b>industrial techno</b>: 16 or 32 steps, a repeating cell, accents on the beats, a fill at the end;</li>
+<li><b>power noise</b>: the densest, long gates on the accents, six-fold ratchets, heavy Grid FX (crusher, stutter,
+  looper);</li>
+<li><b>IDM</b>: odd lengths (7 to 31 steps) or 20, 28 and 32 (repeating in halves), nudged micro-steps, odd ratchet
+  shapes, reverser and looper;</li>
+<li><b>broken</b>: 12, 24 or 32 steps, sparse, swung or straight, long gates, delay and reverb throws.</li>
+</ul>
+<p>Each pattern is built from a cell that repeats exactly: velocities follow the metre (beats strong, offbeats
+  softer), the cell has one ratchet spot, fixed ghost notes and, in power noise and IDM, one recurring Grid FX spot.
+  Only the last cell, the fill, varies, with a few extra hits, ratchets and effects.</p>
+<p>Everything a step can hold is used: the pattern's length, velocity, gate, micro-steps (ratchets of 2, 3 or 6,
+  flams, late nudges), probability, parameter locks (distortion, filters, sends, level and pan, moved by role as in
+  spice, more boldly) and Grid FX locks on a few hits, mostly fills and accents. <b>The pitch is never touched</b>:
+  every step plays the sample at its own pitch. Decay, attack and sample start and end are left
+  alone too. The pattern is an ordinary one: edit it, save it, or press again.</p>
+
+<h3 id="two-paths">Two paths: one sound, or the pack</h3>
+<p>Press <b>Sample Rec</b> again to open its second view (where samples are placed on steps). There, the first two
+  pads of the bottom row choose how the next pattern is made:</p>
+<table>
+<tr><th>Pad (bottom row)</th><th>Path</th><th>Light</th></tr>
+<tr><td>leftmost</td><td><b>One sound</b>: every hit plays the track's own sample</td><td>yellow: bright when chosen</td></tr>
+<tr><td>second from the left</td><td><b>The pack</b>: a whole drum part on one track, from the pack's samples</td><td>violet: bright when chosen</td></tr>
+</table>
+<p>On the pack path, every hit flips to a sample chosen for its role (the Rhythm's sample flip). Samples made by the
+  generator carry their recipe, so their role is known: kicks, snares and claps, hats and cymbals, metal and other
+  percussion, noise and destroyed sounds, clicks. Samples you recorded yourself are placed by where they sit on
+  their page: pads 1–4 kicks, 5–8 snares, 9–12 hats, 13–16 percussion. Each role gets its own layer (snare on the
+  backbeat, kick on the beats, hats off the beat, percussion syncopated, noise in the fills, clicks as ghosts), with
+  two samples per role for variety. With no samples in the pack, the track's own sound is used. The choice stays
+  until you change it.</p>
 
 <h2 id="differences-from-the-official-firmware">Differences from the official firmware</h2>
 <ul>

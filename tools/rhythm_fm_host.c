@@ -1,12 +1,20 @@
 /* Host validation/render harness for the exact firmware extension source.
  * Uses an ordinary byte-array RAM fixture, never physical memory.
  *   --layout              state offsets for the validator (JSON)
- *   <audio.pcm> <first.pcm>
- *       generate one sound of each family (Shift + track button 1..8) and
- *       drain its audition through fm_tick into a simulated DSP FIFO;
- *       audio.pcm: 24-bit little-endian mono, all eight auditions in turn;
- *       first.pcm: the first audition block's 32 words (24-bit big-endian),
+ *   <audio.pcm> <first.pcm> [first-bayarea.pcm]
+ *       generate one sound of each family (Shift + track button 1..8) with
+ *       poundhard, then with BAYAREA, and drain each audition through fm_tick
+ *       into a simulated DSP FIFO; audio.pcm: 24-bit little-endian mono, all
+ *       sixteen auditions in turn; first.pcm (first-bayarea.pcm): the first
+ *       poundhard (BAYAREA) audition block's 32 words (24-bit big-endian),
  *       compared with the ARM emulation; prints one line per family.
+ *   --store <family> <out.wav> [engine]
+ *   --kit <dir> [engines]   engines: one letter per page, P poundhard, B BAYAREA
+ *   --pattern <count> [pool|map]   Record + Shift + track on fake track editors:
+ *       count patterns (tracks 1-8 in turn), each checked against the stock
+ *       step format and printed as a grid; pool: the pack path, after a
+ *       two-page kit (poundhard, BAYAREA) is made in the pack; map: the pack
+ *       path with no tag readable, only the Sample Rec view's slot map (full)
  */
 #define FM_HOST 1
 #include <stdio.h>
@@ -38,7 +46,10 @@ void rhythm_pad_original(void *c,unsigned p,unsigned v) { (void)c;(void)p;(void)
 unsigned plock_lanes_original(void *p,unsigned a,unsigned b,unsigned c) { (void)p;(void)a;(void)b;(void)c;abort(); }
 unsigned plock_knob_original(void *p,unsigned a,unsigned b,unsigned c) { (void)p;(void)a;(void)b;(void)c;abort(); }
 unsigned plock_preview_original(void *p,unsigned a) { (void)p;(void)a;abort(); }
-uint8_t *plock_store(void *s,unsigned i) { (void)s;(void)i;abort(); }
+/* a fake stock store here is a plain byte array: index i is byte i */
+uint8_t *plock_store(void *s,unsigned i) { return (uint8_t *)s+i; }
+unsigned host_editor_reloads; void *host_reloaded;
+void host_editor_reload(void *editor) { host_editor_reloads++; host_reloaded=editor; }
 unsigned sl_store(void *s,unsigned i) { (void)s;(void)i;abort(); }
 struct StoragePathFwd;
 unsigned host_storage_delete(const StoragePath *path,storage_cb cb) { unsigned had=host_lens[path->index]!=0; host_lens[path->index]=0; host_deletes++; cb(path,2,had ? 0:5,0,0,0); return 0; }
@@ -87,38 +98,47 @@ int main(int argc,char **argv) {
     if(argc==2 && !strcmp(argv[1],"--layout")) {
         printf("{\"state\":%zu,\"drum_pool\":%u,\"drum_voice\":%zu,\"drum_active\":%zu,\"requested\":%zu,\"served\":%zu,"
                "\"seed\":%zu,\"generated\":%zu,\"audition_track\":%zu,\"last_family\":%zu,\"pad_events\":%zu,"
-               "\"plock_locks\":%zu,\"spices\":%zu,\"gfx_owner\":%zu,\"path\":%zu,\"report_bytes\":%u}\n",
+               "\"plock_locks\":%zu,\"spices\":%zu,\"gfx_owner\":%zu,\"path\":%zu,\"report_bytes\":%u,"
+               "\"engine\":%zu,\"voice_engine\":%zu,\"ba_live\":%zu,\"patterns\":%zu,\"pg_mode\":%zu}\n",
                sizeof(State),DRUM_POOL,sizeof(PhVoice),offsetof(PhVoice,active),offsetof(State,requested),offsetof(State,served),
                offsetof(State,seed),offsetof(State,generated),offsetof(State,audition_track),offsetof(State,last_family),
-               offsetof(State,pad_events),offsetof(State,plock_locks),offsetof(State,spices),offsetof(State,gfx_owner),offsetof(State,path),REPORT_BYTES);
+               offsetof(State,pad_events),offsetof(State,plock_locks),offsetof(State,spices),offsetof(State,gfx_owner),offsetof(State,path),REPORT_BYTES,
+               offsetof(State,engine),offsetof(State,voice_engine),offsetof(BaSlot,v)+offsetof(ba_voice_t,live),offsetof(State,patterns),offsetof(State,pg_mode));
         return 0;
     }
-    if(argc==4 && !strcmp(argv[1],"--store")) {
+    if((argc==4 || argc==5) && !strcmp(argv[1],"--store")) {
         /* Shift + track f, audition to its end, then store into slot 19 */
         unsigned family=(unsigned)strtoul(argv[2],0,0);
         boot();
+        if(argc==5) S->engine=(uint8_t)strtoul(argv[4],0,0);
         fm_randomize_request(family,0);
         unsigned blocks=0;
         FILE *null=fopen("/dev/null","wb");
-        for(unsigned call=0;call<6000u && (D[0].active || call<2);call++) { fm_tick(); while(consume(null,0,&blocks)>0); }
+        for(unsigned call=0;call<6000u && (gen_active(0) || call<2);call++) { fm_tick(); while(consume(null,0,&blocks)>0); }
         fclose(null);
         if(!commit_start(family,19) || S->commits!=1 || host_reloads!=1 || host_auditions!=1) return 6;
         FILE *wav=fopen(argv[3],"wb"); fwrite(host_files[19],1,host_lens[19],wav); fclose(wav);
         printf("stored family %u samples %u bytes %u\n",family,S->pending[family].samples,host_lens[19]);
         return 0;
     }
-    if(argc==3 && !strcmp(argv[1],"--kit")) {
+    if((argc==3 || argc==4) && !strcmp(argv[1],"--kit")) {
         /* a whole kit grown page by page (8 x 16 = 128 sounds), each page
-           planned from the tags of the pages before; then page 4 cleared.
-           Each sound written as <dir>/slotNNN.wav; one line per sound. */
-        static const char *cat[C_COUNT]={"kick","kick-g","snare","snare-g","clap","impact","hat","cymbal","metal","metal-g","noise","click","destroy"};
+           planned from the tags of the pages before (made by the page's engine:
+           argv[3], P or B per page; poundhard throughout without it); then page
+           4 cleared. Each sound written as <dir>/slotNNN.wav; one line per sound. */
+        static const char *cat[C_COUNT]={"kick","kick-g","snare","snare-g","clap","impact","hat","cymbal","metal","metal-g","noise","click","destroy",
+                                         "scrape","rumble","whir","hiss"};
+        const char *engines=argc==4 ? argv[3] : "PPPPPPPP";
+        if(strlen(engines)!=8u) return 2;
         boot();
         unsigned counts[C_COUNT]={0};
         for(unsigned page=0;page<8u;page++) {
+            unsigned ba=engines[page]=='B';
+            S->engine=(uint8_t)(ba ? ENGINE_BAYAREA : ENGINE_POUNDHARD);
             S->kit_start=16u*page; kit_make();
             if(S->kit_state || S->kits!=page+1u || S->commits!=16u*(page+1u)) return 7;
             if(S->kit_known!=16u*page) return 10;
-            printf("focus page %u: %08x\n",page+1u,S->kit_focus);
+            printf("focus page %u (%s): %08x\n",page+1u,ba ? "BAYAREA" : "poundhard",S->kit_focus);
             for(unsigned i=0;i<16u;i++) {
                 unsigned slot=16u*page+i; char fn[512]; snprintf(fn,sizeof fn,"%s/slot%03u.wav",argv[2],slot+1u);
                 FILE *wav=fopen(fn,"wb"); fwrite(host_files[slot],1,host_lens[slot],wav); fclose(wav);
@@ -127,7 +147,9 @@ int main(int argc,char **argv) {
                 const int16_t *x=(const int16_t *)(h+64); unsigned n=(host_lens[slot]-64u)/2u, zc=0;
                 for(unsigned k=1;k<n;k++) if((x[k-1]<0)!=(x[k]<0)) zc++;
                 unsigned c=kit_category(h[42],h[44]); counts[c]++;
-                printf("page %u slot %3u %-8s pad %2u arche %u kind %2u samples %6u zc_per_s %6u\n",page+1u,slot+1u,cat[c],h[42],h[43],h[45],n-256u,n ? (unsigned)((uint64_t)zc*48000u/n) : 0u);
+                /* the page's engine: in the tag, and only categories it plays */
+                if(h[47]!=1u+ba || (h[44]==KF_BAYAREA)!=ba || !((ba ? KIT_CATS_BAYAREA : KIT_CATS_POUNDHARD)>>c&1u)) return 12;
+                printf("page %u slot %3u %-8s %c pad %2u arche %3u kind %2u samples %6u zc_per_s %6u\n",page+1u,slot+1u,cat[c],ba ? 'B' : 'P',h[42],h[43],h[45],n-256u,n ? (unsigned)((uint64_t)zc*48000u/n) : 0u);
             }
         }
         printf("whole kit:");
@@ -138,28 +160,101 @@ int main(int argc,char **argv) {
         printf("cleared page 4, deletes %u, reloads %u, tag reads %u\n",host_deletes,host_reloads,host_reads);
         return S->clears==1 && S->kit_state==0 ? 0 : 9;
     }
-    if(argc!=3) return 2;
+    if((argc==3 || argc==4) && !strcmp(argv[1],"--pattern")) {
+        static uint8_t base[8][8u*0xa28u], ed[8][0x80], pstore[8][4], R[0x80], live[13][16];
+        static void *xs[8], *stores[13];
+        static const char *style[4]={"techno","power","idm","broken"};
+        boot();
+        for(unsigned g=0;g<13u;g++) { memset(live[g],g==11u ? 100 : g==12u ? 64 : g<8u ? 64 : 0,16); stores[g]=live[g]; }
+        for(unsigned t=0;t<8u;t++) {
+            for(unsigned q=0;q<8u;q++) {
+                uint8_t *pat=base[t]+0xa28u*q;
+                for(unsigned s=0;s<32u;s++) { static const uint8_t init[8]={0,6,0,0,7,0xff,0,0}; memcpy(pat+8u*s,init,8); }
+                pat[0x100]=15; memset(pat+0x128,0xff,12u*192u);
+            }
+            pstore[t][0]=(uint8_t)(t&7u);                  /* each track on another pattern */
+            memcpy(ed[t]+4,&(void *){base[t]},sizeof(void *)); memcpy(ed[t]+0x28,&(void *){pstore[t]},sizeof(void *));
+            xs[t]=ed[t]+0x1c;
+        }
+        memcpy(R+0x34,&(void *){xs},sizeof(void *)); *(uint32_t *)(R+0x2c)=sizeof(void *); memcpy(R+0x24,&(void *){stores},sizeof(void *));
+        S->plock_router=R;
+        const unsigned pool=argc==4 && (!strcmp(argv[3],"pool") || !strcmp(argv[3],"map")), bymap=pool && !strcmp(argv[3],"map");
+        static uint8_t ui[0x80], srv[0x80], slotmap[8];
+        if(bymap) { memset(slotmap,0xff,sizeof slotmap); memcpy(srv+0x30,&(void *){slotmap},sizeof(void *)); memcpy(ui+0x58,&(void *){srv},sizeof(void *)); }
+        if(pool && !bymap) {
+            for(unsigned page=0;page<2u;page++) { S->engine=(uint8_t)page; S->kit_start=16u*page; kit_make(); if(S->kits!=page+1u) return 18; }
+        }
+        if(pool) S->pg_mode=1;
+        unsigned flips=0, count=(unsigned)strtoul(argv[2],0,0), styles[4]={0}, ratchets=0, nudges=0, ghosts=0, hits=0, locks=0, fxs=0;
+        for(unsigned n=0;n<count;n++) {
+            unsigned t=n%8u, before=host_editor_reloads;
+            if(!pattern_generate(t,ui) || host_editor_reloads!=before+1u || host_reloaded!=ed[t]) return 13;
+            const uint8_t *pat=base[t]+0xa28u*pstore[t][0], *lanes=pat+0x128;
+            unsigned len=pat[0x100]+1u, st=S->pg_last>>6&3u;
+            if(pat[0x101] || len>32u) return 14;
+            styles[st]++;
+            char row[33]={0};
+            for(unsigned s=0;s<32u;s++) {
+                const uint8_t *x=pat+8u*s;
+                if(x[4]>7u || x[2]>0x3fu || (s>=len && x[2]) || (x[2] && (!x[3] || x[3]>127u || !x[1] || x[1]>24u))) return 15;
+                if(x[0]!=72u) return 19;                                     /* the sample's own pitch (72) */
+                if(x[5]!=0xffu && (!pool || !x[2] || x[5]>=128u || (!bymap && !host_lens[x[5]]))) return 20;   /* flips only to filled slots */
+                if(pool && x[2] && x[5]==0xffu) return 21;
+                flips+=x[5]!=0xffu;
+                for(unsigned l=0;l<12u;l++) {
+                    const uint8_t *b=lanes+192u*l+6u*s;
+                    if(b[0]!=0xffu && (b[0]>127u || !x[2])) return 16;           /* locks only on hits */
+                    locks+=b[0]!=0xffu;
+                    for(unsigned m=1;m<6u;m++) if(b[m]!=0xffu && (l<10u || (b[m]&0xf8u)!=0x80u || (l==11u && m>2u) || !x[2])) return 17;
+                    for(unsigned m=1;m<6u;m++) fxs+=b[m]!=0xffu;
+                }
+                char c=s>=len ? ' ' : '.';
+                if(x[2]) {
+                    hits++;
+                    c=x[3]<64u ? 'g' : x[3]>=110u ? 'X' : 'x';
+                    if(x[3]<64u) ghosts++;
+                    if(x[2]&(x[2]-1u)) { c='r'; ratchets++; }
+                    else if(x[2]!=1u) { c='~'; nudges++; }
+                    if(x[4]<7u) c=c=='x' ? '?' : c;
+                    if(pool && !bymap) { const unsigned cat=kit_category(host_files[x[5]][42],host_files[x[5]][44]); c="kKsSsihhmmnxdn..n"[cat]; if(x[2]&(x[2]-1u)) c='r'; }
+                    if(bymap) { c="kshp"[(x[5]&15u)>>2]; if(x[2]&(x[2]-1u)) c='r'; }
+                }
+                row[s]=c;
+            }
+            printf("track %u %-6s len %2u |%s| fx %u locks %u\n",t+1u,style[st],len,row,S->pg_last>>24&15u,S->pg_last>>28);
+        }
+        printf("styles techno %u power %u idm %u broken %u; hits %u ratchets %u nudges %u ghosts %u locks %u fx %u flips %u\n",
+               styles[0],styles[1],styles[2],styles[3],hits,ratchets,nudges,ghosts,locks,fxs,flips);
+        return 0;
+    }
+    if(argc!=3 && argc!=4) return 2;
     boot();
     if(S->magic!=MAGIC || *HEAP_LIMIT!=0x2004f760) return 3;
-    FILE *audio=fopen(argv[1],"wb"),*first=fopen(argv[2],"wb");
-    if(!audio || !first) return 2;
+    FILE *audio=fopen(argv[1],"wb"),*first=fopen(argv[2],"wb"),*first_ba=argc==4 ? fopen(argv[3],"wb") : 0;
+    if(!audio || !first || (argc==4 && !first_ba)) return 2;
     unsigned blocks=0;
-    for(unsigned family=0;family<PH_FAMILIES;family++) {
-        unsigned before=blocks, idle=0;
+    for(unsigned n=0;n<2u*PH_FAMILIES;n++) {
+        unsigned family=n%PH_FAMILIES, engine=n/PH_FAMILIES, run=0, idle=0;
+        FILE *f=family ? 0 : engine ? first_ba : first;
+        if(n==PH_FAMILIES) {                    /* BAYAREA from a fresh boot, as the ARM check */
+            memset(RAM_POINTER(DRUM_POOL),0,0x4000u-DRUM_POOL); memset(dsp_ram,0,sizeof(dsp_ram)); boot();
+        }
+        S->engine=(uint8_t)engine;
         fm_randomize_request(family,0);
         /* run until the audition ended (several idle service calls), at most 4 s */
         for(unsigned call=0;call<6000u && idle<8u;call++) {
             fm_tick();
             int got=0, r;
-            while((r=consume(audio,family==0 ? first:0,&blocks))>0) got=1;
+            while((r=consume(audio,f,&run))>0) got=1;
             if(r<0) return 4;
             idle=got ? 0 : idle+1;
         }
-        if(D[0].active) return 5;
-        printf("family %u pad %u kind %u blocks %u peak %u\n",family,S->last_pad,S->last_kind,blocks-before,S->peak);
+        if(gen_active(0)) return 5;
+        blocks+=run;
+        printf("family %u pad %u kind %u blocks %u peak %u engine %u\n",family,S->last_pad,S->last_kind,run,S->peak,engine);
         S->peak=0;
     }
-    fclose(first); fclose(audio);
+    fclose(first); fclose(audio); if(first_ba) fclose(first_ba);
     printf("%u blocks, %zu bytes MCU state\n",blocks,sizeof(State));
     return 0;
 }

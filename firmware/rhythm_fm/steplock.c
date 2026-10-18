@@ -145,6 +145,10 @@ uint16_t *fm_track_frame(void *view) {
     extern uint16_t *host_frame(void *); uint16_t *f = host_frame(view);
 #endif
     SlStep h;
+    if (f && S->magic == MAGIC && ((uint8_t *)view)[0x264] == 0xau) {   /* the pattern generator's paths (extension.c) */
+        f[PAD_PG_ONE] = S->pg_mode ? 0x73 : 0x6d;
+        f[PAD_PG_POOL] = S->pg_mode ? 0x47 : 0x48;
+    }
     if (!f || !sl_active(view, &h)) { if (S->magic == MAGIC) { S->sl_row = 0; S->sl_held = 0; } return f; }
     for (unsigned slot = 0; slot < 2u; slot++) {
         const unsigned row = S->sl_row + slot;

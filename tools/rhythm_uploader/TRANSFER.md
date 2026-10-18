@@ -1,7 +1,7 @@
-# SteamRoller 0.3.2 — transfer instructions
+# SteamRoller 0.6.4 — transfer instructions
 
 **SteamRoller** is the new name of this firmware (formerly Rhythm FM).
-0.3.2 is 0.3.1 under the new name: nothing else has changed.
+0.6.4 turns BAYAREA toward textures and gives every sound its own resonators.
 
 
 **Since 0.3.1:**
@@ -206,19 +206,19 @@ SteamRoller:
 2. Open `Start Transfer Tool.command` in this extracted bundle. Keep Terminal
    open. It starts a local server and opens the existing Chrome or Edge.
    If no browser tab appears, paste the exact local URL printed in Terminal
-   into Chrome. Make sure the page header says **STEAMROLLER 0.3.2**.
-3. Select **SteamRoller 0.3.2 — custom Circuit Rhythm firmware**, then **Load packaged file**.
+   into Chrome. Make sure the page header says **STEAMROLLER 0.6.4**.
+3. Select **SteamRoller 0.6.4 — custom Circuit Rhythm firmware**, then **Load packaged file**.
    Wait for **Verified**.
 4. Connect the Rhythm directly by USB with reliable power. Power off, then hold
    **Sample Rec + Samples + Note** while powering it on for bootloader mode.
 5. Choose **Allow MIDI and check device**, grant SysEx permission and select
    the Rhythm bootloader ports if needed. Confirm **bootloader mode** (build 4799).
 6. Check the acknowledgment, choose **Transfer firmware…** and confirm the
-   selected 0.3.2 file.
+   selected 0.6.4 file.
 7. Keep power and USB connected until **Device reported successful receipt**
    and restart.
 8. After restart, select the normal-mode ports and check the device again.
-   This revision must report **application mode · build 15746**. Build
+   This revision must report **application mode · build 15753**. Build
    **15713** means FM memory initialization failed; save the log and report it.
 9. Test, at low volume, in a disposable project:
    - **Stock behaviour:** samples on all tracks play, record and load as on

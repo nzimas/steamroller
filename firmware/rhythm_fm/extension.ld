@@ -5,7 +5,7 @@ SECTIONS {
      builder relocates a patched copy of that stream to the end of the image,
      and the core-1 pointer at 0x08031660 is the stream's only reference. */
   /* The fold curves (read only when a drum is struck) stay in the main area. */
-  .lowflash 0x080101F0 : { *(.text.ph_*) *(.text.plock_*) *(.rodata.plock_*) *(.rodata.ph_carrier) *(.rodata.ph_modulator) *(.rodata.ph_transient) *(.rodata.ph_archetype) *(.rodata.ph_mild) *(.rodata.ph_harsh)
+  .lowflash 0x080101F0 : { *(.text.ph_*) *(.text.plock_tick) *(.text.plock_send) *(.text.plock_out) *(.text.plock_revert_lanes) *(.text.plock_revert_all) *(.text.plock_seen) *(.rodata.plock_*) *(.rodata.ph_carrier) *(.rodata.ph_modulator) *(.rodata.ph_transient) *(.rodata.ph_archetype) *(.rodata.ph_mild) *(.rodata.ph_harsh)
                            *(.rodata.ph_decay_*) *(.rodata.ph_hold_*) *(.rodata.ph_sweep_*) *(.rodata.ph_fold_at) }
   __lowflash_end = .;
   . = 0x0806A580;   /* right after the stock image (ends 0x0806A570) */

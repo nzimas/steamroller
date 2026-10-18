@@ -1,6 +1,126 @@
-# SteamRoller 0.3.2 (formerly Rhythm FM) — stock sampler, poundhard sound generator, step locks and per-track Grid FX
+# SteamRoller 0.6.4 (formerly Rhythm FM) — stock sampler, poundhard and BAYAREA sound generators, pattern generator, step locks and per-track Grid FX
 
-Identity **15746**; **15713** = extension memory unavailable. Not yet tested on hardware.
+Identity **15753**; **15713** = extension memory unavailable. Not yet tested on hardware.
+
+## 0.6.4: BAYAREA textures; resonators per sound
+
+- **The ring (0.6.3 hardware: every sound had the same metallic resonance).** Tonitor's bank is fixed: `BA_RES`,
+  508/270/1153 Hz. `ba_design` now draws three resonators per sound: f0 120–3000 Hz, then ×1.3–2.7 and ×2.2–5.4,
+  T60 0.1–1.2 s. The coefficients are computed at design time (`r = 2^30 − 154527000/T60ms`,
+  `c1 = 2r·cos w`, `c2 = −r²`, Q30) into `d->res`. Only the amplitudes of `BA_RES` are still used.
+- **Families:** one row of `BA_FAM` each (kind, note, decay, peak, minimum folds and FM depth, resonators, hold,
+  LFO rate and targets, flags). The rows are clunk, scrape, hiss, rumble, whir, clang, chop and gnarly, plus the
+  kits' blip. The held families are released after their hold.
+- **Kits and the pack path:** categories 13–16 are now scrape, rumble, whir and hiss (weights 5/4/4/4). Chop fills
+  metal-g. In `pg_role_of`, scrape and hiss are noise; rumble and whir are not drums.
+- **Space:** 392 bytes of app flash left.
+
+## 0.6.3 (hardware: BAYAREA all one ring): sparser, per-position patterns (0.6.2 hardware: everything works; too dense)
+
+- **Pack path:** kick, snare and hats, plus up to `extras[style]` of percussion, noise and clicks. Layers are
+  thinner, and the hits are strictly capped per cell (`cap_pct`), dropping clicks, hats, percussion and noise in
+  that order. Ghost chance is halved.
+- **Both paths:** decisions are `PH(salt, position)` (`sp_hash` on a per-pattern seed). They are taken per cell
+  position, and per step only in the fill (`key = 64 + s`):
+  - velocity by the metre (beats, eighths, sixteenths);
+  - one ratchet spot per cell;
+  - swing for the whole pattern, or none;
+  - IDM nudges at fixed spots;
+  - one gate per pattern (techno, power) or per position;
+  - ghost spots (at most 1–2 per cell);
+  - the sample alternative per position;
+  - one recurring Grid FX spot (power, IDM), plus 1–3 in the fill.
+- **Densities:** one-sound k is 25–45 % (techno), 35–60 % (power), 25–45 % (IDM), 18–33 % (broken). Fill extras
+  are at 20 %. IDM at even lengths uses a half-length cell.
+
+## 0.6.2 (hardware: works; too dense): note 72; pack path from the slot map
+
+- **Pitch (0.6.1 hardware: about an octave low).** The octave shifts refuse to go below 48 or from 97 upwards
+  (`0x08057870`, `0x080578D0`), so notes live in 36–108, centred on 72. Written steps now get 72.
+- **Flips (0.6.1 hardware: none).** The pack path used only the tag reads (`kit_tags`), which found nothing in the
+  Shift + track context; why is not known. Occupied slots now come from the Sample Rec view's map:
+  `router[+0x58]` store `[+0x30]`, word `slot >> 5`, bit `slot & 31` (`0x0805985C`). An occupied slot without a
+  readable tag is placed by its pad position. Byte 5 is the stock flip (the step lights pink).
+
+## 0.6.1 (hardware: an octave low, no flips): pitch 60; secondary view by the object on screen
+
+- **Pitch (0.6.0 hardware: farts).** The engine's reference note is 60: key tracking `0x080463AC` subtracts 60, and
+  the note-on `0x0804AFE2` plays a 0 byte as 48. So 0.5.0 (0, played as 48) was an octave down, and 0.6.0 (12) four
+  octaves down, then copied forward. Every written step now gets 60.
+- **Secondary Sample Rec view.** `0x0804D6B6(pages, 0xA)` sets `+0x264`, but the view id the router keeps is not
+  known (likely still 4). `pg_view` now tests the object on screen (`router[+0x7C]`, or `[+0x78]`, equal to
+  `router[+0x3C]`). `in_sample_rec` (view id 4 and the track pages not on screen) replaces the bare view-id test
+  wherever the Sample Rec pads, track presses and replays are handled.
+- **Sound:** gates are at least 3/6 of a step (ratchets 1/6), and the generator's spice amounts are the normal
+  60–100 %.
+
+## 0.6.0 (hardware: farts, no flips): pattern generator pitch fix; one-sound and pack paths
+
+- **Pitch (0.5.0 hardware: every hit far too low).** Step byte 0 is the note: stock `0x08057894`/`0x080578F6` add or
+  subtract 12, and the step view creates a step with 12 or the track's note (`0x0805E606`). 0.5.0 wrote 0. Now a
+  step that had a hit keeps its note, and a new step takes the pattern's first hit's note (12 when it has none).
+- **Paths:** pads 25/26 (24/25 zero-based) of the secondary Sample Rec view set `S->pg_mode`. That view is the
+  track view (router view 0, `router[+0x3C]`) in sub-mode 0xA (`+0x264`), which the router selects on a second
+  Sample Rec press. Lights are drawn in `fm_track_frame`.
+- **Pack path:** `kit_tags` now also returns each slot's category (0xFE: a file without a tag). Roles come from
+  categories, or by place for untagged samples. Each style has a Euclidean layer per role, merged by priority
+  (snare, kick, noise, percussion, hat, click). Step byte 5 (sample flip) is one of two slots drawn per role.
+- **Space:** about 0.9 KB of app flash left.
+
+## 0.5.0 (hardware: pitch far too low): pattern generator; BAYAREA for metal and industrial percussion
+
+**Pattern generator** (`pattern.c`): Record on + Shift + track writes the track editor's current pattern.
+- **Styles:** four (techno, power noise, IDM, broken). Euclidean hits per cell; later cells mutate and the last one
+  fills; ghosts and fill hits play on a probability.
+- **Steps:** written in the stock format: gate (6 = one step, here 1–24), micro-step mask (ratchets 0x09/0x15/0x3F,
+  flam 0x03, nudges 0x02–0x08), velocity, probability 0–7, sample flip 0xFF. End/start go to +0x100/+0x101.
+- **Lanes:** all cleared. Then spice's engine runs (`sp_apply`, boosted: two palettes and bolder amounts), followed
+  by Grid FX bytes on a few hits.
+- **Editor reload:** the editor's stores are written back over the pattern on every edit (`0x080482xx` listener),
+  so after writing, the editor reloads with `0x08048932(editor)`, stock's own reload on a pattern change.
+- **Finding the editor:** the editor is `*([router+0x34] + t·[router+0x2C]) − 0x1C` (the object steplock.c already
+  reads on hardware). Its `[+4]` must equal the player's `[+0x50]` when the player has been seen, or the press is
+  refused (`S->pg_refusals`).
+- **Spice:** its lock pass moved into `sp_apply`, unchanged in behaviour. Lane ids now come from the stock table's
+  formula instead of the player.
+
+**BAYAREA:** kicks removed (hardware 0.4.0: too weak).
+- Families are now bongo, clunk, pluck, chime, clang, folded, sustain and gnarly, plus blip, swell and drone for
+  kits.
+- No pitch movement: modulator 1 ratio is at least 1 and the LFO no longer moves the FM depths.
+- Kit categories: impact, metal, metal-g, click, destroyed, pluck, folded, swell and drone.
+
+## 0.4.0: a second engine, BAYAREA (hardware: "pretty good"; kicks too weak)
+
+**Engine:** `bayarea.c` is Tonitor's BAYAREA (mvave-fm1 `firmware/src/bayarea.c`) at 48 kHz, all integer, bit-exact
+on host and ARM.
+- Rate-dependent constants are recomputed: 1500 control blocks/s, phase step 2^32/48000, smoothing lags.
+- `tools/gen_bayarea_tables.py` generates `generated/bayarea_tables.h`: the tan table, the 12 kHz Butterworth and the
+  resonators (same pitch and ring time). The sine is the shared `SINE`.
+- Dropped: Tonitor's macros, envelope page and loudness probe (the generator normalises when storing).
+- Added: a 10 Hz DC blocker at the output (the folder left up to 5 % offset).
+- `ba_strike` maps nine families (`BAF_*`: eight generate families plus the kits' blip) to a kind, a pitch range and
+  drum reshaping. Sustaining kinds are held until their attack is over, then released.
+
+**Generator:** a generator voice (`D[i]`) holds a poundhard voice or, in the same memory, a `BaSlot` (464 bytes);
+`S->voice_engine[i]` says which. `gen_start`/`gen_render`/`gen_active` dispatch. Cost (emulated M7, per 32-sample
+block): BAYAREA about 15.2k instructions mean, 16.9k max; poundhard 9.9k / 14.3k.
+
+**UI:** pads 16/17 (third row, leftmost two) pick the engine while generate or commit mode is on. Otherwise they stay
+stock's threshold-recording pads. LEDs: yellow 0x6D/0x73 poundhard, cyan 0x18/0x19 BAYAREA. `Pending.engine` keeps
+each sound's engine, so replays and stores use the engine that made it.
+
+**Kits:**
+- Categories are shared: poundhard plays the first 13; BAYAREA plays kick, impact, metal, click and destroyed plus
+  pluck, folded, swell and drone.
+- A page (`S->kit_engine`, fixed at its start) draws only its engine's categories. Shares are weight / (the
+  engine's weights) of the sounds in the engine's categories, whoever made them, so a poundhard-only kit plans as
+  before.
+- The WAV tag byte 47 is engine + 1 (earlier files: 1 = poundhard). A BAYAREA tag has flavour 4, pad = category and
+  kind = family.
+
+**Space:** spice, Grid FX, UI, storing and kits are built `minsize`; `.lowflash` lists its `plock_*` sections
+explicitly. About 4.7 KB of app flash remains.
 
 ## 0.3.2: renamed SteamRoller
 

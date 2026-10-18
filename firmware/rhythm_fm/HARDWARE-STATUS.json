@@ -1,8 +1,8 @@
 {
   "custom_transfer_enabled": true,
-  "allowed_release": "SteamRoller 0.3.2",
-  "status": "SteamRoller 0.3.2: 0.3.1 renamed (formerly Rhythm FM); firmware unchanged",
-  "reason": "Rename only: release name, file stem, install marker SR0302, build marker string.",
+  "allowed_release": "SteamRoller 0.6.4",
+  "status": "SteamRoller 0.6.4: BAYAREA resonators per sound (none in most families); families clunk, scrape, hiss, rumble, whir, clang, chop, gnarly (+ blip)",
+  "reason": "Every BAYAREA sound carried the same metallic ring (the fixed 508/270/1153 Hz bank); user wants textures over plain percussion. Not yet tested on hardware.",
   "affected_image_sha256": "58b80030461eaa2c3650ce117dcb70e728ba051948fa2eede5a8ce0c18c896d8",
   "boot_failure_cause": "D2 fails and D3 boots with the single heap-limit store disabled. The heap-limit reduction is the failing executable change in that reported hardware pair; the precise faulting allocation was not captured.",
   "recovery_result": "User confirmed official firmware restored successfully; blank project saved; instrument is in bootloader mode.",
@@ -14,8 +14,8 @@
     "enabled_fm_audio_tested": false
   },
   "next_diagnostic": {
-    "name": "SteamRoller 0.3.2 \u2014 custom Circuit Rhythm firmware",
-    "expected_identity_build": 15746,
+    "name": "SteamRoller 0.6.4 \u2014 custom Circuit Rhythm firmware",
+    "expected_identity_build": 15753,
     "memory_failure_identity_build": 15713,
     "hardware_tested": false
   },
@@ -198,5 +198,23 @@
   },
   "d0301_hardware_result": {
     "user_report": "All perfect (crusher and colours)."
+  },
+  "d0400_hardware_result": {
+    "user_report": "Pretty good. BAYAREA kicks too weak: no kicks from BAYAREA; focus on metallic and industrial percussion, clunks, clangs; glitchy is fine but no pitch movement (no laser or square-LFO pitch)."
+  },
+  "d0500_hardware_result": {
+    "user_report": "Pattern generator hits the sample at a very low pitch, consistently: unusable. The pitch must not be targeted at all."
+  },
+  "d0600_hardware_result": {
+    "user_report": "Neither path works: only fart sounds (very low pitch), one sample per track, no sample flipping."
+  },
+  "d0601_hardware_result": {
+    "user_report": "Path pads light; sequences, locks and FX are generated. Pitch closer but about one octave below the sample. Pack path: no sample flips (stock flips show pink steps; made by holding a sample pad and placing steps)."
+  },
+  "d0602_hardware_result": {
+    "user_report": "Huge improvement, everything works as expected (pitch, flips). Patterns far too dense, especially the sample-flip path; wants more deliberate structure in both paths."
+  },
+  "d0603_hardware_result": {
+    "user_report": "BAYAREA yields the same type of sound every time: the same metallic resonance. Wants textures and strange noises, not obviously percussive; keep clunks and industrial elements."
   }
 }
