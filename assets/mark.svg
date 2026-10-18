@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="SteamRoller">
+<title>SteamRoller</title>
+<rect width="200" height="200" rx="28" fill="#0B0B0B"/>
+<!-- steam -->
+<circle cx="64" cy="40" r="11" fill="#ECE8E1"/>
+<circle cx="80" cy="30" r="8" fill="#ECE8E1" opacity="0.75"/>
+<circle cx="94" cy="24" r="5" fill="#ECE8E1" opacity="0.5"/>
+<!-- chimney -->
+<rect x="56" y="50" width="14" height="30" fill="#ECE8E1"/>
+<!-- body and cab -->
+<path d="M30 118 L30 84 L112 84 L112 64 L160 64 L170 84 L178 84 L178 118 Z" fill="#FF8C00"/>
+<rect x="122" y="72" width="30" height="16" fill="#0B0B0B"/>
+<!-- rear wheel -->
+<circle cx="150" cy="140" r="24" fill="#0B0B0B" stroke="#ECE8E1" stroke-width="9"/>
+<circle cx="150" cy="140" r="6" fill="#ECE8E1"/>
+<!-- front drum with treads -->
+<rect x="14" y="104" width="86" height="72" rx="36" fill="#0B0B0B" stroke="#ECE8E1" stroke-width="9"/>
+<path d="M36 112 V168 M50 109 V171 M64 109 V171 M78 112 V168" stroke="#FF8C00" stroke-width="6"/>
+<!-- ground -->
+<rect x="8" y="182" width="184" height="7" fill="#FFD600"/>
+</svg>

@@ -1,0 +1,10 @@
+{
+  "name": "SteamRoller",
+  "version": "0.6.4",
+  "size": 456616,
+  "sysex_sha256": "174bebdc31a64ac5633d9aef335327c1d1843383b5d31e363a77ef91bc71901e",
+  "image_sha256": "cd14df0f2cff2e3ae5a680088780c9e910750597cf552ac41258284455d08dde",
+  "installation_marker": "SR0604",
+  "identity_build": 15753,
+  "data": "firmware/3743d589f184342b.dat"
+}
