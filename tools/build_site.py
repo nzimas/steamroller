@@ -21,6 +21,7 @@ WEB = ROOT / 'website'
 BUILD = ROOT / 'build/rhythm-fm'
 NAV = [('./', 'index.html', 'Home'), ('install.html', 'install.html', 'Install'), ('manual.html', 'manual.html', 'Manual'),
        ('changelog.html', 'changelog.html', 'Changelog'), ('projects.html', 'projects.html', 'Other projects'),
+       ('apps.html', 'apps.html', 'Apps'),
        ('https://github.com/nzimas/steamroller', None, 'GitHub')]
 
 

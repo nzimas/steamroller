@@ -96,6 +96,26 @@ main .project h2 { margin: 0; padding: 0; border: 0; font-size: 26px; }
 .tag { margin-left: 10px; padding: 1px 8px; font-family: var(--mono); font-size: 12px; color: var(--dim); border: 1px solid var(--line); }
 .tag.current { color: var(--ok); border-color: var(--ok); }
 
+/* apps */
+.apps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; margin: 30px 0 0; }
+.app { --accent: var(--orange); min-width: 0; background: var(--panel); padding: 22px 24px 24px; border-left: 6px solid var(--accent); }
+.app-head { display: flex; align-items: center; gap: 18px; }
+.app-head > div { min-width: 0; }
+.app-icon { width: 72px; height: 72px; border-radius: 16px; flex: none; }
+main .app h2 { margin: 0 0 4px; padding: 0; border: 0; font-size: 26px; }
+main .app h3 { margin: 26px 0 8px; }
+.app > p { margin: 16px 0 0; }
+.app-art { display: block; width: 100%; height: auto; margin: 20px 0 0; }
+.stores { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 20px 0 0; }
+.stores a { display: block; line-height: 0; }
+.stores img { height: 44px; width: auto; }
+.shots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 24px 0 0; }
+.shots a { display: block; min-width: 0; line-height: 0; border: 1px solid var(--line); overflow: hidden; }
+.shots img { width: 100%; height: auto; }
+.shots a:hover, .shots a:focus-visible { border-color: var(--accent); }
+.app-features { margin: 0; padding-left: 1.2em; }
+.app-features li { margin: 6px 0; }
+
 /* the installer */
 .warn { background: #1d1206; border-left: 6px solid var(--bad); padding: 14px 18px; margin: 24px 0; }
 .warn p { margin: 0; }
@@ -121,13 +141,15 @@ footer { border-top: 3px solid var(--orange); padding: 22px max(20px, calc((100v
 .foot p { margin: 4px 0; }
 .donate input[type="image"] { display: block; }
 
-/* narrow screens: the navigation drops down below the header */
-@media (max-width: 760px) {
+/* narrow screens: the navigation drops down below the header (below 860px the links no longer fit in one row) */
+@media (max-width: 860px) {
   .menu-btn { display: block; }
   .bar { flex-wrap: wrap; }
   .bar nav { display: none; width: 100%; flex-direction: column; padding: 8px 0 4px; }
   .menu-open .bar nav { display: flex; }
   .bar nav a { font-size: 15px; padding: 10px 8px; }
+}
+@media (max-width: 760px) {
   .brand span { font-size: 20px; }
   main { padding-top: 30px; }
   main h1, .hero h1 { font-size: 32px; }
@@ -135,4 +157,8 @@ footer { border-top: 3px solid var(--orange); padding: 22px max(20px, calc((100v
   .editions li { grid-template-columns: 1fr; }
   .ed-links { justify-content: flex-start; }
   main td:first-child { white-space: normal; }
+  .app { padding: 20px 18px 22px; }
+  main .app h2 { font-size: 22px; }
+  .app-icon { width: 56px; height: 56px; border-radius: 13px; }
+  .shots { grid-template-columns: minmax(0, 1fr); }
 }
